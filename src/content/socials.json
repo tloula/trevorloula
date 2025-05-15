@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "icon": {
+      "type": "lucide",
+      "name": "twitter"
+    },
+    "text": "X",
+    "link": "https://x.com/trevorloula"
+  },
+  {
+    "id": 2,
+    "icon": {
+      "type": "lucide",
+      "name": "linkedin"
+    },
+    "text": "LinkedIn",
+    "link": "https://www.linkedin.com/in/trevorloula/"
+  },
+  {
+    "id": 3,
+    "icon": {
+      "type": "lucide",
+      "name": "github"
+    },
+    "text": "GitHub",
+    "link": "https://github.com/tloula"
+  }
+]
