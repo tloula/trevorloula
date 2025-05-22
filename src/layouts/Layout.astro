@@ -6,6 +6,7 @@ import Background from '../components/Background.astro';
 import Navbar from '../components/Navbar.astro';
 import LayoutGrid from '../components/LayoutGrid.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+import ClarityScript from '../components/ClarityScript.astro';
 import { name, themeColor, twitterHandle } from 'spectre:globals';
 
 interface Props {
@@ -30,6 +31,7 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<GoogleAnalytics />
+		<ClarityScript client:load />
 
 		<title>{title}</title>
 		{description && <meta name="description" content={description} />}
