@@ -4,7 +4,7 @@ import expressiveCode from 'astro-expressive-code';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import spectre from './package/src';
-
+import clarityIntegration from './clarity';
 import { spectreDark } from './src/ec-theme';
 
 // https://astro.build/config
@@ -17,6 +17,14 @@ export default defineConfig({
     }),
     mdx(),
     sitemap(),
+    clarityIntegration({
+      projectId: 'rnaf480oyj',
+      enabled: true,
+      scriptStage: 'head-inline',
+      debug: false,
+      async: true,
+      defer: true,
+    }),
     spectre({
       name: 'Trevor Loula',
       openGraph: {

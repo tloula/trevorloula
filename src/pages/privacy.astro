@@ -1,0 +1,37 @@
+---
+import { getEntry, render } from "astro:content";
+import '../styles/article.css';
+import Card from "../components/Card.astro";
+import Layout from "../layouts/Layout.astro";
+
+const privacy = await getEntry('other', 'privacy');
+if (!privacy) throw new Error('Privacy policy content not found');
+const { Content, headings } = await render(privacy);
+---
+
+<Layout title={privacy.data.title}>
+  <div class="left" slot="left">
+    <Card class="toc-card">
+      <h2 class="no-mt">Table of contents</h2>
+      <ol>
+        <li class="toc-li">
+          <a href={`#_top`} class="active">{privacy.data.title}</a>
+        </li>
+        {headings.map((heading, i) => (
+          <li class="toc-li" data-depth={heading.depth}>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ol>
+    </Card>
+  </div>
+  <article slot="right" data-pagefind-body>
+    <Card>
+      <div class="article-header" id="_top" data-pagefind-ignore>
+        <h1 class="no-mt article-h1">{privacy.data.title}</h1>
+      </div>
+      <Content />
+    </Card>
+  </article>
+</Layout>
+<script src="../scripts/toc.ts" />

@@ -6,7 +6,7 @@ import Background from '../components/Background.astro';
 import Navbar from '../components/Navbar.astro';
 import LayoutGrid from '../components/LayoutGrid.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
-import ClarityScript from '../components/ClarityScript.astro';
+import Footer from '../components/Footer.astro';
 import { name, themeColor, twitterHandle } from 'spectre:globals';
 
 interface Props {
@@ -31,7 +31,6 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<GoogleAnalytics />
-		<ClarityScript client:load />
 
 		<title>{title}</title>
 		{description && <meta name="description" content={description} />}
@@ -65,15 +64,28 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 		{description && <meta name="twitter:description" content={description} />}
 		<meta name="twitter:image" content={image?.src || '/img/og.png'} />
 	</head>
-	<body>
-		<main data-pagefind-ignore={pagefindIgnore}>
+	<body class="min-h-screen flex flex-col">
+		<main data-pagefind-ignore={pagefindIgnore} class="flex-grow">
 			<Navbar />
 			<LayoutGrid>
 				<slot name="left" slot="left" />
 				<slot name="right" slot="right" />
 			</LayoutGrid>
 			<slot name="404" />
+			<slot />
 		</main>
+		<Footer />
 		<Background />
 	</body>
 </html>
+
+<style is:global>
+	body {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+	main {
+		flex: 1 0 auto;
+	}
+</style>

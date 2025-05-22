@@ -1,0 +1,50 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-content">
+    <span>
+      © {currentYear} Trevor Loula. All rights reserved. |
+      <a href="/privacy" class="footer-link">Privacy Policy</a>
+    </span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    /* background: #121212; */
+    width: 100%;
+    /* border-top: 1px solid #353535; */
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer-content {
+    text-align: center;
+    padding: 0.5rem 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer-content span {
+    color: #8d8d8d;
+    font-size: 0.8rem;
+    letter-spacing: 0.01em;
+  }
+
+  .footer-link {
+    color: #8d8d8d;
+    margin-left: 0.5rem;
+    text-decoration: none;
+    transition: text-decoration 0.2s;
+  }
+
+  .footer-link:hover {
+    text-decoration: underline;
+  }
+</style>
