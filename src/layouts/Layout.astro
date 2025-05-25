@@ -40,7 +40,12 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 
 		<meta name="og:title" content={title} />
 		{description && <meta name="og:description" content={description} />}
-		<meta name="og:image" content={image?.src || '/img/og.png'} />
+		<meta name="og:image" content={( (() => {
+			if (!image?.src) return `/img/og.png`;
+			if (image.src.startsWith('http')) return image.src;
+			if (image.src.startsWith('/')) return `${(Astro.site?.toString?.() || '').replace(/\/$/, '')}${image.src}`;
+			return image.src;
+		})() )} />
 		<meta name="og:url" content={Astro.site} />
 		{!article && <meta name="og:type" content="website" />}
 		<meta name="og:locale" content="en" />
@@ -62,7 +67,12 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 		)}
 		<meta name="twitter:title" content={title} />
 		{description && <meta name="twitter:description" content={description} />}
-		<meta name="twitter:image" content={image?.src || '/img/og.png'} />
+		<meta name="twitter:image" content={( (() => {
+			if (!image?.src) return `/img/og.png`;
+			if (image.src.startsWith('http')) return image.src;
+			if (image.src.startsWith('/')) return `${(Astro.site?.toString?.() || '').replace(/\/$/, '')}${image.src}`;
+			return image.src;
+		})() )} />
 	</head>
 	<body class="min-h-screen flex flex-col">
 		<main data-pagefind-ignore={pagefindIgnore} class="flex-grow">
