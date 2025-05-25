@@ -1,0 +1,73 @@
+---
+title: "What is MCP?"
+description: "Simple answers to common questions around MCP."
+image: "../assets/what-is-mcp.png"
+createdAt: 05-24-2025
+draft: false
+tags:
+  - emerging-technologies
+---
+
+I've seen a lot of confusion around MCP. What is MCP? Does MCP replace tool calls? Can MCP handle complex tasks? Why use MCP over just an API?
+
+I've spent the last few weeks diving into MCP and building [MCP Fabric](../projects/mcp-fabric). Here's what I've learned.
+
+## Agent Architecture
+
+Let's first cover at a high level how AI agents currently work.
+
+Agents are made up of the following components:
+
+1. **Agent Client**: This is the software wrapper that runs the agent (Cursor, GitHub Copilot, etc.).
+2. **LLM**: The underlying Large Language Model that powers the agent (ChatGPT, Claude, Gemini, etc.).
+3. **Tools**: Functions provided by the client that the LLM can call.
+
+> A note about LLM "memory": Many people think that LLMs themselves remember their conversation history. This is not the case. Actually, the LLM client (ChatGPT UI, Cursor, GitHub Copilot, etc.) saves the conversation history and feeds it to the LLM with each new request.
+
+## Questions
+
+Okay, back to the original questions.
+
+### What is MCP?
+
+MCP establishes a standardized way to provide tools to an agent. Before MCP if you wanted to give an agent access to a tool you had to bake it into the agent client. This severely limits the capabilities of the agent as the developer would have to implement every tool themselves. Now with MCP, agents can simply connect to an MCP server and use the tools it exposes.
+
+### Does MCP replace tool calls?
+
+No, MCP does not replace tool calls. MCP establishes a standardized way for an agent to connect to external tools. The agent can still include normal non-MCP tools in addition to the MCP tools.
+
+### Can MCP handle complex tasks?
+
+I suppose this question arises from a fundamental misunderstanding of how LLM, agents, and MCP work together. The real question is can the LLM handle complex tasks? The answer to that depends on the task and the LLM being used.
+
+### Why use MCP rather than just giving an LLM an OpenAPI spec and a single tool to make API requests?
+
+This one is more nuanced and subjective. Here are some of the reasons I believe MCP is more than just an API.
+
+- **Context**: The `C` in MCP stands for Context. MCP servers provide context on each tool / resource they expose for the LLM to understand how to use them. Yes, some OpenAPI specs include good documentation, but many don't.
+
+- **Cost**: Have you seen an OpenAPI spec? They tend to be massive. Passing the entire spec to an LLM would be rather expensive. Some back-of-the-envelope math: [MCP Fabric's rather small OpenAPI spec](https://api.mcpfabric.com/openapi.json) is 20,000 tokens. At [$3/million tokens](https://docs.anthropic.com/en/docs/about-claude/pricing) for Claude 4, that's $0.06 just to include the spec in the context window.
+
+- **Complexity**: Sure, the `I` in AI stands for Intelligence lol, but most APIs are quite complex and LLMs may struggle to properly format a request. Furthermore, users don't want to watch an agent try multiple times to get the right format.
+
+- **No Spec**: A surprising number of APIs don't actually have an OpenAPI spec. Why this is when they can be auto-generated is beyond me.
+
+- **Additional Capabilities**: Remote MCP servers are currently mostly just wrappers around existing APIs. However, the official MCP spec allows for more advanced capabilities that wouldn't be possible with a simple rest API. For example, MCP resources allow for [streaming real-time resource updates](https://modelcontextprotocol.io/docs/concepts/resources#resource-updates) to the agent.
+
+- **Small Language Models**: Many people see a future where every smart device has an NPU (Neural Processing Unit) running a SLM (Small Language Model). The small language model could then use MCP to interface with the device itself. For example, a car could use MCP to interface with the car's sensors and controls.
+
+- **Auth**: Auth to APIs is complicated. Sure, an LLM could figure it out, but MCP provides a standardized way to handle this.
+
+- **Telemetry**: Yes, APIs should have their own telemetry, but the era of agents requires even more. Additionally, if you are calling a 3rd party API, you probably don't have access to the telemetry. An MCP server can implement telemetry for every tool call to audit the agent's usage.
+
+## MCP Fabric
+
+Okay, so we need MCP but the internet is already full of APIs. Now everyone is is just building MCP servers that wrap APIs. Why reinvent the wheel every time and have to deal with all the complexity of building and hosting your own MCP server? Writing code for every tool, dealing with resiliency, scaling, auth, telemetry, hosting, the list goes on. I built MCP Fabric to solve this problem.
+
+MCP Fabric lets you spin up fully hosted MCP servers instantly - just point it at an OpenAPI spec or define routes yourself. It handles the server creation, deployment, hosting, and telemetry (with logs + insights for every tool call -> API request). No code. No setup hell. Just a live, ready-to-use MCP server with tools and resources exposed.
+
+Check it out at [mcpfabric.com](https://mcpfabric.com).
+
+## Conclusion
+
+MCP is often fundamentally misunderstood. Hopefully this helps bring some clarity to both MCP and the entire agent ecosystem.

@@ -6,6 +6,7 @@ import sitemap from '@astrojs/sitemap';
 import spectre from './package/src';
 import clarityIntegration from './clarity';
 import { spectreDark } from './src/ec-theme';
+import rehypeExternalLinks from 'rehype-external-links';
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,7 +16,11 @@ export default defineConfig({
     expressiveCode({
       themes: [spectreDark],
     }),
-    mdx(),
+    mdx({
+      rehypePlugins: [
+        [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
+      ],
+    }),
     sitemap(),
     clarityIntegration({
       projectId: 'rnaf480oyj',
