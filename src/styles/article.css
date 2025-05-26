@@ -18,15 +18,16 @@ article hr {
 }
 
 p:has(img) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
 
 p img {
   max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .toc-card {

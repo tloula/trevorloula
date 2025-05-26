@@ -1,0 +1,76 @@
+---
+import { Code } from 'astro-expressive-code/components'
+
+interface Props {
+  title: string;
+  code: string;
+  language?: string;
+  filename?: string;
+}
+
+const { title, code, language = "text", filename } = Astro.props;
+---
+
+<details class="code-dropdown">
+  <summary class="code-dropdown-summary">{title}</summary>
+  <div class="code-dropdown-content">
+    <div class="markdown-content">
+        <Code code={code} lang={language} title={filename} />
+    </div>
+  </div>
+</details>
+
+<style>
+  .code-dropdown {
+    margin: 1rem 0;
+    border: 1px solid #353535;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .code-dropdown-summary {
+    padding: 1rem;
+    background: #121212;
+    cursor: pointer;
+    font-weight: 500;
+    color: #0070f3;
+    transition: background-color 0.2s ease;
+  }
+  
+  .code-dropdown-summary:hover {
+    background: #121212;
+  }
+  
+  .code-dropdown-content {
+    padding: 1rem;
+    background: #121212;
+  }
+  
+  .code-dropdown-content pre {
+    margin: 0;
+    padding: 1rem;
+    background: #1e1e1e;
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+
+  .code-dropdown-content code {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.9em;
+  }
+
+  .markdown-content {
+    :global(pre) {
+      margin: 0;
+      padding: 1rem;
+      background: #1e1e1e;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+
+    :global(code) {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.9em;
+    }
+  }
+</style>
