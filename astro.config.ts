@@ -17,9 +17,9 @@ export default defineConfig({
       themes: [spectreDark],
     }),
     mdx({
-      // rehypePlugins: [
-      //   [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
-      // ],
+      rehypePlugins: [
+        [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
+      ],
     }),
     sitemap(),
     clarityIntegration({
