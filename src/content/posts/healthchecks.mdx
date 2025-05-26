@@ -1,7 +1,7 @@
 ---
 title: "Healthchecks"
 description: "Best practices for app healthchecks."
-image: "../assets/app-config.png"
+image: "../assets/healthchecks.png"
 createdAt: 06-06-2025
 draft: false
 tags:
@@ -11,7 +11,7 @@ tags:
 import CodeDropdown from '../../components/CodeDropdown.astro';
 import healthcheckCode from '../assets/code/healthcheck.py?raw';
 
-Does your backend service have a robust healthcheck? Don't know what a healthcheck is? Unsure how to create a robust healthcheck?
+Does your backend service have a healthcheck? Don't know what a healthcheck is? Unsure how to create a robust healthcheck?
 
 Continue reading for the fundamentals of healthchecks - from why they are necessary to how to implement them.
 
@@ -42,7 +42,7 @@ There are two main methods of running healthchecks:
 Here are some opinions I've formed on implementing healthchecks:
 
 1. The endpoint should be protected. This is important to:
-    - Protect against DOS attacks by dropping connection ASAP.
+    - Protect against DOS attacks by dropping unauthenticated connections ASAP.
     - Protect against leaking potentially important information about your service - especially if you return exceptions.
 2. The function should be cheap and fast.
 3. The function should perform all checks asynchronously.
