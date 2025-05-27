@@ -1,0 +1,27 @@
+[
+  {
+    "name": "app_config",
+    "passed": true,
+    "exception": null
+  },
+  {
+    "name": "database",
+    "passed": true,
+    "exception": null
+  },
+  {
+    "name": "key_vault",
+    "passed": true,
+    "exception": null
+  },
+  {
+    "name": "msi",
+    "passed": true,
+    "exception": null
+  },
+  {
+    "name": "storage",
+    "passed": true,
+    "exception": null
+  }
+]

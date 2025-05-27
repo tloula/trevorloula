@@ -8,8 +8,10 @@ tags:
   - best-practices
 ---
 
+import { Code } from 'astro-expressive-code/components';
 import CodeDropdown from '../../components/CodeDropdown.astro';
 import healthcheckCode from '../assets/code/healthcheck.py?raw';
+import healthcheckResponse from '../assets/code/healthcheck-response.json?raw';
 
 Does your backend service have a healthcheck? Don't know what a healthcheck is? Unsure how to create a robust healthcheck?
 
@@ -62,35 +64,7 @@ It also visualizes the async implementation - all the checks run in parallel rat
 
 Here's an example API response from my [MCP Fabric](../projects/mcp-fabric) control plane healthcheck:
 
-```ts title="healthcheck response"
-[
-  {
-    "name": "app_config",
-    "passed": true,
-    "exception": null
-  },
-  {
-    "name": "database",
-    "passed": true,
-    "exception": null
-  },
-  {
-    "name": "key_vault",
-    "passed": true,
-    "exception": null
-  },
-  {
-    "name": "msi",
-    "passed": true,
-    "exception": null
-  },
-  {
-    "name": "storage",
-    "passed": true,
-    "exception": null
-  }
-]
-```
+<Code code={healthcheckResponse} lang="json" title="API Response" />
 
 If you want a full code example, here is MCP Fabric's healthcheck module:
 
