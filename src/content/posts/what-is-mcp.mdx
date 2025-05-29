@@ -52,7 +52,7 @@ This one is more nuanced and subjective. Here are some of the reasons I believe 
 
 - **Cost**: Have you seen an OpenAPI spec? They tend to be massive. Passing the entire spec to an LLM would be rather expensive. Some back-of-the-envelope math: [MCP Fabric's rather small OpenAPI spec](https://api.mcpfabric.com/openapi.json) is 20,000 tokens. At [$3/million tokens](https://docs.anthropic.com/en/docs/about-claude/pricing) for Claude 4, that's $0.06 just to include the spec in the context window.
 
-- **Complexity**: Sure, the `I` in AI stands for Intelligence lol, but most APIs are quite complex and LLMs may struggle to properly format a request. Furthermore, users don't want to watch an agent try multiple times to get the right format.
+- **Complexity**: Sure AI is supposed to be intelligent, but most APIs are quite complex and LLMs may struggle to properly format a request. Furthermore, users don't want to watch an agent try and fail multiple times to get the right format.
 
 - **No Spec**: A surprising number of APIs don't actually have an OpenAPI spec. Why this is when they can be auto-generated is beyond me.
 
@@ -61,8 +61,6 @@ This one is more nuanced and subjective. Here are some of the reasons I believe 
 - **Small Language Models**: Many people see a future where every smart device has an NPU (Neural Processing Unit) running a SLM (Small Language Model). The small language model could then use MCP to interface with the device itself. For example, a car could use MCP to interface with the car's sensors and controls.
 
 - **Auth**: Auth to APIs is complicated. Sure, an LLM could figure it out, but MCP provides a standardized way to handle this.
-
-- **Telemetry**: Yes, APIs should have their own telemetry, but the era of agents requires even more. Additionally, if you are calling a 3rd party API, you probably don't have access to the telemetry. An MCP server can implement telemetry for every tool call to audit the agent's usage.
 
 ## MCP Fabric
 
