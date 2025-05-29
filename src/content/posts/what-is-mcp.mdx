@@ -18,11 +18,11 @@ Let's first cover at a high level how AI agents currently work.
 
 Agents are made up of the following components:
 
-1. **Agent Client**: This is the software wrapper that runs the agent (Cursor, GitHub Copilot, etc.).
+1. **Agent Framework**: This is the software layer that executes the agent (Cursor, GitHub Copilot, etc.).
 2. **LLM**: The underlying Large Language Model that powers the agent (ChatGPT, Claude, Gemini, etc.).
 3. **Tools**: Functions provided by the client that the LLM can call.
 
-> A note about LLM "memory": Many people think that LLMs themselves remember their conversation history. This is not the case. Actually, the LLM client (ChatGPT UI, Cursor, GitHub Copilot, etc.) saves the conversation history and feeds it to the LLM with each new request.
+> A note about LLM "memory": Many people think that LLMs themselves remember their conversation history. This is not the case. The LLM itself is stateless. The client application (ChatGPT UI, Cursor, GitHub Copilot, etc.) saves the conversation history and feeds it to the LLM with each new request.
 
 ## Questions
 
