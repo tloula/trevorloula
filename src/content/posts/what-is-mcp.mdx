@@ -8,7 +8,7 @@ tags:
   - artificial-intelligence
 ---
 
-I've seen a lot of confusion around MCP. What is MCP? Does MCP replace tool calls? Can MCP handle complex tasks? Why use MCP over just an API?
+I've seen a lot of confusion around MCP. What is MCP? Does MCP replace tool calls? Why use MCP over just an API?
 
 I've spent the last few weeks diving into MCP and building [MCP Fabric](../projects/mcp-fabric). Here's what I've learned.
 
@@ -39,10 +39,6 @@ Nope, tool calls have been around since before MCP. MCP just took off because it
 ### Does MCP replace tool calls?
 
 No, MCP does not replace tool calls. MCP establishes a standardized way for an agent to connect to external tools. The agent can still include normal non-MCP tools in addition to the MCP tools.
-
-### Can MCP handle complex tasks?
-
-I suppose this question arises from a fundamental misunderstanding of how LLM, agents, and MCP work together. The real question is can the LLM handle complex tasks? The answer to that depends on the task and the LLM being used.
 
 ### Why use MCP rather than just giving an LLM an OpenAPI spec and a single tool to make API requests?
 
