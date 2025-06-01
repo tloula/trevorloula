@@ -87,3 +87,51 @@
   gap: .75rem;
   align-items: center;
 }
+
+.post-with-image {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.post-image-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  max-width: 120px;
+  aspect-ratio: 16/9;
+  height: auto;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #181818;
+}
+
+.post-image-wrapper img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.post-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+  min-width: 0;
+  justify-content: center;
+}
+
+.post-container.post-with-image {
+  display: flex !important;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.post-header {
+  margin-bottom: 0.5rem;
+}
