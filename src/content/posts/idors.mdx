@@ -1,0 +1,99 @@
+---
+title: "IDORs: A Modern Security Vulnerability"
+description: "A modern security vulnerability that is often overlooked."
+image: "../assets/idor.png"
+createdAt: 06-13-2025
+draft: false
+tags:
+  - security
+---
+
+import { Code } from 'astro-expressive-code/components';
+import IDORFastAPIServerBad from '../assets/code/idor-fastapi-server-bad.py?raw';
+import IDORFastAPIServerGood from '../assets/code/idor-fastapi-server-good.py?raw';
+import IDORFastAPIUserBad from '../assets/code/idor-fastapi-user-bad.py?raw';
+import IDORFastAPIUserGood from '../assets/code/idor-fastapi-user-good.py?raw';
+
+What comes to mind when you think about security vulnerabilities?
+
+- SQL Injection
+- XSS
+- CSRF
+
+These are some of the classic security vulnerabilities that most developers are at least somewhat familiar with. Modern frameworks have guard rails in place to help protect against these vulnerabilities.
+
+- SQL injection: ORMs like SQLAlchemy, Drizzle, Prisma, etc. have built-in protections against SQL injection - as long as you don't bypass their protections by writing your own raw SQL.
+- XSS: Modern web frameworks have protections against XSS and make it hard to shoot yourself in the foot. For example, in React you would need to use `dangerouslySetInnerHTML` to render untrusted HTML.
+- CSRF: Modern browsers have introduced features like the SameSite cookie attribute that significantly mitigate CSRF attacks.
+
+But there's another security vulnerability that is often overlooked: Insecure Direct Object References (IDOR).
+
+IDORs are caused by developers missing an authorization check - which makes them difficult to be fixed by frameworks.
+
+## Definition
+
+IDORs take many forms, but they all boil down to the same thing: failing to check that a user has access to a specific resource.
+
+Here's a few common scenarios leading straight to IDORs:
+
+- Security through obscurity: The developer believes in security through obscurity - nobody is going to guess a GUID to access a resource. This thinking is fundamentally flawed - security through obscurity is not security.
+
+- Trusting the client: The developer has made the mistake of trusting data that comes from the client. Never trust anything sent to your backend from a client unless it's in the JWT.
+
+- Forgetting to add an authorization check: It's super easy to forgot to add an authorization check. I want to focus on this one because I believe it's the most common - even among developers who mean well.
+
+> **Security Through Obscurity** is a popular phrase in the security community joking that systems are not made secure by hiding the attack surface. For example, don't brew your own encryption algorithm that's confusing as fuck hoping that's it's stench will keep someone from figuring out how it works and discovering that it is in fact trivial to exploit once understood. Just use a well-vetted algorithm like AES.
+
+## Examples
+
+Okay - here's what this looks like in the real world.
+
+### Digital Content
+
+Think of a WordPress site using WooCommerce that sells digital content like a PDF. They send their users through WooCommerce checkout to pay for the PDF and then give the user a download link. What are the odds that they check authorization for the PDF? (Hint, not very good. Don't ask how I know.)
+
+This isn't the end of the world. It just means that tech-savvy users may be able to access the digital content without paying for it.
+
+But things can get much worse.
+
+### Python FastAPI
+
+I'm a huge fan of FastAPI for building APIs. I also see LLMs spitting out this IDOR left and right.
+
+#### User Profile
+
+What's wrong with this code?
+
+<Code code={IDORFastAPIUserBad} lang="python" title="routers/users.py" />
+
+At this point in the code, the request has already been authenticated. However, the user ID is passed as a path parameter and is not verified - meaning a different user could access another user's profile.
+
+This is the correct way to do it:
+
+<Code code={IDORFastAPIUserGood} lang="python" title="routers/users.py" />
+
+The `uid` comes from FastAPI's dependency injection system - it's extracted from the JWT elsewhere in the code. The JWT is cryptographically signed by the authorization server, and it's signature is verified before extracting the `uid` and passing it to the function. This means that the `uid` can be trusted. Since we no longer need the `uid` in the path parameter, `/users/{uid}` becomes `/users/me`.
+
+#### User Data
+
+Another example that's even easier to get wrong because we do actually need the server ID in the path parameter.
+
+<Code code={IDORFastAPIServerBad} lang="python" title="routers/servers.py" />
+
+We forget to check that the user has access to the server. Here's what it should look like:
+
+<Code code={IDORFastAPIServerGood} lang="python" title="routers/servers.py" />
+
+### Real-World Exploits
+
+IDORs are a common vulnerability in the wild, occurring everywhere from the United States Department of Defense to Big Tech companies like Google & Stripe.
+
+If you're interested in seeing real-world exploits, check out HackerOne's [repository of IDOR vulnerabilities](https://hackerone.com/hacktivity/overview?queryString=cwe%3A%28%22Insecure+Direct+Object+Reference+%28IDOR%29%22%29+AND+disclosed%3Atrue&sortField=latest_disclosable_activity_at&sortDirection=DESC&pageIndex=0).
+
+## Conclusion
+
+The fundamental cause of IDORs is missing or ineffective authorization checks on user-supplied inputs that are used to identify a specific resource.
+
+IDORs can be easily prevented by ensuring that all requests referencing an object include proper server-side authorization checks.
+
+If you let an LLM write your code, don't forget to double check your access control logic for IDORs!
