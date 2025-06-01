@@ -1,0 +1,84 @@
+---
+title: "Convert API -> MCP Server"
+description: "Methods for converting a RESTful API into an MCP server."
+image: "../assets/api-to-mcp.png"
+createdAt: 06-20-2025
+draft: false
+tags:
+  - artificial-intelligence, mcp
+---
+
+RESTful APIs are a foundational technology, with countless implementations already in production. Now with the explosion of MCP, developers are rushing to find ways to convert their existing APIs into MCP servers.
+
+> MCP was designed to be much more than a wrapper on an API. If you are new to MCP or aren't yet convinced that MCP should exist when we already have APIs, checkout my [introductory article on MCP](/posts/what-is-mcp) that covers this in detail.
+
+Okay, what are the options for converting an API into an MCP server? The best option for you depends on a few factors including whether or not you own the API and how much effort you want to put into creating an MCP server.
+
+For all of the below options, keep in mind that LLMs currently hallucinate when presented with too many tools (greater than 15 or so). Most MCP clients have the option to specify which tools are available to the LLM. The MCP server should expose adequate tools for completing tasks, but shouldn't just expose an inordinate number of API routes as tools.
+
+## 1st Party API
+
+If you own the API and have access to the underlying resources, you have quite a few options.
+
+### Create a New Native MCP Server
+
+MCP was designed to be more than a wrapper on an API and do more than simple CRUD operations. APIs were designed to interface between applications. MCP was designed to provide tools and resources to an LLM.
+
+If you have the time to create a new native MCP server, you'd likely get the best results and can take advantage of the many features of MCP like notifications and batching.
+
+- Notifications allow the client and the server to send one-way messages to each other. This can be beneficial for real-time applications or long-running processes where the LLM needs immediate feedback without polling.
+- Batching can improve efficiency by allowing sending multiple requests and notifications in an array.
+
+Unless you have the desire to implement the underlying transport protocol by hand 🙃, you can get started with one of the MCP SDKs from the [official MCP website](https://modelcontextprotocol.io/introduction).
+
+- [FastMCP v1 (Official SDK)](https://github.com/modelcontextprotocol/fastmcp)
+- [FastMCP v2 (Advanced Features)](https://github.com/jlowin/fastmcp)
+- [C# SDK](https://github.com/modelcontextprotocol/csharp-sdk)
+- [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
+- [Java SDK](https://github.com/modelcontextprotocol/java-sdk)
+- [Kotlin SDK](https://github.com/modelcontextprotocol/kotlin-sdk)
+- [Swift SDK](https://github.com/modelcontextprotocol/swift-sdk)
+
+Your MCP server can then interface directly with your underlying data sources and services without going through a REST API.
+
+Keep in mind that these SDKs are still in early development - some are releasing new versions as often as multiple times a day.
+
+### Use an MCP Server Extension
+
+If you're using FastAPI as your API SDK, FastMCP has a tool for converting a FastAPI app into an MCP server with a simple `FastMCP.from_fastapi()` function. I'm not aware of any other SDKs with similar functionality yet, but I'd expect more features like this to be added in the future.
+
+## 1st or 3rd Party API
+
+These options work regardless of whether or not you own the underlying API.
+
+### Manually Write an API Wrapper
+
+Use one of the above SDKs to create an MCP server. Manually implement tools that call API routes. Keep in mind that you'll probably want to deal with resiliency when calling the API, telemetry for each request (recommend auto-instrumenting with OpenTelemetry), and everything else that comes with building a production-ready service.
+
+### Use an API -> MCP SDK
+
+A handful of developers have observed the problem that everyone is manually building MCP servers wrapping APIs and have built tools to solve this problem.
+
+Here are a few open source tools I've come across that help create MCP servers from an API spec:
+
+- [MCP Link](https://github.com/automation-ai-labs/mcp-link)
+
+I personally haven't used any of these, so while they offer a starting point, I can't guarantee their performance.
+
+[FastMCP v2](https://github.com/jlowin/fastmcp) (feature rich SDK build on top of the original FastMCP SDK) also has a tool for converting an OpenAPI spec into an MCP server. I have used this and it works decently well.
+
+If you want total control over your MCP server, these can be a good starting point. However, you'd still the same complexities mentioned above of running a production-ready service.
+
+### Use an API -> MCP Platform
+
+I built a platform to simplify this process even further making it trivial to convert an API into an MCP server.
+
+MCP Fabric lets you spin up fully hosted MCP servers instantly - just point it at an OpenAPI spec or define routes yourself. It handles the server creation, deployment, hosting, and telemetry (with logs + insights for every tool call -> API request). No code. No setup hell. Just a live, ready-to-use MCP server with tools and resources exposed.
+
+MCP Fabric is aligned with the [Model Context Protocol](https://modelcontextprotocol.io/) spec and works with any MCP compatible agent.
+
+Check it out at <a href="https://mcpfabric.com?utm_source=trevorloula&utm_medium=website&utm_campaign=mcp-fabric&utm_content=api-to-mcp" target="_blank" rel="noopener">mcpfabric.com</a>.
+
+## Conclusion
+
+MCP is still a super new protocol and is rapidly evolving. I hope this helps you gain a better understanding of the many options available for creating an MCP server from an API. Happy building!
