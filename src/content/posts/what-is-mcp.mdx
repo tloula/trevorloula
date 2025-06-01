@@ -2,7 +2,7 @@
 title: "What is MCP?"
 description: "Simple answers to common questions around MCP."
 image: "../assets/what-is-mcp.png"
-createdAt: 05-24-2025
+createdAt: 06-1-2025
 draft: false
 tags:
   - artificial-intelligence
@@ -56,11 +56,13 @@ This one is more nuanced and subjective. Here are some of the reasons I believe 
 
 - **Cost**: Have you seen an OpenAPI spec? They tend to be massive. Passing the entire spec to an LLM would be rather expensive. Some back-of-the-envelope math: [MCP Fabric's rather small OpenAPI spec](https://api.mcpfabric.com/openapi.json) is 20,000 tokens. At [$3/million tokens](https://docs.anthropic.com/en/docs/about-claude/pricing) for Claude 4, that's $0.06 just to include the spec in the context window.
 
-- **Complexity**: Sure AI is supposed to be intelligent, but most APIs are quite complex and LLMs may struggle to properly format a request. Furthermore, users don't want to watch an agent try and fail multiple times to get the right format.
+- **Simplicity & Determinism**: MCP enforces a simple and unified structure for agents to use external tools. APIs are complicated: parameters can be placed in the path, query, headers, or body. With MCP, tools are all discovered in a standardized way. With an API spec, the LLM would be presented with an overwhelming number of options and may struggle to produce consistent results.
 
 - **No Spec**: A surprising number of APIs don't actually have an OpenAPI spec. Why this is when they can be auto-generated is beyond me.
 
-- **Additional Capabilities**: Remote MCP servers are currently mostly just wrappers around existing APIs. However, the official MCP spec allows for more advanced capabilities that wouldn't be possible with a simple rest API. For example, MCP resources allow for [streaming real-time resource updates](https://modelcontextprotocol.io/docs/concepts/resources#resource-updates) to the agent.
+- **Additional Capabilities**: While most current remote MCP servers are mostly just wrappers around existing APIs, the official MCP spec allows for more advanced capabilities that wouldn't be possible with a simple rest API. For example, MCP resources allow for [streaming real-time resource updates](https://modelcontextprotocol.io/docs/concepts/resources#resource-updates) to the agent.
+
+- **Beyond APIs**: MCP isn't limited to APIs - it supports arbitrary functions and can be used to integrate with countless systems. Think shell commands, database queries, file system operations, operating system integration. Microsoft just announced [native support for MCP in Windows](https://developer.microsoft.com/en-us/windows/agentic/) allowing windows apps to expose their functionality directly to agents.
 
 - **Small Language Models**: Many people see a future where every smart device has an NPU (Neural Processing Unit) running a SLM (Small Language Model). The small language model could then use MCP to interface with hardware on the device. For example, a car could use MCP to interface with the car's sensors and controls.
 
@@ -68,9 +70,11 @@ This one is more nuanced and subjective. Here are some of the reasons I believe 
 
 ## MCP Fabric
 
-Okay, so we need MCP but the internet is already full of APIs. Now everyone is is just building MCP servers that wrap APIs. Why reinvent the wheel every time and have to deal with all the complexity of building and hosting your own MCP server? Writing code for every tool, dealing with resiliency, scaling, auth, telemetry, hosting, the list goes on. I built MCP Fabric to solve this problem.
+Okay, so we need MCP but the internet is already full of APIs. Now everyone is just building MCP servers that wrap APIs. Why reinvent the wheel every time and have to deal with all the complexity of building and hosting your own MCP server? Writing code for every tool, dealing with resiliency, scaling, auth, telemetry, hosting, the list goes on. I built MCP Fabric to solve this problem.
 
 MCP Fabric lets you spin up fully hosted MCP servers instantly - just point it at an OpenAPI spec or define routes yourself. It handles the server creation, deployment, hosting, and telemetry (with logs + insights for every tool call -> API request). No code. No setup hell. Just a live, ready-to-use MCP server with tools and resources exposed.
+
+MCP Fabric is aligned with the [Model Context Protocol](https://modelcontextprotocol.io/) spec and works with any MCP compatible agent.
 
 Check it out at <a href="https://mcpfabric.com?utm_source=trevorloula&utm_medium=website&utm_campaign=mcp-fabric&utm_content=what-is-mcp" target="_blank" rel="noopener">mcpfabric.com</a>.
 
