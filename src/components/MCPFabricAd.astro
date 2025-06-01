@@ -1,0 +1,70 @@
+---
+import Card from "./Card.astro";
+import ImageGlow from "./ImageGlow.astro";
+import mcpFabricLogo from "../content/assets/mcp-fabric-logo.png";
+---
+
+<Card class="mcp-fabric-ad">
+    <a href="https://mcpfabric.com?utm_source=trevorloula&utm_medium=website&utm_campaign=mcp-fabric&utm_content=lower-ad" target="_blank" rel="noopener">
+        <div class="content">
+            <div class="image-container">
+                <ImageGlow quality={100} class="image" src={mcpFabricLogo} alt="MCP Fabric Logo" />
+            </div>
+            <div class="description-container">
+                <h2 class="title">MCP Fabric</h2>
+                <p class="description">
+                    Turn any RESTful API into a fully hosted MCP server in minutes.
+                </p>
+                <p class="description">
+                    Add API routes, provide context for each route, and MCP Fabric will transform them into AI-ready tools, ready for LLMs to consume.
+                </p>
+            </div>
+        </div>
+    </a>
+</Card>
+
+<style>
+    .content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .image-container {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+    .image {
+        width: 100px;
+        height: 100px;
+        flex-shrink: 0;
+        object-fit: contain;
+    }
+    .title {
+        padding-top: 0px;
+        padding-bottom: .25rem;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .description-container {
+        display: flex;
+        flex-direction: column;
+    }
+    .description {
+        padding-top: 0px;
+        padding-bottom: 0.25rem;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    /* Link Styling */
+    .mcp-fabric-ad a {
+        color: inherit;
+        text-decoration: none;
+    }
+    .mcp-fabric-ad a:hover,
+    .mcp-fabric-ad a:focus,
+    .mcp-fabric-ad a:visited {
+        color: inherit;
+        text-decoration: none;
+    }
+</style>

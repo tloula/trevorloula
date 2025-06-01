@@ -4,6 +4,7 @@ import '../../styles/article.css';
 import ImageGlow from "../../components/ImageGlow.astro";
 import Card from "../../components/Card.astro";
 import Layout from "../../layouts/Layout.astro";
+import MCPFabricAd from "../../components/MCPFabricAd.astro";
 
 import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
@@ -115,6 +116,10 @@ const { Content, headings } = await render(post);
         </div>
       </Card>
     )}
+    <!-- MCP Fabric Ad -->
+    <div>
+      <MCPFabricAd />
+    </div>
   </article>
 </Layout>
 <script src="../../scripts/toc.ts" />
