@@ -1,0 +1,34 @@
+---
+title: "API vs MCP"
+description: "Why do we need MCP when we already have REST APIs?"
+image: "../assets/api-vs-mcp.png"
+createdAt: 06-01-2025
+draft: false
+tags:
+  - ai
+  - mcp
+---
+
+I keep seeing this question everywhere: *Why use MCP rather than just giving an LLM an OpenAPI spec and a single tool to make API requests?*.
+
+Here's my list of reasons that I regularly update:
+
+- **Context**: The `C` in MCP stands for Context. MCP servers provide context on each tool / resource they expose for the LLM to understand how to use them. Yes, some OpenAPI specs include good documentation, but many don't.
+
+- **Cost**: Have you seen an OpenAPI spec? They tend to be massive. Passing the entire spec to an LLM would be rather expensive. Some back-of-the-envelope math: [MCP Fabric's rather small OpenAPI spec](https://api.mcpfabric.com/openapi.json) is 20,000 tokens. At [$3/million tokens](https://docs.anthropic.com/en/docs/about-claude/pricing) for Claude 4, that's $0.06 just to include the spec in the context window.
+
+- **Simplicity & Determinism**: MCP enforces a simple and unified structure for agents to use external tools. APIs are complicated: parameters can be placed in the path, query, headers, or body. With MCP, tools are all discovered in a standardized way. With an API spec, the LLM would be presented with an overwhelming number of options and may struggle to produce consistent results.
+
+- **No Spec**: A surprising number of APIs don't actually have an OpenAPI spec. Why this is when they can be auto-generated is beyond me.
+
+- **Additional Capabilities**: While most current remote MCP servers are mostly just wrappers around existing APIs, the official MCP spec allows for more advanced capabilities that wouldn't be possible with a simple rest API. For example, MCP resources allow for [streaming real-time resource updates](https://modelcontextprotocol.io/docs/concepts/resources#resource-updates) to the agent.
+
+- **Beyond APIs**: MCP isn't limited to APIs - it supports arbitrary functions and can be used to integrate with countless systems. Think shell commands, database queries, file system operations, operating system integration. Microsoft just announced [native support for MCP in Windows](https://developer.microsoft.com/en-us/windows/agentic/) allowing windows apps to expose their functionality directly to agents.
+
+- **Small Language Models**: Many people see a future where every smart device has an NPU (Neural Processing Unit) running a SLM (Small Language Model). The small language model could then use MCP to interface with hardware on the device. For example, a car could use MCP to interface with the car's sensors and controls.
+
+- **Auth**: Auth to APIs is complicated. Sure, an LLM could figure it out, but MCP provides a standardized way to handle this.
+
+### Additional Reading
+
+Frank from Glama AI also wrote an [MCP vs API](https://glama.ai/blog/2025-06-06-mcp-vs-api) article. He's active on the MCP subreddits and must have seen many of the same questions I saw that prompted me to write this post. His article focus more on the foundational differences, while mine focuses more on the real-world ramifications of these differences.
