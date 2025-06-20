@@ -1,0 +1,63 @@
+---
+title: "MCP Server -> API Authentication"
+description: "How to authenticate an MCP Client -> MCP Server -> API"
+image: "../assets/healthchecks.png"
+createdAt: 06-20-2025
+draft: false
+tags:
+  - ai
+  - mcp
+---
+
+import MCPAuthenticationDiagram from '../assets/diagrams/mcp-authentication.html';
+
+So you are creating an MCP Server that wraps an API. You need to authenticate MCP Clients to your MCP Server. You also need to authenticate the MCP Server to the API using OAuth.
+
+Can you use the same OAuth token for both? No. While this sounds much easier, it would result in collapsing trust boundaries.
+
+Think back to ye olden days before OAuth. If an app wanted access to your bank account, it would ask for your password! The app would then authenticate as you to your bank. Nowdays, we use OAuth to grant access on behalf of the user.
+
+Going back to the MCP Client -> MCP Server -> API example...
+
+## Authorization & Resource Servers
+
+Lets get some auth basics out of the way. In the authentication world, there are two parties:
+
+- Authorization Server: Hosts OAuth endpoints, validates credentials, and mints tokens. Examples: Auth0, Clerk, Microsoft Entra ID
+- Resource Server: Hosts protected resources, validates tokens, and processes requests. Examples: FastAPI, Spotify API
+
+The authorization server handles the majority of the authentication logic. All the resource server has to do is validate tokens. Many apps use 3rd party authorization servers to offload the complexity. It's recommended to never "role your own auth".
+
+## Dual OAuth Flows
+
+To authenticate an MCP Client -> MCP Server -> API, you will need to entirely separate flows.
+
+### MCP Client -> MCP Server
+
+The MCP clients makes a request to to resource server to get the location of the authorization server: `GET /.well-known/oauth-authorization-server`.
+
+The MCP client will then redirect the user to the authorization server to obtain an access token.
+
+The MCP client goes back to the MCP server with the access token. The MCP server validates the token and proceeds with the request.
+
+<MCPAuthenticationDiagram title="MCP Client -> MCP Server Authentication Sequence Diagram" />
+
+### MCP Server -> API
+
+The user will need to grant the MCP server access to the API.
+
+The MCP server will need to save users access tokens.
+
+## MCP Fabric
+
+Don't want to deal with all this gross auth logic yourself? I built MCP Fabric to handle all this for you. Try it out and see how easy it is to authenticate an MCP Client -> MCP Server (MCP Fabric) -> API. It also handles the server creation, deployment, hosting, and telemetry (with logs + insights for every tool call -> API request). No code. No setup hell. Just a live, ready-to-use MCP server with tools and resources exposed.
+
+Check it out at <a href="https://mcpfabric.com?utm_source=trevorloula&utm_medium=website&utm_campaign=mcp-fabric&utm_content=what-is-mcp" target="_blank" rel="noopener">mcpfabric.com</a>.
+
+## Conclusion
+
+I hope this helps you better understand how to authenticate an MCP Client -> MCP Server -> API.
+
+### References
+
+- [MCP Authorization](https://modelcontextprotocol.io/specification/2025-03-26/basic/authorization)
