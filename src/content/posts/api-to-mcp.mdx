@@ -48,6 +48,16 @@ Keep in mind that these SDKs are still in early development - some are releasing
 
 If you're using FastAPI as your API SDK, FastMCP has a tool for converting a FastAPI app into an MCP server with a simple `FastMCP.from_fastapi()` function. I'm not aware of any other SDKs with similar functionality yet, but I'd expect more features like this to be added in the future.
 
+### API Management Platform Feature
+
+Many API management platforms are adding API -> MCP features. Note that this only works if you're already using them to manage your API. I've come across these:
+
+- [Azure API Management](https://learn.microsoft.com/en-us/azure/api-management/export-rest-mcp-server)
+- [Zuplo](https://zuplo.com/blog/2025/06/10/introducing-remote-mcp-servers)
+- [MuleSoft](https://www.mulesoft.com/platform/ai/model-context-protocol)
+
+You probably won't want to onboard to a new API management platform just for this feature, but it's an excellent option if you're already using one that supports it.
+
 ## 1st or 3rd Party API
 
 These options work regardless of whether or not you own the underlying API.
