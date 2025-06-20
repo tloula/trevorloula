@@ -11,6 +11,8 @@ tags:
 
 I keep seeing this question everywhere: *Why use MCP rather than just giving an LLM an OpenAPI spec and a single tool to make API requests?*.
 
+> If you're new to MCP, checkout my [introductory article on MCP](/blog/what-is-mcp) before diving into the differences between APIs and MCP servers.
+
 Here's my list of reasons that I regularly update:
 
 - **Context**: The `C` in MCP stands for Context. MCP servers provide context on each tool / resource they expose for the LLM to understand how to use them. Yes, some OpenAPI specs include good documentation, but many don't.
@@ -29,6 +31,10 @@ Here's my list of reasons that I regularly update:
 
 - **Auth**: Auth to APIs is complicated. Sure, an LLM could figure it out, but MCP provides a standardized way to handle this.
 
+### API -> MCP
+
+If you're looking to create an MCP server from an existing API, check out my [API -> MCP](/blog/api-to-mcp) article that covers the many options available to do so.
+
 ### Additional Reading
 
-Frank from Glama AI also wrote an [MCP vs API](https://glama.ai/blog/2025-06-06-mcp-vs-api) article. He's active on the MCP subreddits and must have seen many of the same questions I saw that prompted me to write this post. His article focus more on the foundational differences, while mine focuses more on the real-world ramifications of these differences.
+Frank from Glama AI wrote an excellent [MCP vs API](https://glama.ai/blog/2025-06-06-mcp-vs-api) article. He's active on the MCP subreddits and must have seen many of the same questions I saw that prompted me to write this post. His article focus more on the foundational differences, while mine focuses more on the real-world ramifications of these differences.
