@@ -82,6 +82,10 @@
   gap: 1.25rem;
 }
 
+.post-container.hidden {
+  display: none !important;
+}
+
 .post-header {
   margin-bottom: 0.5rem;
 }
