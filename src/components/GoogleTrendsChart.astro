@@ -1,0 +1,26 @@
+<div class="google-trends-chart">
+	<script
+		type="text/javascript"
+		src="https://ssl.gstatic.com/trends_nrtr/4116_RC01/embed_loader.js"
+		is:inline
+	></script>
+	<script type="text/javascript" is:inline>
+		trends.embed.renderExploreWidget(
+			"TIMESERIES",
+			{
+				comparisonItem: [{ keyword: "ai slop", geo: "US", time: "today 5-y" }],
+				category: 0,
+				property: "",
+			},
+			{
+				exploreQuery: "date=today%205-y&geo=US&q=ai%20slop&hl=en",
+				guestPath: "https://trends.google.com:443/trends/embed/",
+			},
+		);
+	</script>
+</div>
+<style>
+	html.dark .google-trends-chart iframe {
+		filter: invert(0.9) hue-rotate(180deg) !important;
+	}
+</style>
