@@ -30,6 +30,16 @@ p img {
   margin: 0 auto;
 }
 
+.smaller-image {
+  max-width: 60% !important;
+}
+
+@media screen and (max-width: 640px) {
+  .smaller-image {
+    max-width: 100% !important;
+  }
+}
+
 .toc-card {
   min-width: 0;
 }
