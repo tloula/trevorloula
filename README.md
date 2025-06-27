@@ -1,42 +1,41 @@
-![Spectre, a terminal-inspired theme for Astro.](./images/README.png)
+# Trevor Loula's Blog
 
-Spectre is a terminal-inspired theme for Astro, built using TypeScript and Astro.
+[![Website](https://img.shields.io/website?url=https%3A//trevorloula.com)](https://trevorloula.com)
+[![Built with Astro](https://img.shields.io/badge/Built%20with-Astro-BC52EE.svg?logo=astro&logoColor=fff)](https://astro.build)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-## Getting Started
+My personal blog where I write about software engineering, AI, MCP, and various tech topics.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/louisescher/spectre/tree/main)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/louisescher/spectre/tree/main)
-
-Alternatively, you can create a new Astro project with Spectre like this:
+## 🚀 Quick Start
 
 ```bash
-# npm
-npm create astro@latest -- --template louisescher/spectre
+# Install dependencies
+npm install
 
-# pnpm
-pnpm create astro@latest --template louisescher/spectre
+# Start development server
+npm run dev
 
-# yarn
-yarn create astro --template louisescher/spectre
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-## Features
+Pushes to `main` are automatically built and deployed.
 
-- 100 / 100 Lighthouse performance
-- Responsive for all screen sizes
-- Fully accessible
-- Type-Safe
-- Auto-generated sitemap
-- Markdown / MDX Support
-- Builds on content collections
-- Search powered by [pagefind](https://pagefind.app)
-- Comments powered by [giscus](https://giscus.app) (can be turned off)
-- More!
+## 📝 What's Inside
 
-## Curious?
+- **Blog Posts**: Technical articles on AI, software engineering, security, and development tools
+- **Projects**: Showcase of my work including MCP Fabric, Cedar Mingle, and more
+- **Built with**: Astro, TypeScript, and MDX for content
 
-Head over to [the preview page](https://spectre.louisescher.dev) to find out more!
+## 🌐 Live Site
 
-### Spectre Integration
+Visit [trevorloula.com](https://trevorloula.com) to read the latest posts.
 
-If you want to know more about how the custom integration that is used in the `astro.config.ts` file works, head over to the [integration's own README](https://github.com/louisescher/spectre/tree/master/package)!
+## 📧 Connect
+
+- [LinkedIn](https://www.linkedin.com/in/trevorloula/)
+- [GitHub](https://github.com/tloula)
+- [X/Twitter](https://x.com/trevorloula)
