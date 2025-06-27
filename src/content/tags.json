@@ -3,8 +3,14 @@
     "id": "fundamentals"
   },
   {
+    "id": "telemetry"
+  },
+  {
     "id": "monitoring"
   },
+  {
+    "id": "observability"
+  }
   {
     "id": "security"
   },
