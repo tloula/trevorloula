@@ -16,7 +16,7 @@ Axiom and BetterStack have both been on my radar for a while now, but I hadn't h
 
 ## The Pricing Problem
 
-My telemetry volume from [CheckIn More](../projects/checkin-more) has been growing. In part because I had stability concerns around the task scheduler, so I added a robust healthcheck step that emits a lot of spans.
+My telemetry volume from [CheckIn More](../../projects/checkin-more) has been growing. In part because I had stability concerns around the task scheduler, so I added a robust healthcheck step that emits a lot of spans.
 
 Azure Application Insights provides the trace and metric explorer interfaces, but the underlying data is stored in Azure Log Analytics. Log Analytics charges a whopping $2.30 / GB for ingestion. I was ingesting ~10 GB / month, so that's $23 / month just for telemetry - that's more than my container and database.
 
