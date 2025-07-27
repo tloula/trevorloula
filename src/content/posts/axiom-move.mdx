@@ -1,0 +1,47 @@
+---
+title: "I Switched to Axiom"
+description: "Trying out a new observability platform."
+image: "../assets/axiom-move.png"
+createdAt: 07-27-2025
+draft: false
+tags:
+  - telemetry
+  - monitoring
+  - observability
+---
+
+I built my apps on Azure, so naturally I went with Azure Monitor / Log Analytics / Application Insights as my observability platform.
+
+Axiom and BetterStack have both been on my radar for a while now, but I hadn't had a compelling reason to switch - until now.
+
+## The Pricing Problem
+
+My telemetry volume from [CheckIn More](../projects/checkin-more) has been growing. In part because I had stability concerns around the task scheduler, so I added a robust healthcheck step that emits a lot of spans.
+
+Azure Application Insights provides the trace and metric explorer interfaces, but the underlying data is stored in Azure Log Analytics. Log Analytics charges a whopping $2.30 / GB for ingestion. I was ingesting ~10 GB / month, so that's $23 / month just for telemetry - that's more than my container and database.
+
+![Azure Log Analytics Pricing](../assets/log-analytics-pricing.png)
+
+I also haven't been thrilled with the UI of Application Insights and have been wanting to try out some alternatives. So I decided to switch to Axiom because they have a free tier unlike BetterStack.
+
+## The Switch
+
+Switching to Axiom was pretty easy - especially with the help of Claude - just had to make a few changes to my log, trace, and metric exporters to point to Axiom's ingestion endpoints. Took under an hour from start to finish.
+
+## UI Comparison
+
+The Application Insights trace explorer UI feels a bit dated. The problem in general with the major cloud providers is that they whip together something that works and people (like me - or more importantly, enterprises with the big bucks) will use it because they're already using other services. Even though the individual services themselves aren't anything special.
+
+Then smaller companies like Axiom come along and do one thing and do it well.
+
+![Application Insights Trace Explorer](../assets/application-insights-trace-explorer.png)
+
+The Axiom UI feels much more modern. And I'm all about Making Telemetry Great Again.
+
+![Axiom Trace Explorer](../assets/axiom-trace-explorer.png)
+
+The main downside is that Application Insights had more UI widgets out-of-the-box while Axiom is much more barebones and relies on you to create your own widgets from the raw data using their query language.
+
+## Conclusion
+
+For now I'm happy to not be spending $20/month on telemetry, and I'm looking forward to playing around more with Axiom.
