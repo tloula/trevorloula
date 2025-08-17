@@ -1,6 +1,6 @@
 ---
 title: CheckIn More
-date: 06-01-2025
+date: 08-16-2025
 description: CheckIn More is a mobile app for automated, scheduled virtual wellness checks.
 image: ../assets/checkin-more.png
 info:
@@ -11,4 +11,37 @@ info:
       name: globe
 ---
 
-CheckIn More is a mobile app for automated, scheduled virtual wellness checks. Still a work in progress - hoping to launch soon.
+CheckIn More is a mobile app for automated, scheduled virtual wellness checks.
+
+The idea behind CheckIn More came from family who were looking for a more consistent and automated method of checking in on their elderly parents.
+Something more practical than texting "Are you alive?" every day...
+
+The idea seemed simple enough: push notifications to check-in, that if missed would text your contacts.
+
+In reality: designing a mobile app for both Android & iOS with a backend that continually monitors for missed check-ins is no small feat.
+
+After months of late nights & lots of coffee, the apps are finally live on the [App Store](https://apps.apple.com/us/app/checkin-more/id6748661948) and [Google Play](https://play.google.com/store/apps/details?id=com.hydroxygenlabs.armedis) 🎉
+
+## Tech Stack
+
+Basically just a couple Python containers running on Azure.
+
+- Mobile App
+  - React Native
+  - TanStack Query
+  - Tamagui
+- Cloud
+  - Azure PostgreSQL
+  - Azure Container Apps
+  - Azure Key Vault
+  - Azure App Configuration
+  - Axiom (OpenTelemetry)
+- Container
+  - FastAPI
+  - SQLModel
+  - SQLAlchemy
+  - AP Scheduler
+- Services
+  - Clerk (Auth)
+  - Twilio (SMS)
+  - RevenueCat (Subscriptions)

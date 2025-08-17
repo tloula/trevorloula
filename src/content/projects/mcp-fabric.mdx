@@ -11,8 +11,39 @@ info:
       name: globe
 ---
 
+## About
+
 APIs are the backbone of the internet — and most MCP servers are just wrappers around existing APIs. The problem? Everyone is manually building these wrappers and running them locally or painfully setting up their own hosting.
 
 I built MCP Fabric to fix that.
 
 It lets you spin up fully hosted MCP servers instantly — just point it at an OpenAPI spec or define routes yourself. It handles the deployment, hosting, and telemetry (with logs + insights for every tool call -> API request). No code. No setup hell. Just a live, ready-to-use MCP server with tools and resources exposed.
+
+## Motivation
+
+I first learned about MCP in spring 2025, shortly after the spec was "finalized". I saw the problem that everyone was manually building MCP servers wrapping APIs, and thought it'd be cool to build a platform that automates this.
+
+Yes, I know MCP servers are meant to be much more than simple API wrappers (and have an article on it here: [MCP vs API](../blog/api-vs-mcp)), but many people are still looking to whip together MCP servers using existing APIs.
+
+## Tech Stack
+
+Basically just a couple Python containers running on Azure.
+
+- Web App
+  - Next.js
+  - Tailwind
+  - TanStack Query
+- Cloud
+  - Azure PostgreSQL
+  - Azure Container Apps
+  - Azure Key Vault
+  - Azure App Configuration
+  - Azure Monitor
+- Containers
+  - FastAPI
+  - SQLModel
+  - SQLAlchemy
+  - FastMCP
+- Services
+  - Clerk (Auth)
+  - Stripe (Billing)
