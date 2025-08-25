@@ -1,0 +1,67 @@
+---
+title: "Resiliency"
+description: "Planning for when **** hits the fan."
+image: "../assets/resiliency.jpg"
+createdAt: 08-24-2025
+draft: false
+tags:
+  - fundamentals
+---
+
+When I was a naive child, I believed that professional engineers knew exactly what they were doing. Then I started my first job out of college at an aerospace company. It wasn't long until I started to seriously wonder how the heck planes manage to fly. I later switched to a software company working on cloud infra, and I started to wonder how on earth the internet manages to stay alive. One of the key answers to these questions is resiliency.
+
+Good systems are designed to gracefully handle failures and continue to operate as best as possible. This is a massive topic in software, but I want to focus on best coding practices with resiliency in mind.
+
+## System Architecture
+
+Let's say you have an app running in a container on the cloud. You only focus on your business logic and don't worry about the underlying infrastructure. But there's a lot going on under the hood, with countless components that can fail. Your container is running in a container orchestration service on an OS, the OS is running on a VM, the VM is on a rack in a datacenter. Each of these components is being maintained by separate teams, and likely undergoing regular updates which may introduce issues or regressions.
+
+## Retries
+
+Outbound requests will fail. There may be network issues, the external service may be down, your platform may be experiencing issues, etc.
+
+All logic making requests to an external service should include retry logic. Don't roll your own, every major language should have a library for this. In Python, I use [tenacity](https://tenacity.readthedocs.io/en/stable/).
+
+### Exponential Backoff
+
+Exponential backoff is a common retry strategy. Each subsequent request attempt is delayed longer than the previous one. This gives the external system time to recover.
+
+### Jitter
+
+Jitter is a random delay added to the retry delay. This is to prevent a thundering herd problem where many clients retry at the same time.
+
+### Circuit Breaker
+
+Circuit breakers are a way to prevent a cascading failure. If a request to an external service fails, the circuit breaker will trip and prevent further requests to that service for a period of time. This gives the external system time to recover.
+
+### Status Codes
+
+Only retry on certain status codes. For example, if a request to an external service returns a 404, it's likely that the resource is not available and retrying will not help. A 500 error is more likely to be a transient issue and should be retried.
+
+## Idempotency
+
+Idempotency is key for incoming requests. Just like you should retry outbound requests, systems calling into your API may retry their requests if your API fails. With this in mind, you should design your API to be idempotent. Idempotent operations are operations that can be applied multiple times without changing the result beyond the initial application.
+
+For example, say you are using a 3rd party auth provider like Clerk. You configure Clerk to hit your backend when a new user is created. If your backend is down, Clerk will retry the request with exponential backoff. If your API is not idempotent, the user may be created multiple times - or more likely, subsequent requests will fail with a 500 when the user_id pkey is already taken. Rather, you should check if the user already exists before attempting to create them.
+
+## Timeouts
+
+All outbound requests should have a timeout. Without this your system will hang indefinitely if a request is blocked. If a request doesn't return within a reasonable amount of time, you should abort the request and throw a timeout error. Your retry logic should catch this and retry the request.
+
+## Fallbacks & Graceful Degradation
+
+When retires fail, good systems will attempt to fallback by relying on cached data, queueing the request, or returning a degraded response instead of failing outright.
+
+## Chaos Testing
+
+Netflix popularized the practice of deliberately breaking things to test resiliency. Even small-scale “failure injection” in staging environments can reveal weak assumptions before production does.
+
+## Observability
+
+You can't react to failures you can't see. You should instrument your code, and setup auto-instrumentation for your request library. For example, I use [OpenTelemetry HTTPX Instrumentation](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-httpx). This will give you visibility into each request. I also set span attributes for the retry attempt number and the retry delay.
+
+See my [Telemetry](./telemetry.mdx) post for an overview of modern observability.
+
+## Conclusion
+
+The real world is chaotic, and things will go wrong. Planning for these common failures will improve the reliability of your system.
