@@ -60,7 +60,7 @@ Netflix popularized the practice of deliberately breaking things to test resilie
 
 You can't react to failures you can't see. You should instrument your code, and setup auto-instrumentation for your request library. For example, I use [OpenTelemetry HTTPX Instrumentation](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation/opentelemetry-instrumentation-httpx). This will give you visibility into each request. I also set span attributes for the retry attempt number and the retry delay.
 
-See my [Telemetry](./telemetry.mdx) post for an overview of modern observability.
+See my [Telemetry](../telemetry.mdx) post for an overview of modern observability.
 
 ## Conclusion
 
