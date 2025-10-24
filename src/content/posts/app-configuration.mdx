@@ -14,18 +14,18 @@ How do you manage your app's backend configuration?
 - Ad-hoc environment variable reads scattered through your code? 😑
 - A centralized configuration service? 👌
 
-Throughout my career, I've encountered countless approaches to managing app configuration—some great, some chaotic, and some nonexistent. Starting a new project without a solid configuration strategy will only lead to headaches down the road. A little extra effort upfront will pay dividends later.
+Throughout my career, I've encountered countless approaches to managing app configuration-some great, some chaotic, and some nonexistent. Starting a new project without a solid configuration strategy will only lead to headaches down the road. A little extra effort upfront will pay dividends later.
 
 Here's how to do it right:
 
-1. **Never hardcode values** — keep configs separate from your code.
-2. **Centralize your configuration** — manage everything in one place.
-3. **Validate configs at startup, not runtime.** — catch missing values early to avoid unexpected failures.
-4. **Use tools for environment variables** — automate reading and validation using a library like [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/#dotenv-env-support).
+1. **Never hardcode values** - keep configs separate from your code.
+2. **Centralize your configuration** - manage everything in one place.
+3. **Validate configs at startup, not runtime** - catch missing values early to avoid unexpected failures.
+4. **Use tools for environment variables** - automate reading and validation using a library like [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/#dotenv-env-support).
 
 ### Configuration Services
 
-Using a configuration service allows dynamic updates—you can modify settings without restarting or redeploying your app. This is perfect for real-time adjustments like feature flagging, scaling thresholds, or rolling out gradual changes without downtime.
+Using a configuration service allows dynamic updates-you can modify settings without restarting or redeploying your app. This is perfect for real-time adjustments like feature flagging, scaling thresholds, or rolling out gradual changes without downtime.
 
 - **[Azure App Configuration](https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview)**
 - **[AWS App Config](https://aws.amazon.com/systems-manager/features/appconfig/)**
@@ -34,8 +34,8 @@ Better configuration = fewer headaches. Set it up right from the start.
 
 ### Storytime: What Not to Do
 
-💥 **Environment Variable Chaos**: I once worked on a project that relied entirely on environment variables—no central management, no validation at startup. I deployed it to a new environment and immediately hit wave after wave of 500 errors. Why? Undocumented environment variables were missing. It took hours to track them all down.
+💥 **Environment Variable Chaos**: I once worked on a project that relied entirely on environment variables-no central management, no validation at startup. I deployed it to a new environment and immediately hit wave after wave of 500 errors. Why? Undocumented environment variables were missing. It took hours to track them all down.
 
-💥 **Config File Frustration**: Another app stored all its settings in a config file—not as bad, but still flawed. Every new developer had to manually provide values for every setting just to get the app running. Configuration should work out of the box, not be a scavenger hunt.
+💥 **Config File Frustration**: Another app stored all its settings in a config file-not as bad, but still flawed. Every new developer had to manually provide values for every setting just to get the app running. Configuration should work out of the box, not be a scavenger hunt.
 
-And what about secrets? If I can't commit them, what's the best approach? I'll be covering that in an upcoming article on secret management—stay tuned!
+And what about secrets? If I can't commit them, what's the best approach? I'll be covering that in an upcoming article on secret management-stay tuned!
