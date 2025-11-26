@@ -4,7 +4,6 @@ import '../../styles/article.css';
 import ImageGlow from "../../components/ImageGlow.astro";
 import Card from "../../components/Card.astro";
 import Layout from "../../layouts/Layout.astro";
-import MCPFabricAd from "../../components/MCPFabricAd.astro";
 
 import type { GetStaticPaths } from "astro";
 import type { CollectionEntry } from "astro:content";
@@ -17,7 +16,7 @@ import { giscus } from 'spectre:globals';
  * - A reading speed of 200 words per minute
  * - 10 seconds per image
  * - 20 seconds per code block
- * 
+ *
  * @param post The post to estimate the reading time for
  */
 function timeToRead(post: CollectionEntry<'posts'>): number {
@@ -116,10 +115,6 @@ const { Content, headings } = await render(post);
         </div>
       </Card>
     )}
-    <!-- MCP Fabric Ad -->
-    <div>
-      <MCPFabricAd />
-    </div>
   </article>
 </Layout>
 <script src="../../scripts/toc.ts" />
