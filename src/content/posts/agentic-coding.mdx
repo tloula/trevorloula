@@ -1,0 +1,71 @@
+---
+title: "The Dichotomy of Agentic Coding"
+description: "It's the best and worst thing ever."
+image: "../assets/agentic-coding.png"
+createdAt: 02-15-2026
+draft: false
+tags:
+  - ai
+---
+
+We're living through an awkward adolescence in software development. AI can now write most code competently, but not quite competently enough to ship without human review. It's powerful enough that enterprises are mandating its use, yet imperfect enough that experienced developers are increasingly vocal about its limitations.
+
+This creates a strange cultural collision: C-suites championing AI-driven productivity gains while tech Twitter debates whether "vibe coding" is professional malpractice. Both sides have valid points, but they're often talking past each other because they're solving fundamentally different problems.
+
+## The Enterprise Gold Rush
+
+Walk into any enterprise engineering organization today and you'll hear the same refrains: "Do more with less." "AI or be left behind." "Find novel ways to automate workflows." The pressure is real and the enthusiasm is genuine. Leadership has seen the demos, read the case studies, and calculated the potential cost savings.
+
+When you're managing thousands of engineers and looking at the output improvements AI promises, the ROI looks compelling.
+
+But here's where it gets messy. The incentive structures in many organizations now reward AI usage itself, not necessarily better outcomes. The risk is that AI becomes a sophisticated way to avoid fixing broken processes. When systems produce chaos, it's tempting to add an AI layer that manages the chaos rather than eliminating it. Why standardize when you can just have AI parse the non-standard inputs? Why prevent problems when AI can respond to them automatically? The engineer who builds the clever AI mitigation gets celebrated while the engineer who questions why we're mitigating rather than preventing may find their concerns acknowledged but not as sexy as the AI solution.
+
+It's much easier to focus on token burn metrics than on complex problem resolution.
+
+## The Vibe Coding Backlash
+
+Meanwhile, on tech Twitter and in developer communities, there's a growing unease around vibe coding.
+
+The concerns are legitimate. How do you maintain a codebase when nobody fully understands what was written? How do you trust code you haven't read when it failed the first three times you tried to test the base case? How do you debug issues in AI-generated code that uses patterns you wouldn't have chosen yourself?
+
+There's also an undercurrent of professional identity anxiety. For many developers, deep code comprehension is core to their craft and their value. Vibe coding feels like admitting that the code itself doesn't matter, only the outcome. That's an uncomfortable position for people who've spent years mastering their domain.
+
+But here's what makes this tension interesting: both the enterprise enthusiasm and the developer skepticism are responding rationally to their contexts. Enterprises see immediate productivity gains at scale. Individual developers see long-term maintainability risks and skill atrophy.
+
+## The Real Bottleneck Isn't the Models
+
+Here's my pragmatic take: AI is already good enough to write most code. The problem is that our development systems weren't built for AI-written code.
+
+We need robust testing that covers edge cases comprehensively enough that we don't need to read every line to trust it. We need better observability so we can catch issues in production quickly. We need clearer contracts between components so AI-generated implementations can be validated against specs rather than intuition.
+
+In other words, the bottleneck isn't model capability - it's our infrastructure for quality assurance without human code review.
+
+Some teams are already there. If you have 100% test coverage, strong typing, clear specifications, and comprehensive integration tests, you probably can safely accept AI-written code without reading it. Your system protects you.
+
+But most codebases aren't there. Most have implicit tribal knowledge, undocumented edge cases, and tests that cover the happy path but little else. In these environments, vibe coding is genuinely risky.
+
+## The Limits of Testing
+
+Even with perfect testing infrastructure, some systems will remain too complex to fully trust AI-generated code.
+
+Consider a service handling billions of requests daily. You can't test performance characteristics at that scale until you've deployed. You can't predict every failure mode until you've seen it fail. These systems require not just correctness but deep operational intuition about behavior under load, failure scenarios, and cascading effects.
+
+The last thing you want in production at that scale is AI confidently saying "You're absolutely right!" when it realizes its mistake after the outage has already started.
+
+This is where the pragmatic middle ground becomes clear: use cases matter enormously.
+
+## Navigating the Awkward Phase
+
+So where does that leave us? I think we need to stop treating this as a binary debate and start treating it as a navigation problem.
+
+**For enterprises:** Push AI adoption, but invest equally in the systems that make AI-generated code safe. That means robust testing infrastructure, clear architectural standards, and quality gates that don't require reading every line.
+
+**For developers:** Recognize that your skepticism is often contextual. AI-generated CRUD endpoints with full test coverage? Probably fine. AI-generated distributed systems logic with implicit behavioral requirements? Read every line. Build the judgment to know which is which.
+
+**For engineering leaders:** You're sitting at the intersection of these pressures. Your job is to create environments where AI accelerates development without sacrificing quality or engineer growth. That means being thoughtful about what code you trust AI to write, what systems you need to build to make that trust warranted, and how you measure success.
+
+The awkward phase won't last forever. Either AI models will get good enough that code review becomes unnecessary (even at scale), or we'll standardize the infrastructure needed to safely ship AI-generated code without human review.
+
+But right now, we're in between. And the fastest way through isn't to pick a side in the culture war - it's to honestly assess your specific context and build accordingly.
+
+The dichotomy isn't actually about whether agentic coding is good or bad. It's about whether your systems are ready for it. Some are. Many aren't. The wisdom is knowing which category you're in.
