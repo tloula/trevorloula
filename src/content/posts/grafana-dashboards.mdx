@@ -1,0 +1,42 @@
+---
+title: "Grafana Dashboards"
+description: "Observability done right."
+image: "../assets/grafana-dashboards.png"
+createdAt: 02-22-2026
+draft: false
+tags:
+  - monitoring
+  - observability
+  - grafana
+  - ai
+  - mcp
+---
+
+import { Code } from 'astro-expressive-code/components';
+import GrafanaMCPServers from '../assets/code/grafana-mcp.json?raw';
+
+I can't seem to get enough of Grafana dashboards recently. Agents are really good at building them, and they provide excellent insight into your applicaitons. If you don't already have great observability, now is the time to start.
+
+## My Use Cases
+
+At work, I've been building dashboards to monitor my various features - night and day vs manually querying telemetry to ensure everything is working as expected.
+
+In my personal projects, I've been building admin dashboards to monitor usage - so much better than splunking around the prod db trying to understand how my users are using my apps.
+
+I've seen lots of "admin dashboard" templates, but didn't realize until recently that you don't need a whole custom web app - you can just point Grafana to your Postgres db and have excellent results in a fraction of the time.
+
+## AI Assisted Dashboard Creation
+
+MCP really delivers on the hype here - combine the [Grafana MCP server](https://github.com/grafana/mcp-grafana), [Playwright MCP server](https://github.com/microsoft/playwright-mcp), and an MCP server to query your telemetry or database - and AI has all the tools it needs to build a dashboard for you.
+
+Here's what my MCP configuration looks like:
+
+<Code code={GrafanaMCPServers} lang="json" title="mcp.json" />
+
+Now building a dashboard is as simple as:
+
+<Code code="Using the Axiom, Grafana, and Playwright tools, build a Grafana dashboard for full observability into the API." lang="markdown" />
+
+## Just Do It
+
+Anyway, that's the whole point of this post. Just go try it out. Observability is underrated.

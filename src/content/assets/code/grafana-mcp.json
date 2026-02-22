@@ -1,0 +1,49 @@
+{
+    "mcpServers": {
+        "axiom": {
+            "url": "https://mcp.axiom.co/mcp",
+            "headers": {}
+        },
+        "postgres-prod": {
+            "command": "docker",
+            "args": [
+              "run",
+              "-i",
+              "--rm",
+              "-e",
+              "DATABASE_URI",
+              "crystaldba/postgres-mcp",
+              "--access-mode=restricted"
+            ],
+            "env": {
+              "DATABASE_URI": "postgresql://<username>:<password>@<host>:<port>/<database>"
+            }
+          },
+        "grafana": {
+            "command": "docker",
+            "args": [
+                "run",
+                "--rm",
+                "-i",
+                "-e",
+                "GRAFANA_URL",
+                "-e",
+                "GRAFANA_SERVICE_ACCOUNT_TOKEN",
+                "grafana/mcp-grafana",
+                "-t",
+                "stdio"
+            ],
+            "env": {
+                "GRAFANA_URL": "http://host.docker.internal:4000",
+                "GRAFANA_SERVICE_ACCOUNT_TOKEN": "your-service-account-token"
+            }
+        }
+    },
+    "playwright": {
+        "command": "npx",
+        "env": {},
+        "args": [
+            "@playwright/mcp@latest"
+        ]
+    }
+}
