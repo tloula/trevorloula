@@ -24,7 +24,7 @@ const tags = posts.flatMap((post) => post.data.tags.map((tag) => tag.id));
           <li>
             <a
               class="blog-tag"
-              href="/blog"
+              href="/blog/"
               data-tag={tag}
             >
               {tag}
@@ -42,7 +42,7 @@ const tags = posts.flatMap((post) => post.data.tags.map((tag) => tag.id));
 			</div>
 			<div class="content-container">
 				{posts.sort((a, b) => b.data.createdAt.getTime() - a.data.createdAt.getTime()).map((post) => (
-					<a href={`/blog/${post.id}`} class="post-container post-with-image" data-tags={post.data.tags.map((tag) => tag.id).join(",")}>
+					<a href={`/blog/${post.id}/`} class="post-container post-with-image" data-tags={post.data.tags.map((tag) => tag.id).join(",")}>
 						<div class="post-image-wrapper">
 							<ImageGlow src={post.data.image} alt={post.data.title} width={120} quality={100} style="aspect-ratio: 16/9; height: auto; max-width: 120px; object-fit: cover; border-radius: 8px;" />
 						</div>
@@ -77,11 +77,11 @@ const tags = posts.flatMap((post) => post.data.tags.map((tag) => tag.id));
       if (active) {
         // Remove tag from filter
         const newTags = currentTags.filter((t) => t !== tag.dataset.tag);
-        tag.href = newTags.length > 0 ? `/blog?tags=${newTags.join(',')}` : '/blog';
+        tag.href = newTags.length > 0 ? `/blog/?tags=${newTags.join(',')}` : '/blog/';
       } else {
         // Add tag to filter
         const newTags = [...currentTags, tag.dataset.tag];
-        tag.href = `/blog?tags=${newTags.join(',')}`;
+        tag.href = `/blog/?tags=${newTags.join(',')}`;
       }
     });
 
