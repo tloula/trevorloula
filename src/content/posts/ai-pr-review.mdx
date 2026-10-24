@@ -1,0 +1,85 @@
+---
+title: "AI PR Review Is Dumb"
+description: "Stop letting your AI argue with my AI on the pull request."
+image: "../assets/ai-pr-review.png"
+createdAt: 10-24-2026
+draft: false
+tags:
+  - ai
+---
+
+I've noticed a trend at work that's been driving me a little crazy. Developers are building intricate PR review harnesses that let their AI loose on pull requests. And now the pull request, which used to be a place where humans talked about code, is turning into a place where AIs talk to each other about code.
+
+I think this is dumb. Here's why, and what I think we should do instead.
+
+## How It Started
+
+It starts innocently enough, and honestly, it makes sense. Code review is a bottleneck, AI is good at spotting bugs, and nobody loves losing an afternoon to reviewing PRs. So someone builds a harness that watches for new pull requests. When a dev opens a PR, the harness picks it up, has an AI review it, and posts the review comments to the PR.
+
+The catch is that the comments get posted under the person's own identity. So instead of the PR saying *Copilot left a comment*, it says *John left a comment*. Except John didn't leave a comment. John's AI did, and John probably never read it.
+
+## How It's Going
+
+Then the natural next step: if my AI can leave review comments, why can't my AI respond to them? That's a reasonable thing to want too. Nobody enjoys switching back to an old PR to address feedback.
+
+So the other half of the harness was born. It watches your PRs for review comments, replies to them, and pushes code changes to address them.
+
+Put the two halves together and you get a fully automated loop. John's AI reviews Jane's PR. Jane's AI replies and pushes a fix. John's AI reviews the fix and leaves three more comments. Jane's AI says *"Great catch!"* and pushes again. Repeat until somebody's harness gives up.
+
+Meanwhile, the humans who actually need to understand the change have to scroll through a wall of machine-generated conversation to figure out what happened, and every comment says it came from a person.
+
+Every step along the way made sense on its own. But put them all together and I think we've gone too far. It's time to take a step back and think about what we're actually doing.
+
+## Why It's Dumb
+
+**It's noise.** Most AI review comments on a PR are nits, hypotheticals, or *"consider adding error handling"* for errors that can't happen. Every one of them costs a human a notification and a few seconds of attention.
+
+This isn't just me being grumpy. An [industrial study at Beko](https://arxiv.org/abs/2412.18531) rolled out an LLM review bot across real projects. Developers resolved about 74% of its comments, so it did find real stuff. But the bot averaged 3.65 comments per PR (humans averaged about 0.3), average PR closure time went *up* from roughly 6 hours to over 8, and developers called out irrelevant and flat-out wrong suggestions as distractions.
+
+**It's dishonest.** If a comment says John wrote it, I'm going to read it like John wrote it. I'll assume he looked at the code, thought about it, and believes it matters. When it's actually an unattended bot posting under his name, every comment he "writes" becomes less trustworthy, including the ones he did write himself. If AI wrote it, it should say so.
+
+**It's the wrong place.** By the time code hits a PR, it's supposed to be ready for someone else to look at. Using the PR as the place where an AI finds your obvious bugs means you're asking your teammates to watch your first draft get fixed in public.
+
+## Shift It Left
+
+Here's my take: **AI code review belongs to the implementer, not the PR.**
+
+The person who writes the code should have AI review it *before* opening the PR. Not the same session that wrote it, obviously. That's like grading your own homework, and there's [research](https://arxiv.org/abs/2603.04582) showing models really do go easier on code they think they wrote. Instead, lean on sub-agents heavily: spin up fresh reviewers with clean context to critique the diff, fix what they find, and keep going until they come back clean. Then open the PR.
+
+Yes, coming back clean is actually possible. A few things make it work:
+
+1. **Tune the review prompt.** Tell it to ignore style nits, hypotheticals, and *"what if this impossible thing happens"* findings. Only flag issues that are real and worth fixing. I have a review skill I reuse for exactly this.
+2. **Use a good model.** Weaker models flag things that will never happen and then confidently argue about them. Stronger models are much better at staying quiet when there's nothing to say.
+3. **Use more than one reviewer.** Run several sub-agents in parallel, each with a different focus (correctness, security, simplicity), and have them critique the diff cold. They catch different things, and none of them is biased toward code it wrote.
+
+At this point, self-review with AI is table stakes. Not doing it is like not running your tests before asking someone to review your code.
+
+## So Should There Be Any AI Review on the PR?
+
+I'm honestly torn on this one.
+
+Part of me wants to say no. If self-review is table stakes, the PR shouldn't need it. But there are still developers who won't do it, and having an independent check on the PR catches them.
+
+If you're going to have one, here's where I land:
+
+- **One clearly labeled bot.** It posts as a bot, not as a person.
+- **High signal only.** Real bugs and security issues. No nits.
+- **No conversations.** It doesn't reply to replies, and no one's AI replies to it. If it found something real, the author fixes it. If it's wrong, the author dismisses it.
+
+## What I Actually Want
+
+What I really want is an interactive AI reviewer built right into the PR review experience.
+
+When I review a PR, I'll often have a question about something. I could ask the developer, but that's a waste of their time if AI could answer it. Or I could ask my own AI, but that means copying the PR link, starting a new session, and waiting for it to pull in all the context. It's a whole process.
+
+I want to look at the PR with my own human eyes and ask questions to an agentic reviewer right there in the diff. Privately, by default. Then if I actually find something real, I can turn it into a real review comment that my teammates can see, with my name on it because I actually stand behind it.
+
+GitHub is [starting to head this direction](https://github.blog/changelog/2026-04-23-copilot-chat-improvements-for-pull-requests) with Copilot Chat on pull requests, which is great. The piece I still want is that private-to-public flow: ask privately, promote the useful stuff to the PR.
+
+## The Future
+
+Here's the thing though: I think all of this is temporary.
+
+We're quickly heading toward a world where humans stop reviewing most PRs entirely, and they're reviewed and approved purely by AI. When that happens, an automated AI reviewer on the PR will make total sense, because there's no human attention left to waste.
+
+But we're not there yet. Right now, the PR is still where humans decide if code is good enough to ship. So let's keep the conversations on the PR for humans, with AI assisting them, and stop letting our AIs have back-and-forth arguments under our names.
