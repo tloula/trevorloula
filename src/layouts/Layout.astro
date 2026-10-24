@@ -21,6 +21,7 @@ interface Props {
 }
 
 const { title, description, image, pagefindIgnore, article } = Astro.props;
+const pageTitle = title === name ? name : `${name} | ${title}`;
 ---
 
 <!DOCTYPE html>
@@ -33,7 +34,7 @@ const { title, description, image, pagefindIgnore, article } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<GoogleAnalytics />
 
-		<title>{title}</title>
+		<title>{pageTitle}</title>
 		{description && <meta name="description" content={description} />}
 		<meta name="theme-color" content={themeColor}>
 
