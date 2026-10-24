@@ -96,12 +96,17 @@ const { Content: About } = await render(about!);
 			</div>
 			<div class="content-container">
 				{projects.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).slice(0, 2).map((project) => (
-					<a href={`/projects/${project.id}/`} class="post-container">
-						<div class="post-header">
-							<h3>{project.data.title}</h3>
-							<span class="post-date">{project.data.date.toLocaleDateString()}</span>
+					<a href={`/projects/${project.id}/`} class="post-container post-with-image">
+						<div class="post-image-wrapper">
+							<ImageGlow src={project.data.image} alt={project.data.title} width={120} quality={100} style="aspect-ratio: 16/9; height: auto; max-width: 120px; object-fit: cover; border-radius: 8px;" />
 						</div>
-						<span>{project.data.description}</span>
+						<div class="post-content-wrapper">
+							<div class="post-header">
+								<h3>{project.data.title}</h3>
+								<span class="post-date">{project.data.date.toLocaleDateString()}</span>
+							</div>
+							<span>{project.data.description}</span>
+						</div>
 					</a>
 				))}
 			</div>
