@@ -77,6 +77,13 @@ const projects = defineCollection({
     date: z.coerce.date(),
     image: image(),
     link: z.string().url().optional(),
+    stackNote: z.string().optional(),
+    stack: z.array(
+      z.object({
+        group: z.string(),
+        items: z.array(z.string()),
+      })
+    ).optional(),
     info: z.array(
       z.object({
         text: z.string(),

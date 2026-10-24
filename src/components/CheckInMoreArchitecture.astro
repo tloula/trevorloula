@@ -1,0 +1,184 @@
+---
+import Icon from "./Icon.astro";
+---
+<div class="arch">
+  <div class="arch-col">
+    <div class="arch-node">
+      <h4><Icon type="lucide" name="smartphone" width={16} height={16} viewBox="0 0 24 24" />Mobile App</h4>
+      <p>iOS + Android check-in reminders</p>
+      <div class="arch-tags"><span>React Native</span><span>Tamagui</span></div>
+    </div>
+    <div class="arch-node">
+      <h4><Icon type="lucide" name="shield-check" width={16} height={16} viewBox="0 0 24 24" />Auth & Billing</h4>
+      <div class="arch-tags"><span>Clerk</span><span>RevenueCat</span></div>
+    </div>
+  </div>
+
+  <div class="arch-link"><span>HTTPS</span></div>
+
+  <div class="arch-col">
+    <div class="arch-node arch-main">
+      <h4><Icon type="simple-icons" name="fastapi" width={16} height={16} viewBox="0 0 24 24" />API Container</h4>
+      <p>Python on Azure Container Apps</p>
+      <div class="arch-tags"><span>FastAPI</span><span>SQLModel</span><span>APScheduler</span></div>
+    </div>
+    <div class="arch-node arch-alert">
+      <h4><Icon type="lucide" name="bell-ring" width={16} height={16} viewBox="0 0 24 24" />Missed check-in?</h4>
+      <p>Text, then call your contacts</p>
+      <div class="arch-tags"><span>Twilio</span><span>ElevenLabs</span></div>
+    </div>
+  </div>
+
+  <div class="arch-link"><span>SQL · OTel</span></div>
+
+  <div class="arch-col">
+    <div class="arch-node">
+      <h4><Icon type="simple-icons" name="postgresql" width={16} height={16} viewBox="0 0 24 24" />Database</h4>
+      <div class="arch-tags"><span>Azure PostgreSQL</span></div>
+    </div>
+    <div class="arch-node">
+      <h4><Icon type="simple-icons" name="microsoftazure" width={16} height={16} viewBox="0 0 24 24" />Config & Secrets</h4>
+      <div class="arch-tags"><span>Key Vault</span><span>App Configuration</span></div>
+    </div>
+    <div class="arch-node">
+      <h4><Icon type="lucide" name="activity" width={16} height={16} viewBox="0 0 24 24" />Telemetry</h4>
+      <div class="arch-tags"><span>Axiom</span><span>OpenTelemetry</span></div>
+    </div>
+  </div>
+</div>
+<style>
+  .arch {
+    display: grid;
+    grid-template-columns: 1fr 4.5rem 1fr 4.5rem 1fr;
+    align-items: center;
+    margin: 1.5rem 0;
+  }
+
+  .arch-col {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+  }
+
+  .arch-node {
+    border: 1px solid #3a3a3a;
+    background-color: #161616;
+    border-radius: 10px;
+    padding: .75rem .9rem;
+  }
+
+  .arch-main {
+    border-color: var(--primary);
+    box-shadow: 0 0 24px rgba(var(--primary-rgb), .25);
+  }
+
+  .arch-alert {
+    border-style: dashed;
+  }
+
+  .arch-node h4 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .95rem;
+    color: #fff;
+  }
+
+  .arch-node h4 :global(svg) {
+    color: var(--primary-light);
+    flex-shrink: 0;
+  }
+
+  .arch-node p {
+    margin: .35rem 0 0;
+    font-size: .8rem;
+    color: #999;
+    line-height: 1.4;
+  }
+
+  .arch-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    margin-top: .5rem;
+  }
+
+  .arch-tags span {
+    font-size: .75rem;
+    padding: .1rem .45rem;
+    border: 1px solid #2e2e2e;
+    border-radius: 5px;
+    color: #bbb;
+  }
+
+  .arch-link {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .arch-link::before {
+    content: '';
+    position: absolute;
+    left: .35rem;
+    right: .6rem;
+    top: 50%;
+    border-top: 2px dashed var(--primary);
+  }
+
+  .arch-link::after {
+    content: '';
+    position: absolute;
+    right: .25rem;
+    top: calc(50% - 5px);
+    border: 6px solid transparent;
+    border-left: 8px solid var(--primary);
+    border-right: none;
+  }
+
+  .arch-link span {
+    position: relative;
+    top: -1rem;
+    font-family: 'Geist Mono', monospace;
+    font-size: .65rem;
+    color: #888;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 900px) {
+    .arch {
+      grid-template-columns: 1fr;
+    }
+
+    .arch-link {
+      height: 3rem;
+    }
+
+    .arch-link::before {
+      left: 50%;
+      right: auto;
+      top: .25rem;
+      bottom: .6rem;
+      border-top: none;
+      border-left: 2px dashed var(--primary);
+    }
+
+    .arch-link::after {
+      left: calc(50% - 5px);
+      right: auto;
+      top: auto;
+      bottom: .1rem;
+      border: 6px solid transparent;
+      border-top: 8px solid var(--primary);
+      border-bottom: none;
+    }
+
+    .arch-link span {
+      top: 0;
+      left: 4.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  stack: { group: string; items: string[] }[];
+  note?: string;
+}
+
+const { stack, note } = Astro.props;
+
+type IconRef = { type: 'lucide' | 'simple-icons'; name: string };
+
+// Keyed by tool name (without any "(note)" suffix). Unknown tools fall back to a generic box.
+const icons: Record<string, IconRef> = {
+  'React Native': { type: 'simple-icons', name: 'react' },
+  'TanStack Query': { type: 'simple-icons', name: 'reactquery' },
+  'Tamagui': { type: 'lucide', name: 'palette' },
+  'Next.js': { type: 'simple-icons', name: 'nextdotjs' },
+  'Tailwind': { type: 'simple-icons', name: 'tailwindcss' },
+  'Shadcn/UI': { type: 'simple-icons', name: 'shadcnui' },
+  'FastAPI': { type: 'simple-icons', name: 'fastapi' },
+  'FastMCP': { type: 'simple-icons', name: 'python' },
+  'SQLModel': { type: 'lucide', name: 'table' },
+  'SQLAlchemy': { type: 'simple-icons', name: 'sqlalchemy' },
+  'APScheduler': { type: 'lucide', name: 'clock' },
+  'Azure PostgreSQL': { type: 'simple-icons', name: 'postgresql' },
+  'Azure Container Apps': { type: 'simple-icons', name: 'microsoftazure' },
+  'Azure Key Vault': { type: 'lucide', name: 'key-round' },
+  'Azure App Configuration': { type: 'lucide', name: 'sliders-horizontal' },
+  'Azure Monitor': { type: 'lucide', name: 'activity' },
+  'Axiom': { type: 'simple-icons', name: 'opentelemetry' },
+  'Cloudflare Workers': { type: 'simple-icons', name: 'cloudflareworkers' },
+  'Cloudflare KV': { type: 'simple-icons', name: 'cloudflare' },
+  'Clerk': { type: 'simple-icons', name: 'clerk' },
+  'Stripe': { type: 'simple-icons', name: 'stripe' },
+  'Twilio': { type: 'simple-icons', name: 'twilio' },
+  'ElevenLabs': { type: 'simple-icons', name: 'elevenlabs' },
+  'RevenueCat': { type: 'lucide', name: 'credit-card' },
+};
+
+const parse = (item: string) => {
+  const match = item.match(/^(.*?)\s*\((.*)\)$/);
+  const name = match ? match[1] : item;
+  return { name, detail: match?.[2], icon: icons[name] ?? { type: 'lucide', name: 'box' } };
+};
+---
+<h2 id="tech-stack">Tech Stack</h2>
+{note && <p>{note}</p>}
+<div class="tech-stack">
+  {stack.map(({ group, items }) => (
+    <div class="tech-group">
+      <span class="tech-label">{group}</span>
+      <ul class="tech-chips">
+        {items.map((item) => {
+          const { name, detail, icon } = parse(item);
+          return (
+            <li class="tech-chip">
+              <Icon type={icon.type} name={icon.name as any} width={16} height={16} viewBox="0 0 24 24" />
+              <span>{name}</span>
+              {detail && <span class="tech-detail">{detail}</span>}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  ))}
+</div>
+<style>
+  .tech-stack {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tech-group {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: .75rem 0;
+    border-top: 1px solid #262626;
+  }
+
+  .tech-group:first-child {
+    border-top: none;
+  }
+
+  .tech-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: .8rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #888;
+    padding-top: .35rem;
+  }
+
+  .tech-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tech-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    padding: .3rem .7rem;
+    border: 1px solid #353535;
+    background-color: #181818;
+    border-radius: 6px;
+    font-size: .9rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .tech-chip :global(svg) {
+    color: var(--primary-lightest);
+    flex-shrink: 0;
+  }
+
+  .tech-detail {
+    color: #888;
+    font-size: .8rem;
+  }
+
+  @media screen and (max-width: 640px) {
+    .tech-group {
+      grid-template-columns: 1fr;
+      gap: .5rem;
+    }
+
+    .tech-label {
+      padding-top: 0;
+    }
+  }
+</style>
