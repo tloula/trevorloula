@@ -3,6 +3,16 @@ title: MCP Fabric
 date: 05-18-2025
 description: MCP Fabric was a platform for effortlessly connecting AI agents to APIs.
 image: ../assets/mcp-fabric.png
+stackNote: Basically just a couple Python containers running on Azure.
+stack:
+  - group: Web App
+    items: [Next.js, Tailwind, TanStack Query]
+  - group: Backend
+    items: [FastAPI, SQLModel, SQLAlchemy, FastMCP]
+  - group: Cloud
+    items: [Azure PostgreSQL, Azure Container Apps, Azure Key Vault, Azure App Configuration, Azure Monitor]
+  - group: Services
+    items: [Clerk (Auth), Stripe (Billing)]
 info:
   - text: mcpfabric.com
     link: https://mcpfabric.com?utm_source=trevorloula&utm_medium=blog&utm_campaign=mcp-fabric&utm_content=project
@@ -24,29 +34,6 @@ It let you spin up fully hosted MCP servers instantly, just point it at an OpenA
 I first learned about MCP in spring 2025, shortly after the spec was "finalized". I saw the problem that everyone was manually building MCP servers wrapping APIs, and thought it'd be cool to build a platform that automates this.
 
 Yes, I know MCP servers are meant to be much more than simple API wrappers (and have an article on it here: [MCP vs API](../blog/api-vs-mcp)), but many people are still looking to whip together MCP servers using existing APIs.
-
-## Tech Stack
-
-Basically just a couple Python containers running on Azure.
-
-- Web App
-  - Next.js
-  - Tailwind
-  - TanStack Query
-- Cloud
-  - Azure PostgreSQL
-  - Azure Container Apps
-  - Azure Key Vault
-  - Azure App Configuration
-  - Azure Monitor
-- Containers
-  - FastAPI
-  - SQLModel
-  - SQLAlchemy
-  - FastMCP
-- Services
-  - Clerk (Auth)
-  - Stripe (Billing)
 
 ## Why I Shut It Down
 

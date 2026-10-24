@@ -3,6 +3,16 @@ title: CheckIn More
 date: 08-16-2025
 description: CheckIn More is a daily check-in app for safety and peace of mind, with scheduled check-ins and instant alerts to your loved ones.
 image: ../assets/checkin-more.png
+stackNote: Basically just a couple Python containers running on Azure.
+stack:
+  - group: Mobile
+    items: [React Native, TanStack Query, Tamagui]
+  - group: Backend
+    items: [FastAPI, SQLModel, SQLAlchemy, APScheduler]
+  - group: Cloud
+    items: [Azure PostgreSQL, Azure Container Apps, Azure Key Vault, Azure App Configuration, Axiom (OpenTelemetry)]
+  - group: Services
+    items: [Clerk (Auth), Twilio (SMS), ElevenLabs (Phone Calls), RevenueCat (Subscriptions)]
 info:
   - text: checkinmore.com
     link: https://checkinmore.com?utm_source=trevorloula&utm_medium=website&utm_campaign=checkin-more&utm_content=project
@@ -10,6 +20,8 @@ info:
       type: lucide
       name: globe
 ---
+
+import CheckInMoreArchitecture from "../../components/CheckInMoreArchitecture.astro";
 
 CheckIn More is a daily check-in app for safety and peace of mind, with scheduled check-ins and instant alerts to your loved ones.
 
@@ -28,27 +40,6 @@ After months of late nights & lots of coffee, the apps are finally live on the [
 
 **Safety apps have real stakes.** When a personal safety app doesn't work, people get upset, and outages are actually impactful. So I've invested a lot into reliability and testing to prevent them. The tradeoff is that I move a lot slower with AI here, because I'm a lot more cautious.
 
-## Tech Stack
+## How It's Built
 
-Basically just a couple Python containers running on Azure.
-
-- Mobile App
-  - React Native
-  - TanStack Query
-  - Tamagui
-- Cloud
-  - Azure PostgreSQL
-  - Azure Container Apps
-  - Azure Key Vault
-  - Azure App Configuration
-  - Axiom (OpenTelemetry)
-- Container
-  - FastAPI
-  - SQLModel
-  - SQLAlchemy
-  - AP Scheduler
-- Services
-  - Clerk (Auth)
-  - Twilio (SMS)
-  - ElevenLabs (Agentic Phone Calls)
-  - RevenueCat (Subscriptions)
+<CheckInMoreArchitecture />
