@@ -1,8 +1,41 @@
 ---
-import '../styles/background.css';
 ---
 
-<canvas id="bg-canvas"></canvas>
-<canvas id="overlay-canvas"></canvas>
+<div class="page-background" aria-hidden="true">
+  <div class="page-background-grid"></div>
+  <div class="page-background-glow"></div>
+</div>
 
-<script src="../scripts/page-background.ts"></script>
+<style>
+  .page-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  /* Faint 64px grid that fades out from the top of the page */
+  .page-background-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 64px 64px;
+    background-position: center top;
+    -webkit-mask-image: radial-gradient(ellipse 100% 90% at 50% 0%, #000 45%, transparent 100%);
+    mask-image: radial-gradient(ellipse 100% 90% at 50% 0%, #000 45%, transparent 100%);
+  }
+
+  /* Soft primary-colored glow above the fold */
+  .page-background-glow {
+    position: absolute;
+    left: 50%;
+    top: -35vh;
+    width: 90vw;
+    height: 75vh;
+    transform: translateX(-50%);
+    background: radial-gradient(closest-side, rgba(var(--primary-rgb), 0.28), transparent);
+  }
+</style>
