@@ -1,8 +1,18 @@
 ---
 title: MCP Fabric
 date: 05-18-2025
-description: MCP Fabric is a platform for effortlessly connecting AI agents to APIs.
+description: MCP Fabric was a platform for effortlessly connecting AI agents to APIs.
 image: ../assets/mcp-fabric.png
+stackNote: Basically just a couple Python containers running on Azure.
+stack:
+  - group: Web App
+    items: [Next.js, Tailwind, TanStack Query]
+  - group: Backend
+    items: [FastAPI, SQLModel, SQLAlchemy, FastMCP]
+  - group: Cloud
+    items: [Azure PostgreSQL, Azure Container Apps, Azure Key Vault, Azure App Configuration, Azure Monitor]
+  - group: Services
+    items: [Clerk (Auth), Stripe (Billing)]
 info:
   - text: mcpfabric.com
     link: https://mcpfabric.com?utm_source=trevorloula&utm_medium=blog&utm_campaign=mcp-fabric&utm_content=project
@@ -17,7 +27,7 @@ APIs are the backbone of the internet, and most MCP servers are just wrappers ar
 
 I built MCP Fabric to fix that.
 
-It lets you spin up fully hosted MCP servers instantly, just point it at an OpenAPI spec or define routes yourself. It handles the deployment, hosting, and telemetry (with logs + insights for every tool call -> API request). No code. No setup hell. Just a live, ready-to-use MCP server with tools and resources exposed.
+It let you spin up fully hosted MCP servers instantly, just point it at an OpenAPI spec or define routes yourself. It handled the deployment, hosting, and telemetry (with logs + insights for every tool call -> API request). No code. No setup hell. Just a live, ready-to-use MCP server with tools and resources exposed.
 
 ## Motivation
 
@@ -25,25 +35,6 @@ I first learned about MCP in spring 2025, shortly after the spec was "finalized"
 
 Yes, I know MCP servers are meant to be much more than simple API wrappers (and have an article on it here: [MCP vs API](../blog/api-vs-mcp)), but many people are still looking to whip together MCP servers using existing APIs.
 
-## Tech Stack
+## Why I Shut It Down
 
-Basically just a couple Python containers running on Azure.
-
-- Web App
-  - Next.js
-  - Tailwind
-  - TanStack Query
-- Cloud
-  - Azure PostgreSQL
-  - Azure Container Apps
-  - Azure Key Vault
-  - Azure App Configuration
-  - Azure Monitor
-- Containers
-  - FastAPI
-  - SQLModel
-  - SQLAlchemy
-  - FastMCP
-- Services
-  - Clerk (Auth)
-  - Stripe (Billing)
+I was very early, and MCP evolved incredibly quickly. While it was a cool idea, it turned out it wasn't something people actually wanted to use. Fun build, lots learned, time to move on.

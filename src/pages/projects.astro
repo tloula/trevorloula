@@ -5,6 +5,7 @@ import { getCollection } from "astro:content";
 import Card from "../components/Card.astro";
 import Icon from "../components/Icon.astro";
 import Layout from "../layouts/Layout.astro";
+import ImageGlow from "../components/ImageGlow.astro";
 import { openGraph } from 'spectre:globals';
 
 const projects = await getCollection('projects');
@@ -33,12 +34,17 @@ const projects = await getCollection('projects');
 			</div>
 			<div class="content-container">
 				{projects.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()).map((post) => (
-					<a href={`/projects/${post.id}`} class="post-container">
-						<div class="post-header">
-							<h3>{post.data.title}</h3>
-							<span class="post-date">{post.data.date.toLocaleDateString()}</span>
+					<a href={`/projects/${post.id}/`} class="post-container post-with-image">
+						<div class="post-image-wrapper">
+							<ImageGlow src={post.data.image} alt={post.data.title} width={120} quality={100} style="aspect-ratio: 16/9; height: auto; max-width: 120px; object-fit: cover; border-radius: 8px;" />
 						</div>
-						<span>{post.data.description}</span>
+						<div class="post-content-wrapper">
+							<div class="post-header">
+								<h3>{post.data.title}</h3>
+								<span class="post-date">{post.data.date.toLocaleDateString()}</span>
+							</div>
+							<span>{post.data.description}</span>
+						</div>
 					</a>
 				))}
 			</div>

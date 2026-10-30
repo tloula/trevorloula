@@ -10,6 +10,7 @@ import { render } from "astro:content";
 import { getCollection } from "astro:content";
 import ImageGlow from "../../components/ImageGlow.astro";
 import Icon from "../../components/Icon.astro";
+import TechStack from "../../components/TechStack.astro";
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -22,8 +23,6 @@ export const getStaticPaths = (async () => {
 
   return projects.map((project) => ({ params: { project: project.id }, props: { project } }));
 }) satisfies GetStaticPaths;
-
-console.log(project.data.info);
 
 const { Content } = await render(project);
 ---
@@ -67,8 +66,9 @@ const { Content } = await render(project);
         </div>
       </div>
       <Content />
+      {project.data.stack && <TechStack stack={project.data.stack} note={project.data.stackNote} />}
       <hr class="end-of-article" />
-      <a href="/projects" class="block-link" data-pagefind-ignore>← Back to projects</a>
+      <a href="/projects/" class="block-link" data-pagefind-ignore>← Back to projects</a>
     </Card>
   </article>
 </Layout>
