@@ -32,10 +32,21 @@ const path = Astro.url.pathname;
 
   let focusIndex = -1;
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'k' && e.ctrlKey) {
-      searchElement.focus();
+  const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+  const shortcutLabel = isMac ? 'Search (⌘K)' : 'Search (Ctrl+K)';
+
+  // Capture phase + preventDefault so the browser's own Ctrl+K / Cmd+K
+  // (address bar search in Edge, Chrome, Firefox) doesn't win.
+  window.addEventListener('keydown', (e) => {
+    if (e.key?.toLowerCase() === 'k' && (e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
+      e.preventDefault();
+      e.stopPropagation();
+      searchElement?.focus();
+      searchElement?.select();
     }
+  }, { capture: true });
+
+  document.addEventListener('keydown', (e) => {
 
     if (e.key === 'Escape') {
       searchElement.blur();
@@ -76,7 +87,7 @@ const path = Astro.url.pathname;
   });
 
   searchElement?.addEventListener('blur', () => {
-    searchElement.placeholder = 'Search (Ctrl+K)';
+    searchElement.placeholder = window.matchMedia('(max-width: 640px)').matches ? 'Search' : shortcutLabel;
   });
 
   searchElement?.addEventListener('blur', () => {
@@ -137,12 +148,12 @@ const path = Astro.url.pathname;
     if (window.matchMedia('(max-width: 640px)').matches) {
       searchElement.placeholder = 'Search';
     } else {
-      searchElement.placeholder = 'Search (Ctrl+K)';
+      searchElement.placeholder = shortcutLabel;
     }
   }
 
-  document.addEventListener('DOMContentLoaded', handleTabletChange);
-  document.addEventListener('resize', handleTabletChange);
+  handleTabletChange();
+  window.addEventListener('resize', handleTabletChange);
 </script>
 <style>
   nav {
