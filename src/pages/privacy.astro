@@ -9,7 +9,7 @@ if (!privacy) throw new Error('Privacy policy content not found');
 const { Content, headings } = await render(privacy);
 ---
 
-<Layout title={privacy.data.title}>
+<Layout title={privacy.data.title} description="How trevorloula.com handles analytics and your data.">
   <div class="left" slot="left">
     <Card class="toc-card">
       <h2 class="no-mt">Table of contents</h2>

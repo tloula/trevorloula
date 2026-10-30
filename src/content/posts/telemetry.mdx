@@ -71,7 +71,7 @@ Okay - that's a lot of words. This makes way more sense with an example.
 
 ![Azure Application Insights | MCP Fabric Billing Trace](../assets/billing-trace.png)
 
-This is the trace for an API request to one of my project's ([MCP Fabric](../projects/mcp-fabric)) billing endpoints visualized in [Azure Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview). This is a night-and-day difference compared to logs. You can immediately see the entire request flow, including the database queries to get current usage and the HTTP request to the app configuration store to get limits for the user's plan. Also note that this clearly shows that the request would be much faster if I were to fetch the data asynchronously - gotta fix that.
+This is the trace for an API request to one of my project's ([MCP Fabric](/projects/mcp-fabric/)) billing endpoints visualized in [Azure Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview). This is a night-and-day difference compared to logs. You can immediately see the entire request flow, including the database queries to get current usage and the HTTP request to the app configuration store to get limits for the user's plan. Also note that this clearly shows that the request would be much faster if I were to fetch the data asynchronously - gotta fix that.
 
 ## Metrics
 
