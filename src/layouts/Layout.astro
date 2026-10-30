@@ -41,20 +41,20 @@ const pageTitle = title === name ? name : `${name} | ${title}`;
 		<link rel="canonical" href={Astro.url} />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 
-		<meta name="og:title" content={title} />
-		{description && <meta name="og:description" content={description} />}
-		<meta name="og:image" content={( (() => {
+		<meta property="og:title" content={title} />
+		{description && <meta property="og:description" content={description} />}
+		<meta property="og:image" content={( (() => {
 			if (!image?.src) return `/img/og.png`;
 			if (image.src.startsWith('http')) return image.src;
 			if (image.src.startsWith('/')) return `${(Astro.site?.toString?.() || '').replace(/\/$/, '')}${image.src}`;
 			return image.src;
 		})() )} />
-		<meta name="og:url" content={Astro.site} />
-		{!article && <meta name="og:type" content="website" />}
-		<meta name="og:locale" content="en" />
+		<meta property="og:url" content={Astro.url} />
+		{!article && <meta property="og:type" content="website" />}
+		<meta property="og:locale" content="en" />
 
 		{article && (
-			<meta name="og:type" content="article" />
+			<meta property="og:type" content="article" />
 			<meta property="article:published_time" content={article.createdAt.toISOString()} />
 			<meta name="author" content={name} />
 		)}

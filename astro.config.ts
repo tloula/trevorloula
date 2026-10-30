@@ -42,7 +42,8 @@ export default defineConfig({
           description: 'Blog posts.'
         },
         projects: {
-          title: 'Projects'
+          title: 'Projects',
+          description: 'Things I have built and am building.'
         }
       },
       // giscus: {
