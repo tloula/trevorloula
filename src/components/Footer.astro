@@ -22,6 +22,9 @@ const socials = (await getCollection('socials')).sort((a, b) => a.data.id - b.da
           <Icon type={item.data.icon.type} name={item.data.icon.name} width={16} height={16} viewBox="0 0 24 24" />
         </a>
       ))}
+      <a href="/rss.xml" class="footer-icon" aria-label="RSS feed" title="RSS feed">
+        <Icon type="lucide" name="rss" width={16} height={16} viewBox="0 0 24 24" />
+      </a>
       <span class="footer-divider" aria-hidden="true"></span>
       <a href="/privacy/" class="footer-link">Privacy</a>
     </nav>

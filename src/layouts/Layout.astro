@@ -40,6 +40,7 @@ const pageTitle = title === name ? name : `${name} | ${title}`;
 
 		<link rel="canonical" href={Astro.url} />
 		<link rel="sitemap" href="/sitemap-index.xml" />
+		<link rel="alternate" type="application/rss+xml" title={name} href="/rss.xml" />
 
 		<meta property="og:title" content={title} />
 		{description && <meta property="og:description" content={description} />}
