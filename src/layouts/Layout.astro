@@ -2,6 +2,7 @@
 import '../styles/reset.css';
 import '../styles/globals.css';
 
+import Background from '../components/Background.astro';
 import Navbar from '../components/Navbar.astro';
 import LayoutGrid from '../components/LayoutGrid.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
@@ -88,6 +89,7 @@ const pageTitle = title === name ? name : `${name} | ${title}`;
 			<slot />
 		</main>
 		<Footer />
+		<Background />
 	</body>
 </html>
 

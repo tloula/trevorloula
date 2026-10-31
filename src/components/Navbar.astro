@@ -190,13 +190,8 @@ const path = Astro.url.pathname;
     padding: .25rem .5rem;
   }
 
-  nav a {
-    border-radius: 6px;
-    transition: background-color .15s ease;
-  }
-
   nav a:hover, nav a:focus-visible, nav a.active {
-    background-color: #1f1f1f;
+    background-color: var(--primary);
     outline: none;
   }
 
@@ -212,21 +207,16 @@ const path = Astro.url.pathname;
     color: white;
   }
 
-  #search {
-    border-radius: 6px;
-  }
-
   #search:focus {
-    background-color: #1f1f1f;
+    background-color: var(--primary);
   }
 
   #search-results {
     position: absolute;
     top: calc(100% + .5rem);
     right: 0;
-    background-color: #0a0a0a;
-    border: 1px solid #2e2e2e;
-    border-radius: 12px;
+    background-color: #1a1a1a;
+    border: 1px solid var(--primary);
     display: none;
     width: 200%;
     z-index: 10;
@@ -242,8 +232,7 @@ const path = Astro.url.pathname;
     width: 40px;
     height: 40px;
     background-color: #0a0a0a;
-    border: 1px solid #1f1f1f;
-    border-radius: 8px;
+    border: 1px solid #2a2a2a;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -295,20 +284,20 @@ const path = Astro.url.pathname;
     }
 
     nav.active {
-      background-color: #0a0a0a;
+      background-color: #111111;
     }
 
     nav.active ul {
       opacity: 1;
       pointer-events: all;
-      background-color: #0a0a0a;
+      background-color: #111111;
     }
 
     nav ul li {
       position: relative;
       transition: all .25s ease-out;
       top: -1.5rem;
-      border-bottom: 1px solid #262626;
+      border-bottom: 1px solid #2a2a2a;
       width: 100%;
       max-width: none;
       padding: 0;
@@ -323,7 +312,7 @@ const path = Astro.url.pathname;
     }
 
     nav ul li:first-child {
-      border-top: 1px solid #262626;
+      border-top: 1px solid #2a2a2a;
     }
 
     nav.active ul li {
@@ -351,17 +340,14 @@ const path = Astro.url.pathname;
     padding: .5rem;
   }
 
-  #search-results a {
-    border-radius: 8px;
-  }
-
   #search-results a:hover, #search-results a:focus-visible {
-    background-color: #1a1a1a;
+    background-color: var(--primary);
     outline: none;
   }
 
   #search-results a:hover mark, #search-results a:focus-visible mark {
-    background-color: rgba(var(--primary-rgb), .5);
+    background-color: #ffffff;
+    color: #000000;
   }
 
   #search-results a h3 {
@@ -376,7 +362,7 @@ const path = Astro.url.pathname;
   }
 
   #search-results mark {
-    background-color: rgba(var(--primary-rgb), .35);
+    background-color: var(--primary);
     color: white;
   }
 
@@ -384,6 +370,6 @@ const path = Astro.url.pathname;
     margin: .5rem .5rem;
     border: none;
     height: 1px;
-    background-color: #262626;
+    background-color: #2a2a2a;
   }
 </style>

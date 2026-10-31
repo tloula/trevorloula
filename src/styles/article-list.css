@@ -23,21 +23,19 @@
 
 .blog-tag {
   padding: .25rem .5rem;
-  border-radius: 6px;
   background: #1a1a1a;
   color: white;
   text-decoration: none;
 }
 
 .blog-tag:hover, .blog-tag:focus-visible {
-  background: #262626;
+  background: #2a2a2a;
   color: white;
   text-decoration: none;
 }
 
 .blog-tag.active {
-  background: #ededed;
-  color: #0a0a0a;
+  background: var(--primary);
 }
 
 .post-with-image {
