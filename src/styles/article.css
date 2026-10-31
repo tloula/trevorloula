@@ -81,7 +81,7 @@ p img {
 
 ol li a.active {
   color: white;
-  background: var(--primary);
+  background: #1f1f1f;
 }
 
 .left {
@@ -185,10 +185,10 @@ code:not(.astro-code code) {
 }
 
 blockquote {
-  border-left: 2px solid var(--primary);
+  border-left: 2px solid #333333;
   padding: .75rem 1rem;
   margin-left: 0;
-  background-color: rgba(var(--primary-rgb), .25);
+  background-color: #111111;
   width: 100%;
 }
 

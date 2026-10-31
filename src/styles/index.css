@@ -37,15 +37,16 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1rem;
-  border: 1px solid #262626;
+  border: 1px solid #1f1f1f;
+  border-radius: 8px;
   color: #ffffff;
   text-decoration: none;
   transition: background-color .15s ease, border .15s ease;
 }
 
 .post-container:hover, .post-container:focus-visible {
-  background-color: rgba(140, 92, 245, .125);
-  border: 1px solid var(--primary);
+  background-color: #111111;
+  border: 1px solid #333333;
 }
 
 .post-container:focus-visible {
