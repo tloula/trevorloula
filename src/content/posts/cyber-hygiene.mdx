@@ -112,7 +112,7 @@ You can't remember a unique password for every site, and you shouldn't try. A pa
 
 <PasswordManager slide={12} />
 
-Here's how it works. You create **one** long password for the password manager itself (and turn on two-factor for it). Everything else lives in your vault, which is encrypted on your device, so even the company that makes it can't read your passwords. When you sign up for a new site, it makes up a long random password and saves it. When you log in, it fills it in for you. You never type or even see most of your passwords.
+Here's how it works. You create **one** long password for the password manager itself (and turn on two-factor for it). Everything else lives in your vault, which syncs through the company's cloud so it works on your phone and computer. Before it leaves your device, it's scrambled using your master password, so the company can't read your passwords, and if someone ever hacked them, they'd get a pile of scrambled data. That's also why the master password should be long and not used anywhere else. When you sign up for a new site, it makes up a long random password and saves it. When you log in, it fills it in for you. You never type or even see most of your passwords.
 
 It also quietly protects you from phishing. It only fills in your Amazon password on the real amazon.com. If you land on a convincing fake like `amaz0n-login.co`, it won't fill anything in, and that's your clue something's off.
 
