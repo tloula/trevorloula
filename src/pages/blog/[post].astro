@@ -3,6 +3,7 @@ import '../../styles/article.css';
 
 import ImageGlow from "../../components/ImageGlow.astro";
 import Card from "../../components/Card.astro";
+import ThreatMap from "../../components/cyber/ThreatMap.astro";
 import Layout from "../../layouts/Layout.astro";
 
 import type { GetStaticPaths } from "astro";
@@ -73,7 +74,10 @@ const { Content, headings } = await render(post);
   <article slot="right" data-pagefind-body>
     <Card>
       <div class="article-header" id="_top" data-pagefind-ignore>
-        <ImageGlow quality={100} class="article-image" src={post.data.image} alt={post.data.title} />
+        <div class="article-hero">
+          <ImageGlow quality={100} class="article-image" src={post.data.image} alt={post.data.title} />
+          {post.data.heroAnimation === "threat-map" && <ThreatMap />}
+        </div>
         <div class="header">
           <div>
             <h1 class="no-mt article-h1">{post.data.title}</h1>
@@ -145,6 +149,10 @@ const { Content, headings } = await render(post);
   .toc-card ol li a.active {
     color: white;
     background: var(--primary);
+  }
+
+  .article-hero {
+    position: relative;
   }
 
   .left {
