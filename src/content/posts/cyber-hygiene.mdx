@@ -44,6 +44,8 @@ In April, Anthropic said its Claude Mythos model had found thousands of serious 
 
 These are the kind of bugs where just being on the internet is enough to get a device hacked. You don't have to click anything. That kind of bug used to show up maybe once a year, and it was big news. Now it's several a week, and defenders are scrambling to keep up. Microsoft says 2026 is on pace for a record ~72,000 published vulnerabilities, roughly double last year, and the typical time from a bug being found to attackers using it is now under 24 hours.
 
+And AI isn't just *finding* bugs anymore. Microsoft's latest report describes two AI models that ran a full 32-step attack against a test company network with no human help, and the first known ransomware attack run entirely by AI, back in July.
+
 <Headlines slide={4} />
 
 ### The Day PHP Broke
@@ -156,19 +158,23 @@ Old routers stop getting security updates and get hacked in bulk. The FBI has pu
 
 ### 6. Don't Trust Pop-Ups, Even on Real Sites
 
-Phishing has gotten a lot better because AI can write a convincing email or build a convincing fake page in seconds. But it's not just sketchy emails anymore. Remember how websites are getting hacked? You can be on a real, legit website that got hacked, and the hackers put a fake page on it.
+Phishing has gotten a lot better because AI can write a convincing email or build a convincing fake page in seconds. In Microsoft's incident response cases, phishing went from 7% to 23% of how attackers got in, in just one year. But it's not just sketchy emails anymore. Remember how websites are getting hacked? You can be on a real, legit website that got hacked, and the hackers put a fake page on it.
 
 A really common one right now is a fake "verify you are human" check that looks like the ones Cloudflare and Google show. Then it asks you to press a few keys. Those keys run a command the page secretly copied for you, and that command installs malware that steals your saved passwords.
 
 <FakeCaptcha slide={16} />
 
-**A real check never asks you to press keys or paste anything.** If it does, close the tab.
+Microsoft saw people paste these commands on more than **1.1 million devices** in just three months this year, about 8x more than before. **A real check never asks you to press keys or paste anything.** If it does, close the tab.
 
 The classic version still works too: a giant warning that your computer has a virus, with a button to remove it. Websites can't scan your computer. The button *is* the virus.
 
 <FakeVirus slide={17} />
 
-### 7. Pick a Family Code Word
+### 7. Be Picky About Browser Extensions
+
+Browser extensions can see everything you do in your browser. This year, fake "AI assistant" extensions racked up nearly **900,000 installs** while quietly copying people's AI chat histories. Only install extensions you actually need, from companies you recognize, and every so often delete the ones you don't use.
+
+### 8. Pick a Family Code Word
 
 This one's new. AI can clone someone's voice from a short clip, like a video posted online. Scammers use it to call grandparents pretending to be a grandkid in trouble who needs money right now and please don't tell Mom.
 
@@ -176,7 +182,7 @@ This one's new. AI can clone someone's voice from a short clip, like a video pos
 
 Pick a family code word. If someone calls with an emergency, ask for it. And if a call is urgent, secret, and about money all at once, hang up and call them back yourself.
 
-### 8. Fewer Internet-Connected Things
+### 9. Fewer Internet-Connected Things
 
 If a gadget doesn't need the internet to do its job, don't connect it. Every connected device is one more thing that needs updates, and one more way in.
 
