@@ -1,0 +1,60 @@
+---
+import Scene from './Scene.astro';
+import Icon from '../Icon.astro';
+const leaks = ['which sites you visit', 'sent to fake sites', 'your other gadgets', 'your internet rented to criminals'];
+---
+<Scene slide={Astro.props.slide} label="Everything in your house goes through the router. If it's hacked, so is your traffic." source="FBI PSA on end-of-life routers (2025, 2026)">
+  <div class="rt">
+    <div class="a-up">
+      <div class="cs-kicker">Your Wi-Fi router</div>
+      <h3 class="cs-h">The front door to your whole house</h3>
+    </div>
+    <div class="rt-net">
+      <div class="rt-node a-fade" style="--d:.4s">
+        <span class="rt-ic"><Icon type="lucide" name="laptop" width={24} height={24} viewBox="0 0 24 24" /></span>
+        <span>Your devices</span>
+      </div>
+      <div class="rt-wire"><i class="pkt"></i><i class="pkt" style="animation-delay:.6s"></i><i class="pkt" style="animation-delay:1.2s"></i></div>
+      <div class="rt-node rt-router a-fade" style="--d:.7s">
+        <span class="rt-ic"><Icon type="lucide" name="router" width={24} height={24} viewBox="0 0 24 24" /></span>
+        <span>Router</span>
+        <span class="rt-eol cs-mono a-pop" style="--d:3s">2017 model · no updates</span>
+      </div>
+      <div class="rt-wire"><i class="pkt"></i><i class="pkt" style="animation-delay:.6s"></i><i class="pkt" style="animation-delay:1.2s"></i></div>
+      <div class="rt-node a-fade" style="--d:1s">
+        <span class="rt-ic"><Icon type="lucide" name="globe" width={24} height={24} viewBox="0 0 24 24" /></span>
+        <span>Internet</span>
+      </div>
+      <div class="rt-tap a-grow-y" style="--d:4s;--dur:.6s"></div>
+      <div class="rt-hacker a-pop" style="--d:4.5s">
+        <span class="rt-ic"><Icon type="lucide" name="user-x" width={24} height={24} viewBox="0 0 24 24" /></span>
+        <span>Attacker in the middle</span>
+      </div>
+      <div class="rt-leaks">
+        {leaks.map((l, i) => <span class="rt-leak cs-mono a-pop" style={`--d:${5.2 + i * 0.5}s`}>{l}</span>)}
+      </div>
+    </div>
+    <p class="cs-p a-up rt-foot" style="--d:7.6s">The FBI keeps saying it: <b>replace routers that no longer get updates.</b></p>
+  </div>
+</Scene>
+<style>
+  .rt { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: flex; flex-direction: column; gap: 2.4cqw; }
+  .rt-net { position: relative; flex: 1; display: grid; grid-template-columns: 16cqw 1fr 18cqw 1fr 16cqw; grid-template-rows: auto 1fr; align-items: start; column-gap: 1cqw; }
+  .rt-node { display: flex; flex-direction: column; align-items: center; gap: .6cqw; background: var(--card); border: 1px solid var(--line); padding: 1.4cqw; font-size: 1.6cqw; position: relative; }
+  .rt-ic :global(svg) { width: 4cqw; height: 4cqw; display: block; color: var(--purple-light); }
+  .rt-router { border-color: var(--purple); }
+  :global(.play) .rt-router { animation: rt-bad .4s ease 3s both; }
+  :global(.cyber-scene:not(.ready)) .rt-router { border-color: var(--red); }
+  @keyframes rt-bad { to { border-color: var(--red); box-shadow: 0 0 2cqw rgba(255,77,79,.4); } }
+  .rt-eol { font-size: 1.1cqw; color: var(--red); white-space: nowrap; }
+  .rt-wire { position: relative; height: 2px; background: var(--line); margin-top: 4.2cqw; overflow: visible; }
+  .pkt { position: absolute; top: -.5cqw; left: 0; width: 1.1cqw; height: 1.1cqw; background: var(--purple-light); opacity: 0; }
+  :global(.play) .pkt { animation: rt-pkt 1.8s linear infinite; }
+  @keyframes rt-pkt { 0% { left: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: calc(100% - 1.1cqw); opacity: 0; } }
+  .rt-tap { position: absolute; left: 50%; top: 11.4cqw; width: 2px; height: 3.6cqw; background: var(--red); translate: -50% 0; transform-origin: top center !important; }
+  .rt-hacker { position: absolute; left: 50%; top: 15cqw; translate: -50% 0; display: flex; align-items: center; gap: 1cqw; border: 1px solid var(--red); background: rgba(255,77,79,.1); padding: 1cqw 1.6cqw; font-size: 1.6cqw; color: var(--red); white-space: nowrap; }
+  .rt-hacker :global(svg) { width: 3cqw; height: 3cqw; color: var(--red); }
+  .rt-leaks { position: absolute; left: 0; right: 0; top: 22cqw; display: flex; justify-content: center; gap: 1cqw; flex-wrap: wrap; }
+  .rt-leak { font-size: 1.3cqw; color: var(--red); border: 1px dashed var(--red); padding: .4cqw .8cqw; }
+  .rt-foot { margin-top: auto; }
+</style>

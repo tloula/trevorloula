@@ -1,0 +1,53 @@
+---
+import Scene from './Scene.astro';
+---
+<Scene slide={Astro.props.slide} label="The oldest trick on the web, still working in 2026.">
+  <div class="fv">
+    <div class="fv-pop a-pop" style="--d:.4s">
+      <div class="fv-title"><span>⚠ Security Warning</span><span>✕</span></div>
+      <div class="fv-body">
+        <b class="fv-big">Your computer is infected!</b>
+        <p><span data-count="5" data-from="0" data-delay="900" data-dur="1200">5</span> viruses found. Your passwords and banking info are at risk.</p>
+        <p class="fv-timer cs-mono">Files will be deleted in 00:0<span data-count="0" data-from="9" data-delay="1000" data-dur="9000" data-ease="linear">0</span></p>
+        <div class="fv-btns">
+          <button class="fv-btn"><span class="fv-l1">Remove viruses now</span><span class="fv-l2">This button IS the virus</span></button>
+          <span class="fv-call cs-mono">or call 1-888-555-0100</span>
+        </div>
+      </div>
+    </div>
+    <div class="fv-side">
+      <div class="a-up" style="--d:4.4s">
+        <div class="cs-kicker">Fake virus warnings</div>
+        <h3 class="cs-h">Websites can't scan your computer</h3>
+      </div>
+      <ul class="fv-list">
+        <li class="a-left" style="--d:5.6s">Don't click anything in it</li>
+        <li class="a-left" style="--d:6.2s">Never call the number</li>
+        <li class="a-left" style="--d:6.8s">Close the tab. Stuck? Restart the browser.</li>
+      </ul>
+    </div>
+  </div>
+</Scene>
+<style>
+  .fv { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: grid; grid-template-columns: 1.1fr 1fr; gap: 4cqw; align-items: center; }
+  .fv-pop { background: #fff; color: #111; border: 1px solid #c00; box-shadow: 0 0 4cqw rgba(255,0,0,.35); }
+  :global(.play) .fv-pop { animation: cs-pop .5s cubic-bezier(.3,1.6,.5,1) .4s both, fv-shake .4s ease 1s 3; }
+  @keyframes fv-shake { 25% { translate: -.6cqw 0; } 75% { translate: .6cqw 0; } }
+  .fv-title { display: flex; justify-content: space-between; background: #c00; color: #fff; font-size: 1.5cqw; font-weight: 700; padding: .7cqw 1.2cqw; }
+  .fv-body { padding: 1.8cqw; font-size: 1.5cqw; display: flex; flex-direction: column; gap: .9cqw; }
+  .fv-body p { margin: 0; }
+  .fv-big { font-size: 2.6cqw; color: #c00; }
+  .fv-timer { color: #c00; font-weight: 700; }
+  .fv-btns { display: flex; align-items: center; gap: 1.4cqw; margin-top: .6cqw; }
+  .fv-btn { position: relative; font: inherit; font-weight: 700; font-size: 1.6cqw; background: #16a34a; color: #fff; border: none; padding: 1cqw 1.8cqw; min-width: 24cqw; }
+  .fv-l2 { position: absolute; inset: 0; display: grid; place-items: center; background: var(--red); opacity: 0; }
+  :global(.play) .fv-l2 { animation: cs-fade .3s ease 3.4s both; }
+  :global(.play) .fv-btn { animation: fv-hover .3s ease 3.2s both; }
+  @keyframes fv-hover { to { outline: .3cqw solid #111; } }
+  :global(.cyber-scene:not(.ready)) .fv-l2 { opacity: 1; }
+  .fv-call { font-size: 1.2cqw; color: #555; }
+  .fv-side { display: flex; flex-direction: column; gap: 2.4cqw; }
+  .fv-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 1.2cqw; }
+  .fv-list li { font-size: 2cqw; padding-left: 2.4cqw; position: relative; }
+  .fv-list li::before { content: '→'; position: absolute; left: 0; color: var(--purple-light); }
+</style>

@@ -1,0 +1,60 @@
+---
+import Scene from './Scene.astro';
+---
+<Scene slide={Astro.props.slide} label="When the freezer is on the internet, the freezer can be hacked." source="AFP via EWN, Decrypt, Danfoss statement">
+  <div class="fz">
+    <div class="fz-unit a-fade">
+      <div class="fz-panel">
+        <span class="cs-mono fz-lbl">FREEZER 04</span>
+        <span class="fz-temp cs-mono"><span data-count="46" data-from="0" data-delay="1500" data-dur="6000">46</span>°F</span>
+        <span class="fz-mode cs-mono">MODE: <span class="fz-stack"><span class="fz-m1">COOL</span><span class="fz-m2">DEFROST</span></span></span>
+      </div>
+      <div class="fz-glass">
+        <i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="fz-net cs-mono a-pop" style="--d:1s">● remote access: on</div>
+    </div>
+    <div class="fz-side">
+      <div class="a-up" style="--d:.4s">
+        <div class="cs-kicker">October 2026</div>
+        <h3 class="cs-h">Hackers turned supermarket freezers into ovens</h3>
+      </div>
+      <ul class="fz-list">
+        <li class="a-left" style="--d:3.5s">Hundreds of stores in France, then more across Europe</li>
+        <li class="a-left" style="--d:4.5s">Old, internet-connected controllers set to “defrost”</li>
+        <li class="a-left" style="--d:5.5s">Tons of food thrown out</li>
+      </ul>
+      <div class="fz-rule a-pop" style="--d:7.5s">If it doesn't need the internet, don't connect it.</div>
+    </div>
+  </div>
+</Scene>
+<style>
+  .fz { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: grid; grid-template-columns: 30cqw 1fr; gap: 5cqw; align-items: center; }
+  .fz-unit { position: relative; border: 1px solid var(--line); background: #0d0d0d; padding: 1.4cqw; display: flex; flex-direction: column; gap: 1.2cqw; height: 100%; }
+  .fz-panel { display: flex; flex-direction: column; align-items: center; background: #000; border: 1px solid #222; padding: 1.2cqw; }
+  .fz-lbl { font-size: 1.1cqw; color: var(--muted); }
+  .fz-temp { font-size: 5.5cqw; font-weight: 700; color: #7dd3fc; font-variant-numeric: tabular-nums; }
+  :global(.play) .fz-temp { animation: fz-hot 6s linear 1.5s both; }
+  :global(.cyber-scene:not(.ready)) .fz-temp { color: var(--red); }
+  @keyframes fz-hot { 0% { color: #7dd3fc; } 40% { color: var(--amber); } 100% { color: var(--red); } }
+  .fz-mode { font-size: 1.3cqw; position: relative; }
+  .fz-stack { display: inline-grid; }
+  .fz-stack > span { grid-area: 1 / 1; }
+  .fz-m2 { color: var(--red); opacity: 0; }
+  :global(.play) .fz-m1 { animation: fz-hide 0s linear 1.4s forwards; }
+  :global(.play) .fz-m2 { animation: fz-blink 1s steps(2) 1.4s infinite; }
+  :global(.cyber-scene:not(.ready)) .fz-m1 { opacity: 0; }
+  :global(.cyber-scene:not(.ready)) .fz-m2 { opacity: 1; }
+  @keyframes fz-hide { to { opacity: 0; } }
+  @keyframes fz-blink { 0% { opacity: 1; } 50% { opacity: .35; } 100% { opacity: 1; } }
+  .fz-glass { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1cqw; padding: 1cqw; border: 1px solid #2a3a44; background: linear-gradient(180deg, rgba(125,211,252,.12), rgba(125,211,252,.03)); }
+  :global(.play) .fz-glass { animation: fz-warm 6s linear 1.5s both; }
+  @keyframes fz-warm { to { border-color: #5a2a2a; background: linear-gradient(180deg, rgba(255,77,79,.15), rgba(255,176,32,.05)); } }
+  .fz-glass i { background: #1d2a33; border: 1px solid #2a3a44; }
+  .fz-net { position: absolute; bottom: -1.6cqw; left: 50%; translate: -50% 0; font-size: 1.2cqw; color: var(--amber); background: #050505; border: 1px solid var(--amber); padding: .3cqw .8cqw; white-space: nowrap; }
+  .fz-side { display: flex; flex-direction: column; gap: 2.4cqw; }
+  .fz-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 1.2cqw; }
+  .fz-list li { font-size: 1.9cqw; padding-left: 2.4cqw; position: relative; color: #d0d0d0; }
+  .fz-list li::before { content: '→'; position: absolute; left: 0; color: var(--red); }
+  .fz-rule { border-left: 4px solid var(--purple); background: var(--card); padding: 1.2cqw 1.6cqw; font-size: 2cqw; font-weight: 600; }
+</style>

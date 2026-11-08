@@ -1,0 +1,64 @@
+---
+import Scene from './Scene.astro';
+import Icon from '../Icon.astro';
+const devices = [
+  { name: 'Phone', icon: 'smartphone' },
+  { name: 'Computer', icon: 'laptop' },
+  { name: 'Browser', icon: 'globe' },
+  { name: 'Router', icon: 'router' },
+  { name: 'TV & gadgets', icon: 'tv' },
+] as const;
+---
+<Scene slide={Astro.props.slide} label="Most updates are security fixes. The boring button is the most important one.">
+  <div class="up">
+    <div class="up-left">
+      <div class="a-up">
+        <div class="cs-kicker">The #1 thing</div>
+        <h3 class="cs-h">Update <span class="cs-purple">everything</span>, right away</h3>
+      </div>
+      <div class="up-card a-up" style="--d:.8s">
+        <div class="up-row"><b>Software Update</b><span class="cs-muted cs-mono">v26.1.2</span></div>
+        <div class="cs-muted up-sm">Security update. Fixes an issue that may allow a website to take control of your device.</div>
+        <div class="up-prog"><i class="a-grow-x" style="--d:1.6s;--dur:2.6s"></i></div>
+        <div class="up-done a-pop" style="--d:4.4s"><span class="cs-green">✓</span> Up to date</div>
+      </div>
+      <div class="up-toggle a-up" style="--d:5s">
+        <span>Automatic updates</span>
+        <span class="up-switch"><i></i></span>
+      </div>
+    </div>
+    <div class="up-devices">
+      {devices.map((d, i) => (
+        <div class="up-dev a-right" style={`--d:${5.6 + i * 0.4}s`}>
+          <span class="up-icon"><Icon type="lucide" name={d.icon as any} width={24} height={24} viewBox="0 0 24 24" /></span>
+          <span>{d.name}</span>
+          <span class="up-tick cs-green a-pop" style={`--d:${6 + i * 0.4}s`}>✓</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</Scene>
+<style>
+  .up { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: grid; grid-template-columns: 1.3fr 1fr; gap: 5cqw; align-items: center; }
+  .up-left { display: flex; flex-direction: column; gap: 2.4cqw; }
+  .up-card { background: var(--card); border: 1px solid var(--line); padding: 1.8cqw; display: flex; flex-direction: column; gap: 1cqw; font-size: 1.8cqw; }
+  .up-row { display: flex; justify-content: space-between; align-items: baseline; }
+  .up-row .cs-mono { font-size: 1.3cqw; }
+  .up-sm { font-size: 1.4cqw; }
+  .up-prog { height: .8cqw; background: #1c1c1c; }
+  .up-prog i { display: block; height: 100%; background: var(--purple); }
+  .up-done { font-size: 1.6cqw; }
+  .up-toggle { display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line); padding: 1.2cqw 1.8cqw; font-size: 1.9cqw; }
+  .up-switch { width: 5.4cqw; height: 2.8cqw; background: #333; position: relative; border-radius: 99px; }
+  .up-switch i { position: absolute; top: .3cqw; left: .3cqw; width: 2.2cqw; height: 2.2cqw; background: #fff; border-radius: 50%; }
+  :global(.play) .up-switch { animation: up-on .3s ease 5.4s both; }
+  :global(.play) .up-switch i { animation: up-knob .3s ease 5.4s both; }
+  :global(.cyber-scene:not(.ready)) .up-switch { background: var(--green); }
+  :global(.cyber-scene:not(.ready)) .up-switch i { left: 2.9cqw; }
+  @keyframes up-on { to { background: var(--green); } }
+  @keyframes up-knob { to { left: 2.9cqw; } }
+  .up-devices { display: flex; flex-direction: column; gap: 1.2cqw; }
+  .up-dev { display: grid; grid-template-columns: 3.4cqw 1fr auto; align-items: center; gap: 1.2cqw; background: var(--card); border: 1px solid var(--line); padding: 1cqw 1.4cqw; font-size: 1.9cqw; }
+  .up-icon :global(svg) { width: 2.6cqw; height: 2.6cqw; display: block; color: var(--purple-light); }
+  .up-tick { font-size: 2.2cqw; }
+</style>

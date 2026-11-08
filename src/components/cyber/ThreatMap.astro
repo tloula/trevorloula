@@ -1,0 +1,129 @@
+---
+/**
+ * Animated "attacks everywhere" world map, drawn on a canvas over the post's
+ * hero image. The static image stays underneath for no-JS and social previews.
+ */
+---
+<canvas class="threat-map" width="1920" height="1080" aria-hidden="true"></canvas>
+
+<script>
+  import data from './threat-map-data.json';
+
+  const canvas = document.querySelector<HTMLCanvasElement>('.threat-map');
+  if (canvas) {
+    const ctx = canvas.getContext('2d')!;
+    const names = Object.keys(data.cities) as (keyof typeof data.cities)[];
+    let seed = 3;
+    const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const LOOP = 10000;
+    const labels = ['password spray', 'credential stuffing', 'PHP2Shell', 'ClickFix', 'phishing'];
+    const arcs = Array.from({ length: 110 }, () => {
+      const a = data.cities[names[Math.floor(rand() * names.length)]];
+      let b = a;
+      while (b === a) b = data.cities[names[Math.floor(rand() * names.length)]];
+      return {
+        a, b,
+        start: rand() * LOOP,
+        dur: 1400 + rand() * 1400,
+        blocked: rand() < 0.3,
+        label: rand() < 0.12 ? labels[Math.floor(rand() * labels.length)] : null,
+      };
+    });
+    const RATE = 5200; // password attacks per second (2026 estimate, see post)
+
+    const point = (a: number[], b: number[], t: number) => {
+      const mx = (a[0] + b[0]) / 2;
+      const my = (a[1] + b[1]) / 2 - Math.hypot(b[0] - a[0], b[1] - a[1]) * 0.35;
+      const u = 1 - t;
+      return [u * u * a[0] + 2 * u * t * mx + t * t * b[0], u * u * a[1] + 2 * u * t * my + t * t * b[1]];
+    };
+
+    const t0 = performance.now();
+    let visible = true;
+    let raf = 0;
+
+    function draw(now: number) {
+      const t = (now - t0) % LOOP;
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, 1920, 1080);
+      ctx.fillStyle = '#2a2a2a';
+      for (const [x, y] of data.dots) ctx.fillRect(x - 1.6, y - 1.6, 3.2, 3.2);
+
+      for (const k of [-LOOP, 0]) {
+        for (const A of arcs) {
+          const e = (t - A.start - k) / A.dur;
+          if (e < 0 || e > 1.6) continue;
+          const reach = A.blocked ? 0.72 : 1;
+          const head = Math.min(e, 1) * reach;
+          const tail = (Math.max(0, e - 0.45) * reach) / 1.15;
+          const col = A.blocked ? '140,92,245' : '255,77,79';
+          ctx.lineWidth = 2.2;
+          ctx.beginPath();
+          for (let s = tail; s <= head; s += 0.01) {
+            const [px, py] = point(A.a, A.b, s);
+            if (s === tail) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+          }
+          ctx.strokeStyle = `rgba(${col},${e > 1 ? Math.max(0, 1 - (e - 1) / 0.6) : 0.9})`;
+          ctx.stroke();
+          if (e >= 1) {
+            const p = (e - 1) / 0.6;
+            const [px, py] = A.blocked ? point(A.a, A.b, reach) : A.b;
+            ctx.beginPath();
+            ctx.arc(px, py, 4 + p * 26, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(${col},${1 - p})`;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = `rgba(${col},${1 - p})`;
+            ctx.beginPath();
+            ctx.arc(px, py, 4, 0, Math.PI * 2);
+            ctx.fill();
+            if (A.label) {
+              ctx.font = '18px "Geist Mono", monospace';
+              ctx.fillStyle = `rgba(230,230,230,${(1 - p) * 0.9})`;
+              ctx.fillText(A.label, px + 14, py - 10);
+            }
+          }
+        }
+      }
+
+      // HUD
+      ctx.font = '22px "Geist Mono", monospace';
+      ctx.fillStyle = '#8a8a8a';
+      ctx.fillText('PASSWORD ATTACKS SINCE YOU OPENED THIS PAGE', 70, 84);
+      ctx.font = '700 64px "Geist Mono", monospace';
+      ctx.fillStyle = '#ff4d4f';
+      ctx.fillText(Math.floor(((now - t0) / 1000) * RATE).toLocaleString('en-US'), 70, 152);
+      ctx.font = '20px "Geist Mono", monospace';
+      ctx.fillStyle = '#ff4d4f'; ctx.fillRect(1650, 70, 12, 12);
+      ctx.fillStyle = '#8a8a8a'; ctx.fillText('attack', 1672, 82);
+      ctx.fillStyle = '#8c5cf5'; ctx.fillRect(1760, 70, 12, 12);
+      ctx.fillStyle = '#8a8a8a'; ctx.fillText('blocked', 1782, 82);
+
+      if (visible) raf = requestAnimationFrame(draw);
+    }
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.fonts.load('22px "Geist Mono"').finally(() => {
+      if (reduce) { draw(t0 + 6000); visible = false; return; }
+      new IntersectionObserver(([entry]) => {
+        const was = visible;
+        visible = entry.isIntersecting;
+        if (visible && !was) raf = requestAnimationFrame(draw);
+      }).observe(canvas);
+      raf = requestAnimationFrame(draw);
+    });
+  }
+</script>
+
+<style>
+  .threat-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    z-index: 1;
+    display: block;
+  }
+</style>

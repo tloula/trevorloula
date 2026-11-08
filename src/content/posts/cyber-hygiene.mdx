@@ -1,0 +1,204 @@
+---
+title: "Cyber Hygiene for Normal People (2026 Edition)"
+description: "Security got weird this year. Here's what's going on, and the short list of what to actually do about it."
+image: "../assets/cyber-hygiene.png"
+heroAnimation: threat-map
+createdAt: 11-08-2026
+draft: false
+tags:
+  - security
+  - ai
+---
+
+import OldBugs from '../../components/cyber/OldBugs.astro';
+import Headlines from '../../components/cyber/Headlines.astro';
+import PhpGrid from '../../components/cyber/PhpGrid.astro';
+import Freezer from '../../components/cyber/Freezer.astro';
+import PasswordAttacks from '../../components/cyber/PasswordAttacks.astro';
+import OnlineOffline from '../../components/cyber/OnlineOffline.astro';
+import Breach from '../../components/cyber/Breach.astro';
+import Updates from '../../components/cyber/Updates.astro';
+import PasswordManager from '../../components/cyber/PasswordManager.astro';
+import PasswordStrength from '../../components/cyber/PasswordStrength.astro';
+import TwoFactor from '../../components/cyber/TwoFactor.astro';
+import Router from '../../components/cyber/Router.astro';
+import FakeCaptcha from '../../components/cyber/FakeCaptcha.astro';
+import FakeVirus from '../../components/cyber/FakeVirus.astro';
+import VoiceClone from '../../components/cyber/VoiceClone.astro';
+import Checklist from '../../components/cyber/Checklist.astro';
+
+Cybersecurity has changed more in the last few months than in the last few years, and even the last month has been wild. The old advice was "buy a good antivirus." That's not where the action is anymore. Today it's mostly about **keeping everything updated** and **having good password habits**.
+
+This post has two parts. First, what's actually going on out there. Then, the short checklist of what you should do about it.
+
+I'm also presenting this to my family over the holidays, so every animation here is also a slide. If you want to do the same, [here's the full slide deck](/slides/cyber-hygiene/) (arrow keys to move, N for speaker notes).
+
+## Part 1: What's Going On
+
+### AI Is Finding Ancient Bugs
+
+AI got really good at reading code. And it turns out the software the whole world runs on is full of bugs that nobody noticed for decades.
+
+<OldBugs slide={3} />
+
+In April, Anthropic said its Claude Mythos model had found thousands of serious vulnerabilities, including a 27-year-old bug in OpenBSD (an operating system famous for being *secure*) and a 16-year-old bug in FFmpeg, the video library that's inside basically every app that plays video. A month later, they and their partners were past 10,000.
+
+These are the kind of bugs where just being on the internet is enough to get a device hacked. You don't have to click anything. That kind of bug used to show up maybe once a year, and it was big news. Now it's several a week, and defenders are scrambling to keep up. Microsoft says 2026 is on pace for a record ~72,000 published vulnerabilities, roughly double last year, and the typical time from a bug being found to attackers using it is now under 24 hours.
+
+And AI isn't just *finding* bugs anymore. It's not deciding to hack things on its own, but people can now hand it the whole job. In a test described in Microsoft's latest report, researchers told two AI models to break into a fake company network, and the models worked through all 32 steps of the attack without any more help. And in July, criminals used AI to carry out an entire ransomware attack for them, start to finish.
+
+<Headlines slide={4} />
+
+### The Day PHP Broke
+
+The one that hit closest to home for me was **PHP2Shell**.
+
+PHP is a programming language from the 90s. Modern sites mostly don't use it, but it still runs roughly **70% of websites**, because so much of the web is built on it (WordPress, for example). In October, researchers using AI found two bugs that had been sitting in PHP since 2012. Together they let anyone on the internet run their own code on a PHP website's server. In other words, take it over.
+
+<PhpGrid slide={5} />
+
+Attackers were already using it before the fix even came out. The NSA and FBI put out a joint warning that basically said: patch this immediately, and if you can't, **take your website offline**. That was a crazy day at work. We spent it rolling the patch out to all of our customers as fast as we possibly could.
+
+### Even Your Freezer
+
+It's not just computers. In October, hackers got into the internet-connected controllers that run supermarket freezers and set them to defrost. Hundreds of stores in France were hit, with more across Europe, and tons of food got thrown out.
+
+<Freezer slide={6} />
+
+Anything that's connected to the internet can be attacked. I'm not great at following this one myself, but if something doesn't *need* the internet, it's worth asking if it should have it.
+
+### Passwords Are Under Constant Attack
+
+At work at Microsoft I've seen the stats on this, and they're nuts. At the peak, Microsoft was blocking about **7,000 password attacks every second**. That's around **600 million a day**, up from around a hundred a second ten years ago.
+
+<PasswordAttacks slide={7} />
+
+Here's the interesting twist. Microsoft's newest report, from October, says password attacks finally *dropped* 26% this year. Not because attackers got bored, but because so many people turned on two-factor and passkeys that guessing passwords stopped paying off. So attackers switched tactics: the share of attacks using fake login pages that steal your whole logged-in session more than doubled, and "paste this command to verify you're human" scams went up 8x. (More on both in part 2.) The defenses work. Attackers just go after whoever hasn't turned them on yet.
+
+So what actually counts as a "password attack"? I wasn't sure either, so I looked into it. There are two very different kinds.
+
+**Online attacks** are bots guessing at real login pages. They try the most common passwords against millions of accounts (called *password spraying*), or they try email and password combos stolen from other sites (called *credential stuffing*). These happen on Microsoft's servers, so Microsoft can see and count them. That's what the 7,000 a second is.
+
+**Offline attacks** happen after a company gets breached and its password database is stolen. The attacker takes it home and guesses on their own computers, billions of guesses per second, with no login page and no lockout. Nobody can measure these, because they happen entirely on the attacker's machine. So the real number of attacks on passwords is a lot bigger than 7,000 a second. We just can't see the rest.
+
+<OnlineOffline slide={8} />
+
+### How Data Breaches Come Back to Bite You
+
+Data breaches are *extremely* common. [Have I Been Pwned](https://haveibeenpwned.com), a site that tracks them, has collected over 15 billion breached accounts. Odds are your email is in there more than once.
+
+Here's how it usually plays out. Some random business you used once, say a pizza place with online ordering, gets hacked. They didn't have anything important on you. But they did have your email and your password. Attackers take that combo and automatically try it on everything that matters: your email, your bank, Amazon, Netflix.
+
+<Breach slide={9} />
+
+If you used the same password there, they're in. If every site has its own password, the leak stays at the pizza place. This is the whole reason not to reuse passwords, and not to share them either. Every place a password lives is one more place it can leak from.
+
+## Part 2: What To Do About It
+
+The good news: the fixes are simple, and none of them involve shopping for antivirus.
+
+### 1. Keep Everything Updated
+
+This is the big one. I know, updates are annoying. They always pop up at the worst time, they make you restart, and half the time you install one and nothing looks any different, so you're left wondering what it even did. Usually the answer is that it fixed security problems. You won't see those, but that doesn't mean they weren't there. And sometimes the opposite happens: an update moves a button or changes how something works, and that's frustrating too. But a few minutes of relearning where something is beats getting hacked. You've just got to live with it.
+
+With AI finding bugs this fast, a lot of updates are carrying critical security fixes, and the bad guys read the fix notes too. Once a patch comes out, attackers race to use the bug on everyone who hasn't installed it yet.
+
+<Updates slide={11} />
+
+The good news is most phones and computers update themselves now. But it's worth **double-checking automatic updates are on**, especially on your computer, because they're sometimes off. And the part people skip: a lot of updates don't actually apply until you **restart**. When it asks, just do it. Same goes for anything else that gets updates: your router, TV, smart gadgets.
+
+Also make sure your devices are still *getting* updates at all. I didn't realize until recently that phones have an expiration date. Older Samsung phones only got security updates for about four or five years, and then that's it. Newer flagships like the Galaxy S24 and Pixel 8 and later promise seven, and iPhones usually get six or more. Cheaper phones often get less. Once your phone stops getting security updates, it's time for a new one, even if it still works fine. Search your phone's model plus "security updates end date" to check.
+
+### 2. Use a Password Manager
+
+You can't remember a unique password for every site, and you shouldn't try. A password manager is an app that remembers them for you.
+
+<PasswordManager slide={12} />
+
+Here's how it works. You create **one** long password for the password manager itself (and turn on two-factor for it). Everything else lives in your vault, which syncs through the company's cloud so it works on your phone and computer. Before it leaves your device, it's scrambled using your master password, so the company can't read your passwords, and if someone ever hacked them, they'd get a pile of scrambled data. That's also why the master password should be long and not used anywhere else. When you sign up for a new site, it makes up a long random password and saves it. When you log in, it fills it in for you. You never type or even see most of your passwords.
+
+It also quietly protects you from phishing. It only fills in your Amazon password on the real amazon.com. If you land on a convincing fake like `amaz0n-login.co`, it won't fill anything in, and that's your clue something's off.
+
+Good options:
+
+- **Bitwarden**: free, open source, works on everything. My pick for most people.
+- **1Password**: really polished, paid, great for families.
+- **Apple Passwords**: built into iPhone, iPad, and Mac. Easiest if your family is all Apple.
+- **Google Password Manager**: built into Chrome and Android.
+- **Proton Pass**: from the Proton Mail folks, privacy-focused.
+
+Any of these is a huge upgrade over reusing passwords. The best one is the one you'll actually use. Start by moving your email and bank passwords in, then add the rest as you log into things.
+
+### 3. Long Beats Complicated
+
+"Strong" does not mean letters plus numbers plus symbols. It just means **long and not guessable**.
+
+<PasswordStrength slide={13} />
+
+`Summer2026!` checks every box on every "password requirements" list, and it's one of the first things a cracking tool will guess. A few random words strung together are way longer, way easier to remember, and thousands of times harder to crack than a short jumble of symbols.
+
+Those "must include a symbol" rules are just lazy code. A site could look at the whole password and how long it is. Instead it'll reject a 50-character passphrase because it doesn't have an exclamation point at the end. Even NIST, the US agency that writes the official password guidelines, now says sites *shall not* require character-type rules like that.
+
+### 4. Turn On Two-Factor for the Important Stuff
+
+Two-factor means logging in takes your password *plus* something else, like a code from your phone. Microsoft says this blocks over 99% of account takeover attempts, and it's the reason password attacks finally started dropping.
+
+<TwoFactor slide={14} />
+
+You don't need it on every account. Focus on the ones people actually try to break into:
+
+- **Your email.** Whoever controls your email can reset the password on everything else.
+- **Your bank.**
+- **Your password manager.**
+
+If you have the choice, use an authenticator app or a **passkey** over text message codes. Text codes are better than nothing, but scammers can steal them by talking your phone carrier into moving your number to their SIM card. Passkeys are the best option when a site offers them: they're tied to your device and can't be phished, which matters now that attackers are building fake login pages that grab your code along with your password.
+
+One more: **never approve a sign-in request you didn't start.** If your phone pops up "Are you trying to sign in?" and you're not, someone already has your password. Attackers will spam these over and over, hoping you'll hit approve just to make them stop, and it works more than you'd think. Microsoft found that about 1 in 100 people approve the *very first* surprise prompt they get, and the odds only go up as the prompts keep coming. (That's why a lot of apps now make you [type in a number shown on the screen](https://www.cisa.gov/sites/default/files/publications/fact-sheet-implement-number-matching-in-mfa-applications-508c.pdf) instead of just tapping yes.) Deny it, and go change that password.
+
+### 5. Upgrade Your Router
+
+Everything your house sends to the internet goes through your Wi-Fi router. Most of that is encrypted now (the padlock in your browser), so a hacked router can't just read your bank password. But it can still see which sites you visit, quietly send you to fake versions of real ones, attack the other gadgets on your network, and rent out your internet connection to criminals so their attacks look like they're coming from your house.
+
+<Router slide={15} />
+
+Old routers stop getting security updates and get hacked in bulk. The FBI has put out multiple warnings this year and last telling people to replace end-of-life routers. Checking yours is easy: flip it over, find the brand and model number on the sticker, and search for it with "end of life" (like "Netgear R7000 end of life"). The manufacturer usually has a page saying whether it still gets security updates. If it doesn't, or it's more than about five years old and you can't tell, replace it.
+
+I just upgraded mine, and it was a bit painful. My old one worked perfectly fine, it was super fast, and I never had a problem with it. I really didn't want to spend a couple hundred dollars on a new one. But I did it anyway, because of defense in depth: I want everything as locked down as I can reasonably get it, so that even if one thing gets breached, there are still more layers of protection behind it.
+
+### 6. Don't Trust Pop-Ups, Even on Real Sites
+
+Phishing has gotten a lot better because AI can write a convincing email or build a convincing fake page in seconds. In Microsoft's incident response cases, phishing went from 7% to 23% of how attackers got in, in just one year. But it's not just sketchy emails anymore. Remember how websites are getting hacked? You can be on a real, legit website that got hacked, and the hackers put a fake page on it.
+
+A really common one right now is a fake "verify you are human" check that looks like the ones Cloudflare and Google show. Then it asks you to press a few keys. Those keys run a command the page secretly copied for you, and that command installs malware that steals your saved passwords.
+
+<FakeCaptcha slide={16} />
+
+Microsoft saw people paste these commands on more than **1.1 million devices** in just three months this year, about 8x more than before. **A real check never asks you to press keys or paste anything.** If it does, close the tab.
+
+The classic version still works too: a giant warning that your computer has a virus, with a button to remove it. Websites can't scan your computer. The button *is* the virus.
+
+<FakeVirus slide={17} />
+
+### 7. Be Picky About Browser Extensions
+
+Browser extensions can see everything you do in your browser. This year, fake "AI assistant" extensions racked up nearly **900,000 installs** while quietly copying people's AI chat histories. Only install extensions you actually need, from companies you recognize, and every so often delete the ones you don't use.
+
+### 8. Don't Trust a Voice on the Phone
+
+This one's new. AI can clone someone's voice from a short clip, like a video posted online. Scammers use it to call grandparents pretending to be a grandkid in trouble who needs money right now and please don't tell Mom.
+
+<VoiceClone slide={18} />
+
+So be a little skeptical of what you hear on the phone, even if it sounds exactly like someone you know. If a call is urgent, secret, and about money all at once, that's the red flag. Hang up and reach them another way, like calling their real number or texting someone who's with them. Or ask them something only the real person would know, that isn't posted anywhere online.
+
+### 9. Fewer Internet-Connected Things
+
+If a gadget doesn't need the internet to do its job, don't connect it. Every connected device is one more thing that needs updates, and one more way in.
+
+## The Checklist
+
+<Checklist slide={19} />
+
+Want it on paper? **[Download the printable checklist (PDF)](/cyber-hygiene-checklist.pdf)**. It's one page with real checkboxes, made for printing out and handing to the people in your life who'd rather use a pen.
+
+If you only do two things, do the first two: **turn on automatic updates** and **start using a password manager**. That alone puts you ahead of most people.

@@ -66,6 +66,8 @@ const posts = defineCollection({
     ),
     draft: z.boolean().optional().default(false),
     image: image(),
+    /** Optional animated hero drawn over the static image (e.g. "threat-map"). */
+    heroAnimation: z.enum(["threat-map"]).optional(),
   })
 });
 
