@@ -12,6 +12,10 @@ import rehypeExternalLinks from 'rehype-external-links';
 export default defineConfig({
   site: 'https://trevorloula.com',
   output: 'static',
+  redirects: {
+    '/blog/cyber-hygiene': '/blog/cyber-hygiene-2026/',
+    '/slides/cyber-hygiene': '/slides/cyber-hygiene-2026/',
+  },
   integrations: [
     expressiveCode({
       themes: [spectreDark],
