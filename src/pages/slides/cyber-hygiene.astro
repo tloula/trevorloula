@@ -38,6 +38,7 @@ const notes = [
   'Websites cannot scan your computer. Close the tab, never call the number.',
   'AI can clone a voice from a short clip. Pick a family code word. Urgent, secret, and money together means scam.',
   'That is the list. Pick one or two today: updates and a password manager get you most of the way.',
+  'Questions? Happy to help anyone set up a password manager or check their router after this.',
 ];
 ---
 <!DOCTYPE html>
@@ -70,6 +71,7 @@ const notes = [
       <section class="slide"><FakeVirus /></section>
       <section class="slide"><VoiceClone /></section>
       <section class="slide"><Checklist /></section>
+      <section class="slide"><TitleCard kicker="exit 0" title="That's it. Questions?" sub="Now go turn on automatic updates. I'll wait." /></section>
     </div>
     <aside class="notes" hidden>
       <div class="notes-count cs-mono"></div>
@@ -95,8 +97,11 @@ const notes = [
     return slides[i].querySelector<HTMLElement>('[data-scene]')!;
   }
 
-  function show(i: number) {
-    idx = Math.min(slides.length - 1, Math.max(0, i));
+  function show(i: number, force = false) {
+    const next = Math.min(slides.length - 1, Math.max(0, i));
+    // At the first/last slide, don't replay the same slide on "next"/"back"
+    if (next === idx && !force) return;
+    idx = next;
     slides.forEach((s, n) => {
       s.classList.toggle('active', n === idx);
       if (n !== idx) resetScene(sceneOf(n));
@@ -105,7 +110,11 @@ const notes = [
     bar.style.width = `${((idx + 1) / slides.length) * 100}%`;
     notesEl.querySelector('.notes-count')!.textContent = `${idx + 1} / ${slides.length}`;
     notesEl.querySelector('.notes-text')!.textContent = notes[idx] ?? '';
-    history.replaceState(null, '', `#${idx + 1}`);
+    try {
+      history.replaceState(null, '', `#${idx + 1}`);
+    } catch {
+      // Sandboxed previews (e.g. srcdoc iframes) don't allow URL changes
+    }
   }
 
   document.addEventListener('keydown', (e) => {
@@ -139,7 +148,7 @@ const notes = [
     if (Math.abs(dx) > 50) show(dx < 0 ? idx + 1 : idx - 1);
   });
 
-  show(idx);
+  show(idx, true);
 </script>
 
 <style is:global>
