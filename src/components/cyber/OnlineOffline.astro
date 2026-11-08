@@ -1,0 +1,65 @@
+---
+import Scene from './Scene.astro';
+const guesses = ['123456', 'password1', 'Summer2026!', 'iloveyou', 'Qwerty123!', 'trevor2001'];
+---
+<Scene slide={Astro.props.slide} label="Two very different kinds of password attack.">
+  <div class="oo">
+    <div class="oo-panel">
+      <div class="a-up">
+        <div class="cs-kicker">Online</div>
+        <h4 class="oo-h">Guessing at the front door</h4>
+      </div>
+      <div class="oo-login a-fade" style="--d:.6s">
+        <div class="oo-url cs-mono">login.microsoft.com</div>
+        <div class="oo-field">jane@example.com</div>
+        <div class="oo-guesses">
+          {guesses.map((g, i) => (
+            <div class="oo-guess a-left cs-mono" style={`--d:${1.2 + i * 0.55}s`}>
+              <span>{g}</span><span class="cs-red">✕ wrong</span>
+            </div>
+          ))}
+        </div>
+        <div class="oo-lock a-pop" style="--d:4.8s">Too many attempts. Locked.</div>
+      </div>
+      <p class="oo-note a-up" style="--d:5.4s"><b class="cs-green">Visible.</b> Slow, rate limited, and counted. This is the 7,000 a second.</p>
+    </div>
+    <div class="oo-panel">
+      <div class="a-up" style="--d:6.2s">
+        <div class="cs-kicker">Offline</div>
+        <h4 class="oo-h">Cracking a stolen database</h4>
+      </div>
+      <div class="oo-rig a-fade" style="--d:6.8s">
+        <div class="oo-db cs-mono">
+          <div>breach_dump.sql</div>
+          <div class="cs-muted">jane@… $2b$10$Xq9…</div>
+          <div class="cs-muted">bob@… 5f4dcc3b5aa7…</div>
+          <div class="cs-muted">amy@… e10adc3949ba…</div>
+        </div>
+        <div class="oo-rate">
+          <span class="cs-mono cs-muted">guesses per second</span>
+          <span class="oo-big cs-amber"><span data-count="10000000000" data-delay="7200" data-dur="2000">10,000,000,000</span></span>
+          <div class="oo-cracked a-pop cs-mono" style="--d:9.6s"><span class="cs-red">bob@…</span> = password</div>
+          <div class="oo-cracked a-pop cs-mono" style="--d:10.2s"><span class="cs-red">amy@…</span> = 123456</div>
+        </div>
+      </div>
+      <p class="oo-note a-up" style="--d:11s"><b class="cs-red">Invisible.</b> On the attacker's own computer. Nobody can count it.</p>
+    </div>
+  </div>
+</Scene>
+<style>
+  .oo { position: absolute; inset: 0; padding: 4cqw 4.5cqw; display: grid; grid-template-columns: 1fr 1fr; gap: 4cqw; }
+  .oo-panel { display: flex; flex-direction: column; gap: 1.8cqw; min-width: 0; }
+  .oo-h { margin: 0; font-size: 2.8cqw; font-weight: 700; }
+  .oo-login, .oo-rig { flex: 1; background: var(--card); border: 1px solid var(--line); padding: 1.6cqw; display: flex; flex-direction: column; gap: .9cqw; min-height: 0; }
+  .oo-url { font-size: 1.2cqw; color: var(--muted); border-bottom: 1px solid var(--line); padding-bottom: .8cqw; }
+  .oo-field { font-size: 1.5cqw; border: 1px solid var(--line); padding: .6cqw 1cqw; color: #bdbdbd; }
+  .oo-guesses { display: flex; flex-direction: column; gap: .35cqw; }
+  .oo-guess { display: flex; justify-content: space-between; font-size: 1.35cqw; padding: .2cqw 1cqw; border-left: 2px solid var(--line); }
+  .oo-lock { margin-top: auto; text-align: center; background: rgba(52,211,153,.12); border: 1px solid var(--green); color: var(--green); font-size: 1.5cqw; padding: .6cqw; }
+  .oo-note { margin: 0; font-size: 1.6cqw; color: #bdbdbd; }
+  .oo-rig { gap: 1.6cqw; }
+  .oo-db { font-size: 1.3cqw; display: flex; flex-direction: column; gap: .3cqw; border: 1px dashed var(--red); padding: 1cqw; }
+  .oo-rate { display: flex; flex-direction: column; gap: .6cqw; font-size: 1.3cqw; }
+  .oo-big { font-family: 'Geist Mono', monospace; font-size: 3cqw; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .oo-cracked { font-size: 1.5cqw; }
+</style>

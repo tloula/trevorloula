@@ -1,0 +1,44 @@
+---
+import Scene from './Scene.astro';
+const levels = [
+  { name: 'Password only', note: 'One leak and they\'re in', color: 'var(--red)', w: 34 },
+  { name: 'Text message code', note: 'Better. But SIM swaps can steal it', color: 'var(--amber)', w: 56 },
+  { name: 'Authenticator app or email code', note: 'Solid for most accounts', color: 'var(--green)', w: 78 },
+  { name: 'Passkey', note: 'Best. Can\'t be phished or reused', color: 'var(--purple-light)', w: 100 },
+];
+const priority = ['Email', 'Bank', 'Password manager'];
+---
+<Scene slide={Astro.props.slide} label="Not all second factors are equal." source="Microsoft Digital Defense Report (MFA blocks over 99% of identity attacks)">
+  <div class="tf">
+    <div class="a-up">
+      <div class="cs-kicker">Two-factor authentication</div>
+      <h3 class="cs-h">A password <span class="cs-purple">plus</span> something else</h3>
+    </div>
+    <div class="tf-levels">
+      {levels.map((l, i) => (
+        <div class="tf-row">
+          <div class="tf-bar a-grow-x" style={`width:${l.w}%;border-color:${l.color};--d:${0.7 + i * 0.8}s`}>
+            <b style={`color:${l.color}`}>{l.name}</b>
+            <span>{l.note}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="tf-foot">
+      <span class="cs-p a-fade" style="--d:4.2s">Turn it on first for:</span>
+      {priority.map((p, i) => (
+        <span class="tf-chip a-pop" style={`--d:${4.6 + i * 0.35}s`}>{p}</span>
+      ))}
+      <span class="tf-stat a-up" style="--d:6s">Blocks <b class="cs-green">99%+</b> of account takeovers</span>
+    </div>
+  </div>
+</Scene>
+<style>
+  .tf { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: flex; flex-direction: column; gap: 3cqw; }
+  .tf-levels { display: flex; flex-direction: column; gap: 1.4cqw; }
+  .tf-bar { background: var(--card); border: 1px solid; border-left-width: 4px; padding: 1.1cqw 1.6cqw; display: flex; flex-direction: column; gap: .2cqw; font-size: 2cqw; white-space: nowrap; }
+  .tf-bar span { font-size: 1.4cqw; color: var(--muted); }
+  .tf-foot { margin-top: auto; display: flex; align-items: center; gap: 1.2cqw; flex-wrap: wrap; }
+  .tf-chip { font-size: 1.7cqw; border: 1px solid var(--purple); color: #fff; background: rgba(140,92,245,.18); padding: .5cqw 1.2cqw; }
+  .tf-stat { margin-left: auto; font-size: 1.8cqw; color: #bdbdbd; }
+</style>

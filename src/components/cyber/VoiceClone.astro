@@ -1,0 +1,49 @@
+---
+import Scene from './Scene.astro';
+const bars = Array.from({ length: 28 }, (_, i) => 20 + Math.round(Math.abs(Math.sin(i * 1.7) * 70)));
+---
+<Scene slide={Astro.props.slide} label="AI can clone a voice from a short clip. A code word beats a convincing voice." source="FBI IC3 PSA on AI-enabled fraud">
+  <div class="vc">
+    <div class="vc-phone a-up">
+      <div class="vc-top cs-muted">Incoming call</div>
+      <div class="vc-name">Jake (grandson)</div>
+      <div class="vc-wave">
+        {bars.map((h, i) => <i style={`--h:${h}%;animation-delay:${(i % 7) * 0.08}s`}></i>)}
+      </div>
+      <div class="vc-quote">
+        <p class="a-fade" style="--d:1.2s">“Grandma, it's me. I'm in trouble...</p>
+        <p class="a-fade" style="--d:2.6s">I need you to send money right now.</p>
+        <p class="a-fade" style="--d:4s">Please don't tell Mom and Dad.”</p>
+      </div>
+      <div class="vc-ai cs-mono a-pop" style="--d:5.4s">AI-generated voice</div>
+    </div>
+    <div class="vc-side">
+      <div class="a-up" style="--d:6s">
+        <div class="cs-kicker">AI voice scams</div>
+        <h3 class="cs-h">Pick a family <span class="cs-purple">code word</span></h3>
+      </div>
+      <ul class="vc-list">
+        <li class="a-left" style="--d:7s">Urgent + secret + money = scam</li>
+        <li class="a-left" style="--d:7.6s">Hang up and call them back yourself</li>
+        <li class="a-left" style="--d:8.2s">Ask for the code word. AI won't know it.</li>
+      </ul>
+    </div>
+  </div>
+</Scene>
+<style>
+  .vc { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: grid; grid-template-columns: 30cqw 1fr; gap: 5cqw; align-items: center; }
+  .vc-phone { position: relative; border: 1px solid var(--line); border-radius: 2.4cqw; background: #0d0d0d; padding: 2.4cqw 2cqw; display: flex; flex-direction: column; align-items: center; gap: 1.2cqw; height: 100%; }
+  .vc-top { font-size: 1.3cqw; }
+  .vc-name { font-size: 2.4cqw; font-weight: 700; }
+  .vc-wave { display: flex; align-items: center; gap: .35cqw; height: 6cqw; }
+  .vc-wave i { width: .5cqw; height: var(--h); background: var(--purple-light); }
+  :global(.play) .vc-wave i { animation: vc-talk .7s ease-in-out infinite alternate; }
+  @keyframes vc-talk { from { transform: scaleY(.3); } to { transform: scaleY(1); } }
+  .vc-quote { font-size: 1.6cqw; color: #d0d0d0; text-align: center; }
+  .vc-quote p { margin: 0 0 .4cqw; }
+  .vc-ai { position: absolute; bottom: 1.4cqw; font-size: 1.2cqw; color: var(--red); border: 1px solid var(--red); padding: .3cqw .8cqw; }
+  .vc-side { display: flex; flex-direction: column; gap: 2.4cqw; }
+  .vc-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 1.2cqw; }
+  .vc-list li { font-size: 2cqw; padding-left: 2.4cqw; position: relative; }
+  .vc-list li::before { content: '→'; position: absolute; left: 0; color: var(--purple-light); }
+</style>

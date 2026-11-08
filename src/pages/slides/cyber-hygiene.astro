@@ -1,0 +1,161 @@
+---
+import '../../styles/reset.css';
+import '../../styles/globals.css';
+import TitleCard from '../../components/cyber/TitleCard.astro';
+import OldBugs from '../../components/cyber/OldBugs.astro';
+import Headlines from '../../components/cyber/Headlines.astro';
+import PhpGrid from '../../components/cyber/PhpGrid.astro';
+import Freezer from '../../components/cyber/Freezer.astro';
+import PasswordAttacks from '../../components/cyber/PasswordAttacks.astro';
+import OnlineOffline from '../../components/cyber/OnlineOffline.astro';
+import Breach from '../../components/cyber/Breach.astro';
+import Updates from '../../components/cyber/Updates.astro';
+import PasswordStrength from '../../components/cyber/PasswordStrength.astro';
+import TwoFactor from '../../components/cyber/TwoFactor.astro';
+import Router from '../../components/cyber/Router.astro';
+import FakeCaptcha from '../../components/cyber/FakeCaptcha.astro';
+import FakeVirus from '../../components/cyber/FakeVirus.astro';
+import VoiceClone from '../../components/cyber/VoiceClone.astro';
+import Checklist from '../../components/cyber/Checklist.astro';
+
+// Speaker notes, one per slide, in order.
+const notes = [
+  'Quick one: security has changed a lot, even in the last month. Two parts: what is going on, then what to actually do.',
+  'Part 1. The short version: things are kind of crazy right now.',
+  'AI got really good at reading code. It is finding bugs that sat unnoticed for 15, 20, almost 30 years, in software everything runs on.',
+  'Bugs that let someone take over a device just because it is on the internet used to show up maybe once a year. Now it is several a week, and defenders are scrambling.',
+  'PHP runs about 70% of websites. A bug from 2012 let anyone run code on those servers. Attacks started before the fix. NSA and FBI said patch it or take the site offline. That was a long day at work.',
+  'It is not just computers. Hackers set supermarket freezers to defrost. Anything on the internet can be attacked.',
+  'Microsoft blocks about 7,000 password attacks every second. That is around 600 million a day, and it keeps climbing.',
+  'What counts as a password attack: bots guessing at real login pages. That is what Microsoft can count. The scarier kind happens offline after a breach, and nobody can count it.',
+  'Breaches are constant. Some random site leaks your email and password, and bots try that combo on your email, bank, Amazon. Reused password, they are in. This is why you never reuse or share passwords.',
+  'Part 2. Good news: the fixes are simple. Antivirus is not the big thing anymore. Updates and passwords are.',
+  'Number one: updates. Most updates are security fixes. Turn on automatic updates everywhere and restart when it asks.',
+  'Strong does not mean symbols. It means long and random. Symbol rules are lazy code. Use a password manager and let it generate them.',
+  'Turn on 2FA for the accounts people actually try to break into: email first (it resets everything else), bank, password manager. App codes or passkeys beat text messages.',
+  'Your router sees everything your house sends. Old routers stop getting fixes and get hacked in bulk. If yours is 5+ years old, replace it.',
+  'Real, normal websites get hacked and show fake checks like this. A real check never asks you to press keys or paste anything.',
+  'Websites cannot scan your computer. Close the tab, never call the number.',
+  'AI can clone a voice from a short clip. Pick a family code word. Urgent, secret, and money together means scam.',
+  'That is the list. Pick one or two today: updates and a password manager get you most of the way.',
+];
+---
+<!DOCTYPE html>
+<html lang="en" data-deck>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>Trevor Loula | Staying Safe Online in 2026 (slides)</title>
+</head>
+<body>
+  <main class="deck">
+    <div class="slides">
+      <section class="slide"><TitleCard kicker="cyber-hygiene --year 2026" title="Staying safe online in 2026" sub="What changed, and the handful of things that actually matter now." /></section>
+      <section class="slide"><TitleCard kicker="part 1" title="What's going on" sub="AI, ancient bugs, and a lot of password guessing." /></section>
+      <section class="slide"><OldBugs /></section>
+      <section class="slide"><Headlines /></section>
+      <section class="slide"><PhpGrid /></section>
+      <section class="slide"><Freezer /></section>
+      <section class="slide"><PasswordAttacks /></section>
+      <section class="slide"><OnlineOffline /></section>
+      <section class="slide"><Breach /></section>
+      <section class="slide"><TitleCard kicker="part 2" title="What to do about it" sub="No antivirus shopping required." /></section>
+      <section class="slide"><Updates /></section>
+      <section class="slide"><PasswordStrength /></section>
+      <section class="slide"><TwoFactor /></section>
+      <section class="slide"><Router /></section>
+      <section class="slide"><FakeCaptcha /></section>
+      <section class="slide"><FakeVirus /></section>
+      <section class="slide"><VoiceClone /></section>
+      <section class="slide"><Checklist /></section>
+    </div>
+    <aside class="notes" hidden>
+      <div class="notes-count cs-mono"></div>
+      <p class="notes-text"></p>
+    </aside>
+    <div class="progress"><i></i></div>
+    <div class="hint">← → to navigate · R replay · N notes · F fullscreen</div>
+  </main>
+  <script type="application/json" id="deck-notes" set:html={JSON.stringify(notes)} />
+</body>
+</html>
+
+<script>
+  import { playScene, resetScene } from '../../scripts/cyber-scene';
+
+  const slides = Array.from(document.querySelectorAll<HTMLElement>('.slide'));
+  const notes: string[] = JSON.parse(document.getElementById('deck-notes')!.textContent || '[]');
+  const notesEl = document.querySelector<HTMLElement>('.notes')!;
+  const bar = document.querySelector<HTMLElement>('.progress i')!;
+  let idx = Math.min(slides.length - 1, Math.max(0, (parseInt(location.hash.slice(1)) || 1) - 1));
+
+  function sceneOf(i: number) {
+    return slides[i].querySelector<HTMLElement>('[data-scene]')!;
+  }
+
+  function show(i: number) {
+    idx = Math.min(slides.length - 1, Math.max(0, i));
+    slides.forEach((s, n) => {
+      s.classList.toggle('active', n === idx);
+      if (n !== idx) resetScene(sceneOf(n));
+    });
+    playScene(sceneOf(idx));
+    bar.style.width = `${((idx + 1) / slides.length) * 100}%`;
+    notesEl.querySelector('.notes-count')!.textContent = `${idx + 1} / ${slides.length}`;
+    notesEl.querySelector('.notes-text')!.textContent = notes[idx] ?? '';
+    history.replaceState(null, '', `#${idx + 1}`);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ': case 'Enter':
+        e.preventDefault(); show(idx + 1); break;
+      case 'ArrowLeft': case 'ArrowUp': case 'PageUp': case 'Backspace':
+        e.preventDefault(); show(idx - 1); break;
+      case 'Home': show(0); break;
+      case 'End': show(slides.length - 1); break;
+      case 'r': case 'R': playScene(sceneOf(idx)); break;
+      case 'n': case 'N': notesEl.hidden = !notesEl.hidden; break;
+      case 'f': case 'F':
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen?.();
+        break;
+    }
+  });
+
+  document.querySelector('.slides')!.addEventListener('click', (e) => {
+    const x = (e as MouseEvent).clientX;
+    show(x < window.innerWidth / 3 ? idx - 1 : idx + 1);
+  });
+
+  // Swipe on phones/tablets
+  let touchX = 0;
+  document.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) show(dx < 0 ? idx + 1 : idx - 1);
+  });
+
+  show(idx);
+</script>
+
+<style is:global>
+  html, body { height: 100%; background: #000; color: #e8e8e8; font-family: 'Geist', sans-serif; overflow: hidden; }
+  .deck { height: 100vh; height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; max-width: none; gap: 0; }
+  .slides { position: relative; width: min(100vw, calc(100dvh * 16 / 9)); aspect-ratio: 16 / 9; cursor: pointer; }
+  .slide { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .35s ease; }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide .cyber-scene { margin: 0; height: 100%; }
+  .slide .cs-stage { height: 100%; border: none; background: #000; }
+  .slide .cs-caption { display: none; }
+  .notes { position: fixed; left: 1rem; right: 1rem; bottom: 1.5rem; max-width: 60rem; margin: 0 auto; background: rgba(15,15,15,.95); border: 1px solid #2a2a2a; padding: .9rem 1.2rem; font-size: 1.05rem; line-height: 1.5; z-index: 5; }
+  .notes p { margin: .3rem 0 0; }
+  .notes-count { color: #a277ff; font-family: 'Geist Mono', monospace; font-size: .8rem; }
+  .progress { position: fixed; left: 0; right: 0; bottom: 0; height: 3px; background: #111; }
+  .progress i { display: block; height: 100%; width: 0; background: #8c5cf5; transition: width .3s ease; }
+  .hint { position: fixed; top: .6rem; right: .9rem; font-size: .75rem; color: #555; font-family: 'Geist Mono', monospace; }
+  @media (hover: none) { .hint { display: none; } }
+</style>

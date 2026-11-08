@@ -1,0 +1,200 @@
+---
+/**
+ * A 16:9 animated "slide". Used inline in blog posts (plays when scrolled into
+ * view) and full-screen in the talk deck (played by the deck controller).
+ * Everything inside is sized in container units (cqw) so it scales the same
+ * at any width.
+ */
+interface Props {
+  label?: string;
+  source?: string;
+  /** Slide number in the talk deck, for the "fullscreen" link. */
+  slide?: number;
+}
+const { label, source, slide } = Astro.props;
+---
+
+<figure class="cyber-scene" data-scene>
+  <div class="cs-stage">
+    <slot />
+  </div>
+  {(label || source) && (
+    <figcaption class="cs-caption">
+      <span>{label}{source && <span class="cs-source"> Source: <Fragment set:html={source} /></span>}</span>
+      <span class="cs-actions">
+        {slide && <a class="cs-btn" href={`/slides/cyber-hygiene/#${slide}`} target="_blank">⛶ Fullscreen</a>}
+        <button class="cs-btn cs-replay" type="button" aria-label="Replay animation">↻ Replay</button>
+      </span>
+    </figcaption>
+  )}
+</figure>
+
+<script>
+  import { playScene } from '../../scripts/cyber-scene';
+
+  const scenes = document.querySelectorAll<HTMLElement>('[data-scene]');
+  const inDeck = document.documentElement.dataset.deck !== undefined;
+
+  scenes.forEach((scene) => {
+    scene.classList.add('ready');
+    scene.querySelector('.cs-replay')?.addEventListener('click', () => playScene(scene));
+  });
+
+  if (!inDeck) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          playScene(e.target as HTMLElement);
+          io.unobserve(e.target);
+        }
+      }
+    }, { threshold: reduce ? 0 : 0.55 });
+    scenes.forEach((s) => io.observe(s));
+  }
+</script>
+
+<style is:global>
+  .cyber-scene {
+    margin: 1.5rem 0;
+  }
+
+  .cs-stage {
+    container-type: inline-size;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    overflow: hidden;
+    background: #050505;
+    border: 1px solid #2a2a2a;
+    color: #e8e8e8;
+    font-family: 'Geist', sans-serif;
+    line-height: 1.2;
+    --red: #ff4d4f;
+    --amber: #ffb020;
+    --green: #34d399;
+    --purple: #8c5cf5;
+    --purple-light: #a277ff;
+    --muted: #8a8a8a;
+    --line: #2a2a2a;
+    --card: #0f0f0f;
+  }
+
+  .cs-stage * {
+    box-sizing: border-box;
+  }
+
+  .cs-caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: .5rem;
+    font-size: .8rem;
+    color: #8a8a8a;
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: 640px) {
+    .cs-caption {
+      flex-direction: column;
+      gap: .4rem;
+    }
+  }
+
+  .cs-source a {
+    color: #8a8a8a;
+    text-decoration: underline;
+  }
+
+  .cs-actions {
+    flex-shrink: 0;
+    display: flex;
+    gap: .4rem;
+  }
+
+  .cs-btn {
+    flex-shrink: 0;
+    font-size: .8rem;
+    line-height: 1.4;
+    background: none;
+    border: 1px solid #2a2a2a;
+    color: #c7c7c7;
+    font: inherit;
+    padding: .2rem .6rem;
+    cursor: pointer;
+  }
+
+  .cs-btn:hover {
+    text-decoration: none;
+    border-color: var(--primary);
+    color: white;
+  }
+
+  /* ---------- shared scene typography ---------- */
+  .cs-kicker {
+    font-family: 'Geist Mono', monospace;
+    font-size: 1.6cqw;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--purple-light);
+  }
+
+  .cs-h {
+    font-size: 4.2cqw;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  .cs-p {
+    font-size: 2cqw;
+    color: #bdbdbd;
+    margin: 0;
+  }
+
+  .cs-mono {
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .cs-red { color: var(--red); }
+  .cs-green { color: var(--green); }
+  .cs-amber { color: var(--amber); }
+  .cs-purple { color: var(--purple-light); }
+  .cs-muted { color: var(--muted); }
+
+  /* ---------- shared animation primitives ----------
+     Hidden until the scene plays (only once JS is ready, so no-JS readers
+     still see the finished frame). Delay with style="--d:1.2s". */
+  .cyber-scene.ready:not(.play) :is(.a-fade, .a-up, .a-pop, .a-left, .a-right) { opacity: 0; }
+  .cyber-scene.ready:not(.play) .a-grow-x { transform: scaleX(0); }
+  .cyber-scene.ready:not(.play) .a-grow-y { transform: scaleY(0); }
+  .cyber-scene.ready:not(.play) .a-draw { stroke-dashoffset: var(--len, 1000); }
+
+  .play .a-fade { animation: cs-fade .6s ease var(--d, 0s) both; }
+  .play .a-up { animation: cs-up .7s cubic-bezier(.2,.8,.2,1) var(--d, 0s) both; }
+  .play .a-pop { animation: cs-pop .5s cubic-bezier(.3,1.6,.5,1) var(--d, 0s) both; }
+  .play .a-left { animation: cs-left .7s cubic-bezier(.2,.8,.2,1) var(--d, 0s) both; }
+  .play .a-right { animation: cs-right .7s cubic-bezier(.2,.8,.2,1) var(--d, 0s) both; }
+  .play .a-grow-x { transform-origin: left center; animation: cs-grow-x var(--dur, 1.2s) cubic-bezier(.2,.8,.2,1) var(--d, 0s) both; }
+  .play .a-grow-y { transform-origin: center bottom; animation: cs-grow-y var(--dur, 1.2s) cubic-bezier(.2,.8,.2,1) var(--d, 0s) both; }
+  .a-draw { stroke-dasharray: var(--len, 1000); }
+  .play .a-draw { animation: cs-draw var(--dur, 1.5s) ease var(--d, 0s) both; }
+
+  @keyframes cs-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes cs-up { from { opacity: 0; transform: translateY(2cqw); } to { opacity: 1; transform: none; } }
+  @keyframes cs-pop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+  @keyframes cs-left { from { opacity: 0; transform: translateX(-4cqw); } to { opacity: 1; transform: none; } }
+  @keyframes cs-right { from { opacity: 0; transform: translateX(4cqw); } to { opacity: 1; transform: none; } }
+  @keyframes cs-grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes cs-grow-y { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes cs-draw { from { stroke-dashoffset: var(--len, 1000); } to { stroke-dashoffset: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .play :is(.a-fade, .a-up, .a-pop, .a-left, .a-right, .a-grow-x, .a-grow-y, .a-draw) {
+      animation-duration: .01s !important;
+      animation-delay: 0s !important;
+    }
+  }
+</style>

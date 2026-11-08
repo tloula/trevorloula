@@ -1,0 +1,168 @@
+---
+title: "Cyber Hygiene for Normal People (2026 Edition)"
+description: "Security got weird this year. Here's what's going on, and the short list of what to actually do about it."
+image: "../assets/cyber-hygiene.png"
+createdAt: 11-08-2026
+draft: false
+tags:
+  - security
+  - ai
+---
+
+import OldBugs from '../../components/cyber/OldBugs.astro';
+import Headlines from '../../components/cyber/Headlines.astro';
+import PhpGrid from '../../components/cyber/PhpGrid.astro';
+import Freezer from '../../components/cyber/Freezer.astro';
+import PasswordAttacks from '../../components/cyber/PasswordAttacks.astro';
+import OnlineOffline from '../../components/cyber/OnlineOffline.astro';
+import Breach from '../../components/cyber/Breach.astro';
+import Updates from '../../components/cyber/Updates.astro';
+import PasswordStrength from '../../components/cyber/PasswordStrength.astro';
+import TwoFactor from '../../components/cyber/TwoFactor.astro';
+import Router from '../../components/cyber/Router.astro';
+import FakeCaptcha from '../../components/cyber/FakeCaptcha.astro';
+import FakeVirus from '../../components/cyber/FakeVirus.astro';
+import VoiceClone from '../../components/cyber/VoiceClone.astro';
+import Checklist from '../../components/cyber/Checklist.astro';
+
+Cybersecurity has changed more in the last few months than in the last few years, and honestly even the last month has been wild. The old advice was "buy a good antivirus." That's not where the action is anymore. Today it's mostly about **keeping everything updated** and **having good password habits**.
+
+This post has two parts. First, what's actually going on out there. Then, the short checklist of what you should do about it.
+
+I'm also presenting this to my family over the holidays, so every animation here is also a slide. If you want to do the same, [here's the full slide deck](/slides/cyber-hygiene/) (arrow keys to move, N for speaker notes).
+
+## Part 1: What's Going On
+
+### AI Is Finding Ancient Bugs
+
+AI got really good at reading code. Like, scary good. And it turns out the software the whole world runs on is full of bugs that nobody noticed for decades.
+
+<OldBugs slide={3} />
+
+In April, Anthropic said its Claude Mythos model had found thousands of serious vulnerabilities, including a 27-year-old bug in OpenBSD (an operating system famous for being *secure*) and a 16-year-old bug in FFmpeg, the video library that's inside basically every app that plays video. A month later, they and their partners were past 10,000.
+
+These are the kind of bugs where just being on the internet is enough to get a device hacked. You don't have to click anything. That kind of bug used to show up maybe once a year, and it was big news. Now it's several a week, and defenders are scrambling to keep up.
+
+<Headlines slide={4} />
+
+### The Day PHP Broke
+
+The one that hit closest to home for me was **PHP2Shell**.
+
+PHP is a programming language from the 90s. Modern sites mostly don't use it, but it still runs roughly **70% of websites**, because so much of the web is built on it (WordPress, for example). In October, researchers using AI found two bugs that had been sitting in PHP since 2012. Together they let anyone on the internet run their own code on a PHP website's server. In other words, take it over.
+
+<PhpGrid slide={5} />
+
+Attackers were already using it before the fix even came out. The NSA and FBI put out a joint warning that basically said: patch this immediately, and if you can't, **take your website offline**. That was a crazy day at work. We spent it patching every customer site we had.
+
+### Even Your Freezer
+
+It's not just computers. In October, hackers got into the internet-connected controllers that run supermarket freezers and set them to defrost. Hundreds of stores in France were hit, with more across Europe, and tons of food got thrown out.
+
+<Freezer slide={6} />
+
+Anything that's connected to the internet can be attacked. I'm not great at following this one myself, but if something doesn't *need* the internet, it's worth asking if it should have it.
+
+### Passwords Are Under Constant Attack
+
+At work at Microsoft I've seen the stats on this, and they're nuts. Microsoft blocks about **7,000 password attacks every second**. That's around **600 million a day**, and the number keeps climbing year after year.
+
+<PasswordAttacks slide={7} />
+
+So what actually counts as a "password attack"? I wasn't sure either, so I looked into it. There are two very different kinds.
+
+**Online attacks** are bots guessing at real login pages. They try the most common passwords against millions of accounts (called *password spraying*), or they try email and password combos stolen from other sites (called *credential stuffing*). These happen on Microsoft's servers, so Microsoft can see and count them. That's what the 7,000 a second is.
+
+**Offline attacks** happen after a company gets breached and its password database is stolen. The attacker takes it home and guesses on their own computers, billions of guesses per second, with no login page and no lockout. Nobody can measure these, because they happen entirely on the attacker's machine. So the real number of attacks on passwords is a lot bigger than 7,000 a second. We just can't see the rest.
+
+<OnlineOffline slide={8} />
+
+### How Data Breaches Come Back to Bite You
+
+Data breaches are *extremely* common. Have I Been Pwned, a site that tracks them, has collected over 15 billion breached accounts. Odds are your email is in there more than once.
+
+Here's how it usually plays out. Some random business you used once, say a pizza place with online ordering, gets hacked. They didn't have anything important on you. But they did have your email and your password. Attackers take that combo and automatically try it on everything that matters: your email, your bank, Amazon, Netflix.
+
+<Breach slide={9} />
+
+If you used the same password there, they're in. If every site has its own password, the leak stays at the pizza place. This is the whole reason not to reuse passwords, and not to share them either. Every place a password lives is one more place it can leak from.
+
+## Part 2: What To Do About It
+
+The good news: the fixes are simple, and none of them involve shopping for antivirus.
+
+### 1. Keep Everything Updated
+
+This is the big one. With AI finding bugs this fast, a lot of updates are carrying critical security fixes, and the bad guys read the fix notes too. Once a patch comes out, attackers race to use the bug on everyone who hasn't installed it yet.
+
+<Updates slide={11} />
+
+**Turn on automatic updates** on your phone, computer, and browser, and when it asks you to restart, just do it. Same goes for anything else that gets updates: your router, TV, smart gadgets.
+
+### 2. Use a Password Manager
+
+You can't remember a unique password for every site, and you shouldn't try. A password manager (Bitwarden, 1Password, or the one built into your Apple or Google account) remembers them for you and makes up new random ones. You only need to remember one good password, the one for the password manager itself.
+
+### 3. Long Beats Complicated
+
+"Strong" does not mean letters plus numbers plus symbols. It just means **long and not guessable**.
+
+<PasswordStrength slide={12} />
+
+`Summer2026!` checks every box on every "password requirements" list, and it's one of the first things a cracking tool will guess. A few random words strung together are way longer, way easier to remember, and thousands of times harder to crack than a short jumble of symbols.
+
+Those "must include a symbol" rules are honestly just lazy code. A site could look at the whole password and how long it is. Instead it'll reject a 50-character passphrase because it doesn't have an exclamation point at the end. Even NIST, the US agency that writes the official password guidelines, now says sites *shall not* require character-type rules like that.
+
+### 4. Turn On Two-Factor for the Important Stuff
+
+Two-factor means logging in takes your password *plus* something else, like a code from your phone. Microsoft says this blocks over 99% of account takeover attempts.
+
+<TwoFactor slide={13} />
+
+You don't need it on every account. Focus on the ones people actually try to break into:
+
+- **Your email.** Whoever controls your email can reset the password on everything else.
+- **Your bank.**
+- **Your password manager.**
+
+If you have the choice, use an authenticator app or a **passkey** over text message codes. Text codes are better than nothing, but scammers can steal them by talking your phone carrier into moving your number to their SIM card. Passkeys are the best option when a site offers them: they're tied to your device and can't be phished.
+
+### 5. Upgrade Your Router
+
+Everything your house sends to the internet goes through your Wi-Fi router. If it gets hacked, someone can watch your traffic, send you to fake versions of real sites, or swap out the files you download.
+
+<Router slide={14} />
+
+Old routers stop getting security updates and get hacked in bulk. The FBI has put out multiple warnings this year and last telling people to replace end-of-life routers. If yours is more than about five years old, check if it still gets updates, and if not, replace it.
+
+### 6. Don't Trust Pop-Ups, Even on Real Sites
+
+Phishing has gotten a lot better because AI can write a convincing email or build a convincing fake page in seconds. But it's not just sketchy emails anymore. Remember how websites are getting hacked? You can be on a real, legit website that got hacked, and the hackers put a fake page on it.
+
+A really common one right now is a fake "verify you are human" check that looks like the ones Cloudflare and Google show. Then it asks you to press a few keys. Those keys run a command the page secretly copied for you, and that command installs malware that steals your saved passwords.
+
+<FakeCaptcha slide={15} />
+
+**A real check never asks you to press keys or paste anything.** If it does, close the tab.
+
+The classic version still works too: a giant warning that your computer has a virus, with a button to remove it. Websites can't scan your computer. The button *is* the virus.
+
+<FakeVirus slide={16} />
+
+### 7. Pick a Family Code Word
+
+This one's new. AI can clone someone's voice from a short clip, like a video posted online. Scammers use it to call grandparents pretending to be a grandkid in trouble who needs money right now and please don't tell Mom.
+
+<VoiceClone slide={17} />
+
+Pick a family code word. If someone calls with an emergency, ask for it. And if a call is urgent, secret, and about money all at once, hang up and call them back yourself.
+
+### 8. Fewer Internet-Connected Things
+
+If a gadget doesn't need the internet to do its job, don't connect it. Every connected device is one more thing that needs updates, and one more way in.
+
+## The Checklist
+
+<Checklist slide={18} />
+
+If you only do two things, do the first two: **turn on automatic updates** and **start using a password manager**. That alone puts you ahead of most people.

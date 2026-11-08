@@ -1,0 +1,25 @@
+---
+import Scene from './Scene.astro';
+interface Props { kicker: string; title: string; sub?: string; }
+const { kicker, title, sub } = Astro.props;
+---
+<Scene>
+  <div class="tc">
+    <div class="tc-term cs-mono a-fade">
+      <span class="cs-purple">&gt;_</span> <span class="tc-type">{kicker}</span><span class="tc-caret"></span>
+    </div>
+    <h2 class="tc-title a-up" style="--d:1s">{title}</h2>
+    {sub && <p class="tc-sub a-up" style="--d:1.6s">{sub}</p>}
+  </div>
+</Scene>
+<style>
+  .tc { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 8cqw; gap: 2cqw; background: radial-gradient(ellipse at 20% 50%, rgba(140,92,245,.12), transparent 60%); }
+  .tc-term { font-size: 2cqw; color: #bdbdbd; display: flex; align-items: center; gap: 1cqw; }
+  .tc-type { display: inline-block; overflow: hidden; white-space: nowrap; }
+  :global(.play) .tc-type { animation: tc-type 1s steps(30) .2s both; }
+  @keyframes tc-type { from { max-width: 0; } to { max-width: 100%; } }
+  .tc-caret { width: 1cqw; height: 2.4cqw; background: var(--purple-light); animation: tc-blink 1s steps(2) infinite; }
+  @keyframes tc-blink { 50% { opacity: 0; } }
+  .tc-title { margin: 0; font-size: 7cqw; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+  .tc-sub { margin: 0; font-size: 2.4cqw; color: #a0a0a0; max-width: 70cqw; }
+</style>

@@ -1,0 +1,41 @@
+---
+import Scene from './Scene.astro';
+const items = [
+  { date: 'Oct 13', tag: 'IoT', text: 'Hackers flip supermarket freezers across France into defrost mode' },
+  { date: 'Oct 17', tag: 'Web', text: 'Attackers start exploiting a hidden PHP bug, before any fix exists' },
+  { date: 'Oct 21', tag: 'Web', text: 'PHP ships an emergency fix. NSA and FBI: patch now or take sites offline' },
+  { date: 'Oct 27', tag: 'AI', text: 'AI agent finds 4 severe bugs in particle accelerator software in under 4 hours' },
+  { date: 'Nov 1', tag: 'AI', text: 'AI-built exploit reported for a decade-old Linux bug' },
+  { date: 'Nov', tag: 'Patch', text: 'Chrome ships 213 security fixes. Android patches "zero-click" flaws' },
+];
+---
+<Scene slide={Astro.props.slide} label="A sample of headlines from just the last few weeks." source="EWN, AWS via BleepingComputer, NSA/FBI, The Register, Cloud Security Alliance, Help Net Security">
+  <div class="hl">
+    <div class="a-up">
+      <div class="cs-kicker">October to November 2026</div>
+      <h3 class="cs-h">Just the last <span class="cs-red">four weeks</span></h3>
+    </div>
+    <ul class="hl-list">
+      {items.map((it, i) => (
+        <li class="a-right" style={`--d:${0.7 + i * 0.9}s`}>
+          <span class="hl-date cs-mono">{it.date}</span>
+          <span class={`hl-tag tag-${it.tag.toLowerCase()}`}>{it.tag}</span>
+          <span class="hl-text">{it.text}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="cs-p a-up hl-foot" style="--d:6.4s">It used to be <b>one</b> of these a year.</p>
+  </div>
+</Scene>
+<style>
+  .hl { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: flex; flex-direction: column; gap: 2.4cqw; }
+  .hl-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.1cqw; }
+  .hl-list li { display: grid; grid-template-columns: 8cqw 7.5cqw 1fr; align-items: center; gap: 1.5cqw; padding: 1.1cqw 1.5cqw; background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--red); font-size: 1.85cqw; }
+  .hl-date { color: var(--muted); font-size: 1.5cqw; }
+  .hl-tag { font-family: 'Geist Mono', monospace; font-size: 1.2cqw; text-transform: uppercase; text-align: center; padding: .3cqw .6cqw; border: 1px solid currentColor; }
+  .tag-ai { color: var(--purple-light); }
+  .tag-web { color: var(--red); }
+  .tag-iot { color: var(--amber); }
+  .tag-patch { color: var(--green); }
+  .hl-foot { margin-top: auto; font-size: 2.4cqw; }
+</style>

@@ -1,0 +1,37 @@
+---
+import Scene from './Scene.astro';
+const items = [
+  'Turn on automatic updates. Install them right away.',
+  'Use a password manager. A unique password for every site.',
+  'Long beats complicated. Random words work great.',
+  'Never share or reuse passwords.',
+  '2FA (or passkeys) on email, bank, and password manager.',
+  'Replace routers that no longer get updates.',
+  'Pop-ups and “press these keys” checks are scams.',
+  'Pick a family code word for urgent calls.',
+  'If it doesn\'t need the internet, don\'t connect it.',
+];
+---
+<Scene slide={Astro.props.slide} label="The whole checklist.">
+  <div class="ck">
+    <div class="a-up">
+      <div class="cs-kicker">Do these now</div>
+      <h3 class="cs-h">The checklist</h3>
+    </div>
+    <ol class="ck-list">
+      {items.map((t, i) => (
+        <li class="a-up" style={`--d:${0.5 + i * 0.45}s`}>
+          <span class="ck-box"><span class="ck-tick a-pop" style={`--d:${0.8 + i * 0.45}s`}>✓</span></span>
+          <span>{t}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Scene>
+<style>
+  .ck { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: flex; flex-direction: column; gap: 2.6cqw; }
+  .ck-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: row; gap: 1.3cqw 3cqw; }
+  .ck-list li { display: flex; align-items: center; gap: 1.4cqw; font-size: 1.85cqw; background: var(--card); border: 1px solid var(--line); padding: 1.1cqw 1.4cqw; }
+  .ck-box { flex-shrink: 0; width: 2.6cqw; height: 2.6cqw; border: 1px solid var(--purple); display: grid; place-items: center; }
+  .ck-tick { color: var(--green); font-size: 1.8cqw; font-weight: 700; }
+</style>

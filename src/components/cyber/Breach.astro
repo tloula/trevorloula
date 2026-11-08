@@ -1,0 +1,64 @@
+---
+import Scene from './Scene.astro';
+import Icon from '../Icon.astro';
+const targets = [
+  { name: 'Gmail', icon: { type: 'simple-icons', name: 'gmail' }, color: '#EA4335' },
+  { name: 'Amazon', icon: { type: 'simple-icons', name: 'amazon' }, color: '#FF9900' },
+  { name: 'Your bank', icon: { type: 'lucide', name: 'landmark' }, color: '#e8e8e8' },
+  { name: 'Netflix', icon: { type: 'simple-icons', name: 'netflix' }, color: '#E50914' },
+] as const;
+---
+<Scene slide={Astro.props.slide} label="A breach at a site you barely care about becomes a key to the sites you do.">
+  <div class="br">
+    <div class="br-head a-up">
+      <div class="cs-kicker">Data breach → credential stuffing</div>
+      <h3 class="cs-h">One leak, every door</h3>
+    </div>
+    <div class="br-flow">
+      <div class="br-shop a-fade" style="--d:.5s">
+        <span class="br-icon"><Icon type="lucide" name="pizza" width={24} height={24} viewBox="0 0 24 24" /></span>
+        <b>Random pizza place</b>
+        <span class="cs-muted">online ordering</span>
+        <div class="br-hacked a-pop" style="--d:1.6s">BREACHED</div>
+      </div>
+      <div class="br-arrow a-grow-x" style="--d:2.2s;--dur:.6s"></div>
+      <div class="br-cred a-pop cs-mono" style="--d:2.7s">
+        <div class="cs-muted">stolen row #48,211</div>
+        <div>jane@gmail.com</div>
+        <div class="cs-red">Buster2019!</div>
+      </div>
+      <div class="br-arrow a-grow-x" style="--d:3.4s;--dur:.6s"></div>
+      <div class="br-targets">
+        {targets.map((t, i) => (
+          <div class="br-target a-right" style={`--d:${3.9 + i * 0.35}s`}>
+            <span class="br-ticon" style={`color:${t.color}`}><Icon type={t.icon.type} name={t.icon.name as any} width={24} height={24} viewBox="0 0 24 24" /></span>
+            <span>{t.name}</span>
+            <span class="br-res reused a-pop" style={`--d:${5.6 + i * 0.4}s`}>✓ Logged in</span>
+            <span class="br-res unique a-pop" style={`--d:${9.6 + i * 0.25}s`}>✕ Wrong password</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="br-foot">
+      <p class="cs-p a-up" style="--d:7.6s"><b class="cs-red">Same password everywhere:</b> they're in.</p>
+      <p class="cs-p a-up" style="--d:9.2s"><b class="cs-green">Unique passwords:</b> the leak stays at the pizza place.</p>
+    </div>
+  </div>
+</Scene>
+<style>
+  .br { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: flex; flex-direction: column; gap: 3cqw; }
+  .br-flow { flex: 1; display: grid; grid-template-columns: 18cqw 5cqw 22cqw 5cqw 1fr; align-items: center; gap: 1cqw; }
+  .br-shop { position: relative; background: var(--card); border: 1px solid var(--line); padding: 2cqw; display: flex; flex-direction: column; align-items: center; gap: .6cqw; font-size: 1.6cqw; text-align: center; }
+  .br-icon :global(svg) { width: 5cqw; height: 5cqw; color: var(--amber); }
+  .br-hacked { position: absolute; top: -1.2cqw; right: -1.2cqw; background: var(--red); color: #fff; font-family: 'Geist Mono', monospace; font-weight: 700; font-size: 1.2cqw; padding: .4cqw .8cqw; rotate: 8deg; }
+  .br-arrow { height: 2px; background: var(--red); position: relative; }
+  .br-arrow::after { content: ''; position: absolute; right: -.2cqw; top: 50%; translate: 0 -50%; border: .8cqw solid transparent; border-left-color: var(--red); border-right: none; }
+  .br-cred { border: 1px dashed var(--red); background: rgba(255,77,79,.08); padding: 1.4cqw; font-size: 1.5cqw; display: flex; flex-direction: column; gap: .4cqw; }
+  .br-targets { display: flex; flex-direction: column; gap: 1cqw; }
+  .br-target { position: relative; display: grid; grid-template-columns: 3cqw 1fr auto; align-items: center; gap: 1cqw; background: var(--card); border: 1px solid var(--line); padding: .9cqw 1.2cqw; font-size: 1.6cqw; }
+  .br-ticon :global(svg) { width: 2.4cqw; height: 2.4cqw; display: block; }
+  .br-res { grid-column: 3; grid-row: 1; font-family: 'Geist Mono', monospace; font-size: 1.3cqw; padding: .3cqw .7cqw; }
+  .reused { color: var(--red); border: 1px solid var(--red); }
+  .unique { color: var(--green); border: 1px solid var(--green); background: #0f0f0f; }
+  .br-foot { display: flex; flex-direction: column; gap: .8cqw; }
+</style>

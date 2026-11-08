@@ -1,0 +1,58 @@
+---
+import Scene from './Scene.astro';
+// Year the vulnerable code shipped vs. when AI found it.
+const bugs = [
+  { name: 'OpenBSD', what: 'operating system', from: 1999, age: 27 },
+  { name: 'FFmpeg', what: 'video library in nearly every app', from: 2010, age: 16 },
+  { name: 'PHP', what: 'runs most websites', from: 2012, age: 14 },
+];
+const start = 1995, end = 2026;
+const pct = (y: number) => ((y - start) / (end - start)) * 100;
+const ticks = [1995, 2000, 2005, 2010, 2015, 2020, 2026];
+---
+<Scene slide={Astro.props.slide} label="Bugs hiding in plain sight for decades, found by AI in 2026." source="Anthropic Project Glasswing, Wiz, CERT-EU">
+  <div class="ob">
+    <div class="ob-head a-up">
+      <div class="cs-kicker">Old code, new eyes</div>
+      <h3 class="cs-h">Bugs that hid for <span class="cs-red">decades</span></h3>
+    </div>
+    <div class="ob-chart">
+      {bugs.map((b, i) => (
+        <div class="ob-row">
+          <div class="ob-label a-fade" style={`--d:${0.6 + i * 0.5}s`}>
+            <b>{b.name}</b><span>{b.what}</span>
+          </div>
+          <div class="ob-track">
+            <div class="ob-bar a-grow-x" style={`left:${pct(b.from)}%;width:${100 - pct(b.from)}%;--d:${0.8 + i * 0.5}s;--dur:1.6s`}>
+              <span class="ob-age">{b.age} years</span>
+            </div>
+            <div class="ob-found a-pop" style={`--d:${2.6 + i * 0.5}s`}>Found by AI</div>
+          </div>
+        </div>
+      ))}
+      <div class="ob-row ob-axis">
+        <div></div>
+        <div class="ob-track">
+          {ticks.map((t) => <span style={`left:${pct(t)}%`}>{t}</span>)}
+        </div>
+      </div>
+    </div>
+    <p class="cs-p ob-foot a-up" style="--d:5s">
+      Anthropic says its Mythos model and partners found <b class="cs-red">10,000+</b> serious bugs in about a month.
+    </p>
+  </div>
+</Scene>
+<style>
+  .ob { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: flex; flex-direction: column; gap: 3cqw; }
+  .ob-chart { display: flex; flex-direction: column; gap: 1.8cqw; }
+  .ob-row { display: grid; grid-template-columns: 22cqw 1fr; align-items: center; gap: 2cqw; }
+  .ob-label { display: flex; flex-direction: column; font-size: 2cqw; }
+  .ob-label span { font-size: 1.4cqw; color: var(--muted); }
+  .ob-track { position: relative; height: 3.6cqw; border-left: 1px solid var(--line); }
+  .ob-bar { position: absolute; top: 0; bottom: 0; background: linear-gradient(90deg, rgba(255,77,79,.15), rgba(255,77,79,.55)); border: 1px solid var(--red); display: flex; align-items: center; padding-left: 1cqw; }
+  .ob-age { font-family: 'Geist Mono', monospace; font-size: 1.5cqw; white-space: nowrap; }
+  .ob-found { position: absolute; right: -1cqw; top: 50%; translate: 0 -50%; background: var(--purple); color: white; font-size: 1.3cqw; font-weight: 600; padding: .5cqw 1cqw; white-space: nowrap; }
+  .ob-axis .ob-track { border: none; height: 2cqw; }
+  .ob-axis span { position: absolute; translate: -50% 0; font-family: 'Geist Mono', monospace; font-size: 1.3cqw; color: var(--muted); }
+  .ob-foot { margin-top: auto; }
+</style>

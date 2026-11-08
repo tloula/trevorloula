@@ -1,0 +1,71 @@
+---
+import Scene from './Scene.astro';
+// 100 websites; ~70 of them run PHP. Deterministic shuffle so it looks random.
+const order = Array.from({ length: 100 }, (_, i) => i);
+let seed = 7;
+const rand = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+for (let i = order.length - 1; i > 0; i--) {
+  const j = Math.floor(rand() * (i + 1));
+  [order[i], order[j]] = [order[j], order[i]];
+}
+const rank = new Map(order.map((v, i) => [v, i]));
+const steps = [
+  { when: '2012', text: 'Bug quietly ships in PHP 5.4' },
+  { when: 'Aug 2026', text: 'Researchers find it with AI and report it' },
+  { when: 'Oct 17', text: 'Attackers start using it', red: true },
+  { when: 'Oct 21', text: 'Emergency patch released' },
+];
+---
+<Scene slide={Astro.props.slide} label="PHP2Shell: one bug, most of the web." source="Wiz, PHP Foundation, AWS, NSA/FBI advisory">
+  <div class="php">
+    <div class="php-left">
+      <div class="php-grid">
+        {Array.from({ length: 100 }, (_, i) => {
+          const r = rank.get(i)!;
+          const isPhp = r < 70;
+          return <span class={isPhp ? 'tile php-on' : 'tile'} style={isPhp ? `--d:${0.6 + r * 0.025}s;--d2:${3.4 + (r % 10) * 0.05}s` : ''}></span>;
+        })}
+      </div>
+      <div class="php-legend a-fade" style="--d:2.4s">
+        <b class="cs-purple"><span data-count="70" data-delay="600" data-dur="1800">70</span>%</b> of websites run PHP
+      </div>
+    </div>
+    <div class="php-right">
+      <div class="a-up">
+        <div class="cs-kicker">PHP2Shell</div>
+        <h3 class="cs-h">Any PHP site could be <span class="cs-red">taken over</span></h3>
+      </div>
+      <ol class="php-steps">
+        {steps.map((s, i) => (
+          <li class={`a-left ${s.red ? 'red' : ''}`} style={`--d:${4 + i * 0.7}s`}>
+            <span class="cs-mono">{s.when}</span>{s.text}
+          </li>
+        ))}
+      </ol>
+      <div class="php-alert a-pop" style="--d:7s">
+        <span class="cs-mono">NSA + FBI</span>
+        Patch it now, or take the site offline.
+      </div>
+    </div>
+  </div>
+</Scene>
+<style>
+  .php { position: absolute; inset: 0; padding: 4.5cqw 5cqw; display: grid; grid-template-columns: 38cqw 1fr; gap: 5cqw; align-items: center; }
+  .php-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: .7cqw; }
+  .tile { aspect-ratio: 1; background: #161616; border: 1px solid #222; }
+  :global(.play) .php-on { animation: php-on .3s ease var(--d) both, php-hack .5s ease var(--d2) forwards; }
+  :global(.cyber-scene:not(.ready)) .php-on { background: var(--red); border-color: var(--red); }
+  @keyframes php-on { to { background: var(--purple); border-color: var(--purple); } }
+  @keyframes php-hack { from { background: var(--purple); } 50% { transform: scale(1.25); } to { background: var(--red); border-color: var(--red); box-shadow: 0 0 1.2cqw rgba(255,77,79,.6); } }
+  .php-legend { margin-top: 1.5cqw; font-size: 2cqw; color: #bdbdbd; }
+  .php-legend b { font-size: 3cqw; }
+  .php-right { display: flex; flex-direction: column; gap: 2cqw; }
+  .php-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .9cqw; border-left: 1px solid var(--line); }
+  .php-steps li { font-size: 1.8cqw; padding-left: 1.6cqw; position: relative; display: flex; flex-direction: column; }
+  .php-steps li::before { content: ''; position: absolute; left: -.5cqw; top: .5cqw; width: 1cqw; height: 1cqw; background: var(--purple); }
+  .php-steps li.red::before { background: var(--red); }
+  .php-steps li.red { color: var(--red); }
+  .php-steps .cs-mono { font-size: 1.3cqw; color: var(--muted); }
+  .php-alert { border: 1px solid var(--red); background: rgba(255,77,79,.12); padding: 1.4cqw 1.8cqw; font-size: 2.1cqw; font-weight: 600; display: flex; flex-direction: column; gap: .4cqw; }
+  .php-alert .cs-mono { font-size: 1.3cqw; color: var(--red); letter-spacing: .1em; }
+</style>
