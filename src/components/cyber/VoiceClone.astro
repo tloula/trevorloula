@@ -2,7 +2,7 @@
 import Scene from './Scene.astro';
 const bars = Array.from({ length: 28 }, (_, i) => 20 + Math.round(Math.abs(Math.sin(i * 1.7) * 70)));
 ---
-<Scene slide={Astro.props.slide} label="AI can clone a voice from a short clip. A code word beats a convincing voice." source="FBI IC3 PSA on AI-enabled fraud">
+<Scene slide={Astro.props.slide} label="AI can clone a voice from a short clip. Check before you trust it." source="FBI IC3 PSA on AI-enabled fraud">
   <div class="vc">
     <div class="vc-phone a-up">
       <div class="vc-top cs-muted">Incoming call</div>
@@ -20,12 +20,12 @@ const bars = Array.from({ length: 28 }, (_, i) => 20 + Math.round(Math.abs(Math.
     <div class="vc-side">
       <div class="a-up" style="--d:6s">
         <div class="cs-kicker">AI voice scams</div>
-        <h3 class="cs-h">Pick a family <span class="cs-purple">code word</span></h3>
+        <h3 class="cs-h">Don't trust a <span class="cs-purple">voice</span> alone</h3>
       </div>
       <ul class="vc-list">
         <li class="a-left" style="--d:7s">Urgent + secret + money = scam</li>
         <li class="a-left" style="--d:7.6s">Hang up and call them back yourself</li>
-        <li class="a-left" style="--d:8.2s">Ask for the code word. AI won't know it.</li>
+        <li class="a-left" style="--d:8.2s">Ask something only they'd know</li>
       </ul>
     </div>
   </div>
