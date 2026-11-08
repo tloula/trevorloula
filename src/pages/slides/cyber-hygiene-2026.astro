@@ -17,6 +17,7 @@ import Router from '../../components/cyber/Router.astro';
 import FakeCaptcha from '../../components/cyber/FakeCaptcha.astro';
 import FakeVirus from '../../components/cyber/FakeVirus.astro';
 import VoiceClone from '../../components/cyber/VoiceClone.astro';
+import Backups from '../../components/cyber/Backups.astro';
 import Checklist from '../../components/cyber/Checklist.astro';
 
 // Speaker notes, one per slide, in order.
@@ -39,6 +40,7 @@ const notes = [
   'Real, normal websites get hacked and show fake checks like this. A real check never asks you to press keys or paste anything. Microsoft saw this on 1.1 million devices in three months.',
   'Websites cannot scan your computer. Close the tab, never call the number.',
   'AI can clone a voice from a short clip. Urgent, secret, and money together means scam. Hang up and reach them another way, or ask something only the real person would know.',
+  'Back up your phone. One friend lost his phone in deep powder skiing, but had automatic photo backups, so he only lost that morning. Another took his waterproof phone in the pool. Not so waterproof, no backups, lost every photo. Turn on iCloud Photos or Google Photos, use OneDrive or Google Drive for files, and make sure you can sign in on a new phone without the old one.',
   'That is the list. On extensions: fake AI assistant extensions got about 900,000 installs this year, so only keep ones you trust. Pick one or two today: updates and a password manager get you most of the way.',
   'Questions? Happy to help anyone set up a password manager or check their router after this.',
 ];
@@ -73,6 +75,7 @@ const notes = [
       <section class="slide"><FakeCaptcha /></section>
       <section class="slide"><FakeVirus /></section>
       <section class="slide"><VoiceClone /></section>
+      <section class="slide"><Backups /></section>
       <section class="slide"><Checklist /></section>
       <section class="slide"><TitleCard kicker="exit 0" title="That's it. Questions?" sub="Now go turn on automatic updates. I'll wait." /></section>
     </div>

@@ -1,0 +1,53 @@
+---
+import Scene from './Scene.astro';
+const tiles = Array.from({ length: 32 }, (_, i) => i);
+const hue = (i: number) => [210, 30, 190, 260, 120, 340, 45, 200][(i * 5) % 8];
+const cards = [
+  { title: 'Phone lost in the snow', backup: 'Automatic backup: on', on: true, lost: 3, result: 'Lost: one morning of photos' },
+  { title: '"Waterproof" phone in the pool', backup: 'Backup: off', on: false, lost: 32, result: 'Lost: every photo' },
+];
+---
+<Scene slide={Astro.props.slide} label="Two real phones, two very different outcomes.">
+  <div class="bk">
+    <div class="a-up">
+      <div class="cs-kicker">Backups</div>
+      <h3 class="cs-h">Your phone is replaceable. <span class="cs-purple">Your photos aren't.</span></h3>
+    </div>
+    <div class="bk-cards">
+      {cards.map((c, ci) => (
+        <div class="bk-card a-up" style={`--d:${0.5 + ci * 0.3}s`}>
+          <div class="bk-head">
+            <span class="bk-title">{c.title}</span>
+            <span class={`bk-tag cs-mono ${c.on ? 'cs-green' : 'cs-red'}`}>{c.backup}</span>
+          </div>
+          <div class="bk-grid">
+            {tiles.map((i) => {
+              const gone = i >= 32 - c.lost;
+              const d = 1.6 + ci * 2.6 + i * 0.04;
+              return (
+                <div class="bk-tile" style={`--hue:${hue(i)}`}>
+                  <span class={`bk-mark a-fade ${gone ? 'gone' : 'ok'}`} style={`--d:${d}s`}>{gone ? '✕' : '✓'}</span>
+                </div>
+              );
+            })}
+          </div>
+          <div class={`bk-result a-pop ${c.on ? 'cs-green' : 'cs-red'}`} style={`--d:${3.2 + ci * 2.6}s`}>{c.result}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Scene>
+<style>
+  .bk { position: absolute; inset: 0; padding: 4cqw 5cqw; display: flex; flex-direction: column; gap: 2.4cqw; }
+  .bk-cards { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 3cqw; min-height: 0; }
+  .bk-card { background: var(--card); border: 1px solid var(--line); padding: 1.6cqw; display: flex; flex-direction: column; gap: 1.2cqw; }
+  .bk-head { display: flex; flex-direction: column; gap: .4cqw; }
+  .bk-title { font-size: 2cqw; font-weight: 700; }
+  .bk-tag { font-size: 1.3cqw; }
+  .bk-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: .5cqw; }
+  .bk-tile { position: relative; aspect-ratio: 1; background: linear-gradient(135deg, hsl(var(--hue) 35% 30%), hsl(calc(var(--hue) + 40) 30% 16%)); }
+  .bk-mark { position: absolute; inset: 0; display: grid; place-items: center; font-size: 1.6cqw; font-weight: 700; }
+  .bk-mark.ok { background: rgba(52, 211, 153, .25); color: var(--green); }
+  .bk-mark.gone { background: rgba(5, 5, 5, .8); color: var(--red); border: 1px solid var(--red); }
+  .bk-result { font-size: 2.1cqw; font-weight: 700; margin-top: auto; }
+</style>
