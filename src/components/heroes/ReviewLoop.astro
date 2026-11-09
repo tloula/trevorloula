@@ -1,0 +1,95 @@
+---
+/**
+ * Animated hero for "How My Agents Review Their Own Code": sub-agents review a PR in
+ * rounds until there are no non-trivial findings, while the PR stays small.
+ * Drawn on a canvas over the post's static hero image.
+ */
+---
+<canvas class="review-loop" width="1920" height="1080" aria-hidden="true"></canvas>
+
+<script>
+  const cv = document.querySelector<HTMLCanvasElement>('.review-loop');
+  if (cv) {
+    const ctx = cv.getContext('2d')! as any;
+    const W = 1920, H = 1080;
+    const P = '140,92,245', GRAY = '#8a8a8a', MONO = '"Geist Mono", monospace';
+    const rr = (x: number, y: number, w: number, h: number, r: number) => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); };
+    const LOOP=14;let t=0;
+    const ease=x=>x<=0?0:x>=1?1:1-Math.pow(1-x,3);const clamp=x=>Math.max(0,Math.min(1,x));
+    const revs=['everything','everything','security','unnecessary machinery','architecture','simplicity (ponytail)','simplicity (ponytail)'];
+    // findings per reviewer per round: [nontrivial, trivial]
+    const rounds=[[[3,4],[1,3],[2,1],[2,2],[1,3],[2,2],[1,3]],[[1,2],[0,2],[0,1],[1,1],[0,2],[0,1],[1,1]],[[0,1],[0,1],[0,0],[0,1],[0,1],[0,0],[0,1]]];
+    const RS=[1.0,5.2,9.4];// round start times
+    const RD=2.6;// review duration, then fix phase
+    const loc=[[412,38],[396,51],[389,57]];
+    function roundAt(){let r=-1;RS.forEach((s,i)=>{if(t>=s)r=i});return r}
+    function draw(){
+     ctx.globalAlpha=1;ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+     ctx.globalAlpha=t>LOOP-.8?(LOOP-t)/.8:t<.3?t/.3:1;
+     const r=roundAt();
+     // HUD
+     ctx.font=`22px ${MONO}`;ctx.fillStyle=GRAY;ctx.fillText('NON-TRIVIAL FINDINGS',70,84);
+     let nt=0;if(r>=0){const p=clamp((t-RS[r])/RD);rounds[r].forEach((c,i)=>{const show=clamp((p-i*.1)/.35);nt+=Math.round(c[0]*show)})}
+     ctx.font=`700 64px ${MONO}`;ctx.fillStyle=nt==0&&r==2&&t>RS[2]+RD?'#3fb950':'#ff4d4f';ctx.fillText(r<0?'-':String(nt),70,152);
+     ctx.textAlign='right';ctx.font=`22px ${MONO}`;ctx.fillStyle=GRAY;ctx.fillText('PR SIZE',W-70,84);
+     const L=loc[Math.max(0,r)];ctx.font=`700 64px ${MONO}`;ctx.fillStyle='#3fb950';const minus='−'+L[1];ctx.fillText('+'+L[0],W-70-ctx.measureText(' '+minus).width,152);ctx.fillStyle='#ff4d4f';ctx.fillText(' '+minus,W-70,152);
+     ctx.textAlign='left';
+     // round pills
+     ctx.font=`20px ${MONO}`;
+     ['ROUND 1','ROUND 2','ROUND 3'].forEach((s,i)=>{const x=760+i*150,y=104;const on=i==r,done=i<r;rr(x,y,130,44,22);ctx.fillStyle=on?`rgb(${P})`:'#0d0d0f';ctx.fill();ctx.lineWidth=1.5;ctx.strokeStyle=on?`rgb(${P})`:done?'#5a4a8a':'#262626';ctx.stroke();ctx.fillStyle=on?'#fff':done?'#b9a6f0':'#555';ctx.textAlign='center';ctx.fillText(s,x+65,y+29);ctx.textAlign='left'});
+     // reviewer rows
+     const y0=236,rh=100;
+     revs.forEach((name,i)=>{const y=y0+i*rh;
+      rr(70,y,W-140,rh-18,12);ctx.fillStyle='#0b0b0d';ctx.fill();ctx.lineWidth=1.5;ctx.strokeStyle='#1f1f22';ctx.stroke();
+      ctx.font=`15px ${MONO}`;ctx.fillStyle='#5a5a5a';ctx.fillText('SUB-AGENT '+(i+1),100,y+30);
+      ctx.font=`24px ${MONO}`;ctx.fillStyle='#e6e6e6';ctx.fillText(name,100,y+62);
+      if(r<0)return;
+      const p=clamp((t-RS[r])/RD),show=clamp((p-i*.1)/.35);
+      // scanning bar
+      if(show<1&&show>0){ctx.fillStyle=`rgba(${P},.12)`;ctx.fillRect(560,y+24,(W-140-560+70-60)*show,34);ctx.fillStyle=`rgb(${P})`;ctx.fillRect(560+(W-140-560+70-60)*show,y+20,3,42)}
+      const [n,tr]=rounds[r][i];const nShow=Math.round(n*show),tShow=Math.round(tr*show);
+      let x=600;
+      for(let k=0;k<nShow;k++){rr(x,y+24,150,34,6);ctx.fillStyle='rgba(255,77,79,.14)';ctx.fill();ctx.strokeStyle='rgba(255,77,79,.6)';ctx.stroke();ctx.font=`15px ${MONO}`;ctx.fillStyle='#ff8a8b';ctx.fillText('non-trivial',x+16,y+47);x+=166}
+      for(let k=0;k<tShow;k++){rr(x,y+24,110,34,6);ctx.strokeStyle='#2a2a2a';ctx.stroke();ctx.font=`15px ${MONO}`;ctx.fillStyle='#4a4a4a';ctx.fillText('nit',x+16,y+47);ctx.beginPath();ctx.moveTo(x+12,y+42);ctx.lineTo(x+52,y+42);ctx.strokeStyle='#4a4a4a';ctx.stroke();x+=126}
+      const fin=show>=1;
+      ctx.textAlign='right';ctx.font=`20px ${MONO}`;
+      if(fin){if(n==0){ctx.fillStyle='#3fb950';ctx.fillText('✓ clean',W-110,y+50)}else{const fx=clamp((t-RS[r]-RD)/1.2);ctx.fillStyle=fx>0?`rgba(${P},1)`:'#ff8a8b';ctx.fillText(fx>0?(fx>=1?'fixed':'fixing…'):n+' to fix',W-110,y+50)}}
+      ctx.textAlign='left';
+     });
+     if(r==2&&t>RS[2]+RD+.3){const a=ease(clamp((t-RS[2]-RD-.3)/.5));ctx.globalAlpha*=a;ctx.font=`22px ${MONO}`;ctx.fillStyle='#3fb950';ctx.textAlign='center';ctx.fillText('no non-trivial findings · ship it',W/2,y0+7*rh+30);ctx.textAlign='left'}
+    }
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let visible = true, last = 0;
+    const frame = (now: number) => {
+      const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
+      last = now;
+      t += dt;
+      if (t > LOOP) t = 0;
+      draw();
+      if (visible) requestAnimationFrame(frame); else last = 0;
+    };
+    document.fonts.load('22px "Geist Mono"').finally(() => {
+      if (reduce) { t = 13; draw(); return; }
+      new IntersectionObserver(([entry]) => {
+        const was = visible;
+        visible = entry.isIntersecting;
+        if (visible && !was) requestAnimationFrame(frame);
+      }).observe(cv);
+      requestAnimationFrame(frame);
+    });
+  }
+</script>
+
+<style>
+  .review-loop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    z-index: 1;
+    display: block;
+  }
+</style>
