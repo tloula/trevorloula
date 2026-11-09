@@ -37,3 +37,19 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Tell Bing/IndexNow engines about new or updated pages as soon as they're live.
+  indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: artifact
+      - run: mkdir site && tar -xf artifact/artifact.tar -C site
+      # A manual run resubmits every page; a push submits only recent changes.
+      - run: node scripts/indexnow.mjs site ${{ github.event_name == 'workflow_dispatch' && '--all' || '' }}
+
