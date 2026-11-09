@@ -4,6 +4,7 @@ import '../../styles/article.css';
 import ImageGlow from "../../components/ImageGlow.astro";
 import Card from "../../components/Card.astro";
 import ThreatMap from "../../components/cyber/ThreatMap.astro";
+import AgentReview from "../../components/heroes/AgentReview.astro";
 import Layout from "../../layouts/Layout.astro";
 
 import type { GetStaticPaths } from "astro";
@@ -77,6 +78,7 @@ const { Content, headings } = await render(post);
         <div class="article-hero">
           <ImageGlow quality={100} class="article-image" src={post.data.image} alt={post.data.title} />
           {post.data.heroAnimation === "threat-map" && <ThreatMap />}
+          {post.data.heroAnimation === "agent-review" && <AgentReview />}
         </div>
         <div class="header">
           <div>
