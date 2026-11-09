@@ -1,0 +1,97 @@
+---
+/**
+ * Animated hero for "The Three Levels of AI Coding": an agent writes a grid of
+ * files while you only read the ones that are hard to change. Drawn on a canvas
+ * over the post's static hero image (which stays for no-JS and social previews).
+ */
+---
+<canvas class="agent-review" width="1920" height="1080" aria-hidden="true"></canvas>
+
+<script>
+  const cv = document.querySelector<HTMLCanvasElement>('.agent-review');
+  if (cv) {
+    const ctx = cv.getContext('2d')! as any;
+    const W = 1920, H = 1080;
+    let seed = 7;
+    const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const P = '140,92,245', GRAY = '#8a8a8a', MONO = '"Geist Mono", monospace';
+    const rr = (x: number, y: number, w: number, h: number, r: number) => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); };
+    const fmt = (n: number) => Math.floor(n).toLocaleString('en-US');
+    const names=['ui/Dashboard.tsx','ui/CheckInCard.tsx','prisma/schema.prisma','lib/scheduler.ts','lib/notify.ts','ui/Settings.tsx','api/openapi.yaml','lib/time.ts',
+    'ui/ScheduleForm.tsx','hooks/useSchedule.ts','lib/rrule.ts','migrations/0042.sql','ui/Toast.tsx','api/routes/checkins.ts','tests/scheduler.test.ts','ui/EmptyState.tsx',
+    'lib/email.ts','auth/session.ts','ui/Modal.tsx','api/routes/schedules.ts','lib/sms.ts','tests/notify.test.ts','ui/Avatar.tsx','styles/forms.css',
+    'jobs/runDue.ts','lib/format.ts','ui/Calendar.tsx','tests/api.test.ts','lib/log.ts','ui/Nav.tsx','hooks/useToast.ts','README.md'];
+    const special=new Set(['prisma/schema.prisma','api/openapi.yaml','migrations/0042.sql','auth/session.ts']);
+    const cols=8,rows=4,x0=70,y0=250,gap=18,tw=(W-2*x0-(cols-1)*gap)/cols,th=(H-y0-60-(rows-1)*gap)/rows;
+    const order=[...names.keys()].sort(()=>rand()-.5);
+    const tiles=names.map((n,i)=>{const k=order.indexOf(i);const nl=9+Math.floor(rand()*4);return{n,sp:special.has(n),x:x0+(i%cols)*(tw+gap),y:y0+Math.floor(i/cols)*(th+gap),start:.3+k*.2,dur:1.1+rand()*.6,lines:Array.from({length:nl},()=>({ind:Math.floor(rand()*3)*14,w:.25+rand()*.6})),loc:40+Math.floor(rand()*140)}});
+    tiles.forEach(t=>{if(t.sp)t.read=t.start+t.dur+.3});
+    const LOOP=12.5;let t=0;
+    function draw(){
+     ctx.globalAlpha=1;ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+     const fade=t>LOOP-.8?(LOOP-t)/.8:t<.3?t/.3:1;ctx.globalAlpha=fade;
+     let written=0,read=0;
+     for(const T of tiles){
+      const p=Math.max(0,Math.min(1,(t-T.start)/T.dur));
+      const rp=T.sp?Math.max(0,Math.min(1,(t-T.read)/2.2)):0;
+      written+=T.loc*p; if(T.sp)read+=T.loc*rp;
+      const on=p>0;
+      rr(T.x,T.y,tw,th,8);ctx.fillStyle=on?'#0b0b0d':'#060606';ctx.fill();
+      ctx.lineWidth=T.sp&&rp>0?2.5:1.5;ctx.strokeStyle=T.sp&&rp>0?`rgba(${P},${.5+rp*.5})`:on?'#262626':'#141414';ctx.stroke();
+      if(!on)continue;
+      ctx.font=`14px ${MONO}`;ctx.fillStyle=T.sp&&rp>0?'#d9c9ff':'#9a9a9a';
+      ctx.fillText(T.n.length>21?T.n.slice(0,20)+'…':T.n,T.x+14,T.y+26);
+      const shown=Math.floor(p*T.lines.length);
+      T.lines.slice(0,shown+1).forEach((L,j)=>{
+       const ly=T.y+44+j*11;if(ly>T.y+th-36)return;
+       const frac=j<shown?1:(p*T.lines.length-shown);
+       const lit=T.sp&&ly<T.y+44+rp*(th-50);
+       ctx.fillStyle=lit?`rgba(${P},.95)`:'#3a3a3a';
+       ctx.fillRect(T.x+14+L.ind,ly,(tw-40-L.ind)*L.w*frac,4);
+      });
+      if(p<1){ctx.fillStyle='#e6e6e6';const j=Math.min(shown,T.lines.length-1);ctx.fillRect(T.x+14+T.lines[j].ind+(tw-40-T.lines[j].ind)*T.lines[j].w*(p*T.lines.length-shown),T.y+40+j*11,2,11)}
+      if(T.sp&&rp>0&&rp<1){const sy=T.y+40+rp*(th-50);const g=ctx.createLinearGradient(0,sy-30,0,sy);g.addColorStop(0,`rgba(${P},0)`);g.addColorStop(1,`rgba(${P},.35)`);ctx.fillStyle=g;ctx.fillRect(T.x+2,sy-30,tw-4,30);ctx.fillStyle=`rgb(${P})`;ctx.fillRect(T.x+2,sy,tw-4,2)}
+      if(T.sp&&rp>=1){ctx.font=`600 13px ${MONO}`;rr(T.x+tw-86,T.y+th-34,72,22,5);ctx.fillStyle=`rgb(${P})`;ctx.fill();ctx.fillStyle='#fff';ctx.fillText('✓ READ',T.x+tw-77,T.y+th-18)}
+      else if(!T.sp&&p>=1){ctx.font=`13px ${MONO}`;ctx.fillStyle='#4a4a4a';ctx.fillText('skimmed',T.x+tw-82,T.y+th-16)}
+     }
+     ctx.font=`22px ${MONO}`;ctx.fillStyle=GRAY;ctx.fillText('LINES THE AGENT WROTE',70,84);
+     ctx.font=`700 64px ${MONO}`;ctx.fillStyle='#e6e6e6';ctx.fillText(fmt(written),70,152);
+     ctx.font=`22px ${MONO}`;ctx.fillStyle=GRAY;ctx.textAlign='right';ctx.fillText('LINES YOU ACTUALLY READ',W-70,84);
+     ctx.font=`700 64px ${MONO}`;ctx.fillStyle=`rgb(${P})`;ctx.fillText(fmt(read),W-70,152);
+     ctx.font=`20px ${MONO}`;ctx.fillStyle='#5a5a5a';ctx.fillText('data model · API contract · migrations · auth',W-70,192);ctx.textAlign='left';
+    }
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let visible = true, last = 0;
+    const frame = (now: number) => {
+      const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
+      last = now;
+      t += dt;
+      if (t > LOOP) t = 0;
+      draw();
+      if (visible) requestAnimationFrame(frame); else last = 0;
+    };
+    document.fonts.load('22px "Geist Mono"').finally(() => {
+      if (reduce) { t = 9.5; draw(); return; }
+      new IntersectionObserver(([entry]) => {
+        const was = visible;
+        visible = entry.isIntersecting;
+        if (visible && !was) requestAnimationFrame(frame);
+      }).observe(cv);
+      requestAnimationFrame(frame);
+    });
+  }
+</script>
+
+<style>
+  .agent-review {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    z-index: 1;
+    display: block;
+  }
+</style>
