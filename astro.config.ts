@@ -7,6 +7,16 @@ import spectre from './package/src';
 import clarityIntegration from './clarity';
 import { spectreDark } from './src/ec-theme';
 import rehypeExternalLinks from 'rehype-external-links';
+import { readdirSync, readFileSync } from 'node:fs';
+
+// Last-modified date for each post, so the sitemap tells search engines what changed.
+const postDates = new Map<string, Date>();
+for (const file of readdirSync('./src/content/posts')) {
+  const src = readFileSync(`./src/content/posts/${file}`, 'utf8');
+  const date = (key: string) => src.match(new RegExp(`^${key}:\\s*["']?([\\d-]+)`, 'm'))?.[1];
+  const value = date('updatedAt') ?? date('createdAt');
+  if (value) postDates.set(`/blog/${file.replace(/\.mdx?$/, '')}/`, new Date(value));
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,7 +31,13 @@ export default defineConfig({
         [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }],
       ],
     }),
-    sitemap(),
+    sitemap({
+      serialize(item) {
+        const lastmod = postDates.get(new URL(item.url).pathname);
+        if (lastmod && !isNaN(lastmod.getTime())) item.lastmod = lastmod.toISOString();
+        return item;
+      },
+    }),
     clarityIntegration({
       projectId: 'rnaf480oyj',
       enabled: true,

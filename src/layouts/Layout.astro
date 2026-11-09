@@ -8,6 +8,7 @@ import LayoutGrid from '../components/LayoutGrid.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import Footer from '../components/Footer.astro';
 import { name, themeColor, twitterHandle } from 'spectre:globals';
+import { getCollection } from 'astro:content';
 
 interface Props {
 	title: string;
@@ -22,6 +23,47 @@ interface Props {
 
 const { title, description, image, pagefindIgnore, article } = Astro.props;
 const pageTitle = title === name ? name : `${name} | ${title}`;
+
+const siteUrl = (Astro.site?.toString?.() || '').replace(/\/$/, '');
+const imageUrl = (() => {
+	if (!image?.src) return `${siteUrl}/img/og.png`;
+	if (image.src.startsWith('http')) return image.src;
+	if (image.src.startsWith('/')) return `${siteUrl}${image.src}`;
+	return image.src;
+})();
+
+// Structured data (schema.org JSON-LD) so search engines know who wrote what.
+const socials = await getCollection('socials');
+const person = {
+	'@type': 'Person',
+	'@id': `${siteUrl}/#person`,
+	name,
+	url: `${siteUrl}/`,
+	sameAs: socials.map((s) => s.data.link),
+};
+const jsonLd = article
+	? {
+		'@context': 'https://schema.org',
+		'@type': 'BlogPosting',
+		headline: title,
+		description,
+		image: imageUrl,
+		url: Astro.url.href,
+		mainEntityOfPage: Astro.url.href,
+		datePublished: article.createdAt.toISOString(),
+		dateModified: (article.updatedAt ?? article.createdAt).toISOString(),
+		author: person,
+		publisher: person,
+	}
+	: Astro.url.pathname === '/'
+		? {
+			'@context': 'https://schema.org',
+			'@graph': [
+				{ '@type': 'WebSite', '@id': `${siteUrl}/#website`, name, url: `${siteUrl}/`, author: { '@id': `${siteUrl}/#person` } },
+				person,
+			],
+		}
+		: null;
 ---
 
 <!DOCTYPE html>
@@ -44,12 +86,7 @@ const pageTitle = title === name ? name : `${name} | ${title}`;
 
 		<meta property="og:title" content={title} />
 		{description && <meta property="og:description" content={description} />}
-		<meta property="og:image" content={( (() => {
-			if (!image?.src) return `/img/og.png`;
-			if (image.src.startsWith('http')) return image.src;
-			if (image.src.startsWith('/')) return `${(Astro.site?.toString?.() || '').replace(/\/$/, '')}${image.src}`;
-			return image.src;
-		})() )} />
+		<meta property="og:image" content={imageUrl} />
 		<meta property="og:url" content={Astro.url} />
 		{!article && <meta property="og:type" content="website" />}
 		<meta property="og:locale" content="en" />
@@ -71,12 +108,9 @@ const pageTitle = title === name ? name : `${name} | ${title}`;
 		)}
 		<meta name="twitter:title" content={title} />
 		{description && <meta name="twitter:description" content={description} />}
-		<meta name="twitter:image" content={( (() => {
-			if (!image?.src) return `/img/og.png`;
-			if (image.src.startsWith('http')) return image.src;
-			if (image.src.startsWith('/')) return `${(Astro.site?.toString?.() || '').replace(/\/$/, '')}${image.src}`;
-			return image.src;
-		})() )} />
+		<meta name="twitter:image" content={imageUrl} />
+
+		{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 	</head>
 	<body class="min-h-screen flex flex-col">
 		<main data-pagefind-ignore={pagefindIgnore} class="flex-grow">
