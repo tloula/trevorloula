@@ -1,7 +1,7 @@
 ---
-title: "The Three Levels of AI Coding"
+title: "The Three Levels of Agentic Coding"
 description: "Not every project needs you to read every line."
-image: "../assets/ai-coding-levels.png"
+image: "../assets/agentic-coding-levels.png"
 heroAnimation: agent-review
 createdAt: 11-08-2026
 draft: false
@@ -40,7 +40,7 @@ The middle level is the sweet spot. The agent writes the code, and you focus you
 
 Everything else, the internals that can be refactored or reverted in a few minutes, gets a much lighter look.
 
-This works because AI is very good at writing correct code now. It rarely writes bugs, and it definitely writes fewer than the average human. For most applications, nitpicking every line isn't worth the time anymore. Spend your attention on the decisions that will still be around in two years.
+This works because AI is very good at writing correct code now. With current models, I rarely find bugs in what it writes. Studies from last year still found more issues in AI-written pull requests than human ones ([The Register](https://www.theregister.com/2025/12/17/ai_code_bugs/)), but those were older models, and the gap has been closing fast. For most applications, nitpicking every line isn't worth the time anymore. Spend your attention on the decisions that will still be around in two years.
 
 ## What Makes Level 2 Work
 
@@ -50,7 +50,7 @@ Level 2 isn't just "read less." It only works if a few other things are in place
 
 **Test the real thing.** AI loves writing unit tests and mocks so it can claim it tested its work. That's not enough. You need to test in dev, then in test or staging, before anything reaches users, and those environments need to be faithful to production. A green test suite against a fake world doesn't tell you much about the real one.
 
-**Skim for the weird stuff.** AI writes correct code, but it still does dumb things. It adds unnecessary complexity, duplicates code that already exists, and sometimes just does something strange. A good engineer can catch most of this by skimming. I'm not going to verify every branch of some gnarly script, but I'll look at the overall functions, where things land, and whether the big picture makes sense. If it doesn't, that's when I dig in.
+**Skim for the weird stuff.** Even when the code is correct, AI still does dumb things. It adds unnecessary complexity, duplicates code that already exists, and sometimes just does something strange. A good engineer can catch most of this by skimming. I'm not going to verify every branch of some gnarly script, but I'll look at the overall functions, where things land, and whether the big picture makes sense. If it doesn't, that's when I dig in.
 
 ## The Real Risk: Losing Your Mental Model
 
