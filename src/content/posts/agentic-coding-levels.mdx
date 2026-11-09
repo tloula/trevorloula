@@ -12,19 +12,11 @@ tags:
 
 Everyone knows about vibe coding by now, and most developers know how to prompt AI to write code. What I don't see talked about as much is *how much* attention you should be paying to that code, and how that changes depending on what you're building.
 
-I think there are three levels. I'll start at the extremes and work toward the middle, because the middle is where most projects should be.
+I think there are three levels, from reading every line to reading none of it. The middle is where most projects should be.
 
-## Level 1: Don't Read the Code
+## Level 1: Read Every Line
 
-This is what most people call vibe coding. You describe what you want, the agent builds it, and you never look at the code. You only look at whether the app does the thing.
-
-I don't really like the name "vibe coding" anymore. At this point it's just agentic engineering, or really just software engineering. I think it's inevitable that AI will eventually write 100% of code and humans won't read any of it. This is where we're headed.
-
-But we're not there yet for most real projects. It works great for prototypes, throwaway scripts, and personal tools where a bug costs you nothing. For anything people depend on, you still need some idea of what's going on under the hood.
-
-## Level 3: Read Every Line
-
-The other extreme is using AI to type, but reading and understanding every single line as if you wrote it yourself. The agent is just doing the typing.
+The most careful level is using AI to type, but reading and understanding every single line as if you wrote it yourself. The agent is just doing the typing.
 
 This is slow. You have to fully understand everything the code does, which means you're limited by how fast you can read and reason, not by how fast the agent can write.
 
@@ -46,11 +38,19 @@ This works because AI is very good at writing correct code now. With current mod
 
 Level 2 isn't just "read less." It only works if a few other things are in place.
 
-**Undo has to be easy.** This was always true, but with AI it matters a lot more. If the agent breaks something, rolling back should take a minute: a revert, a redeploy, a restore from backup. If undoing a mistake is hard, you get pushed up into Level 3, because now you really do need to read every line before it ships. But if undo is easy and you've reviewed the things that are hard to change, a runtime bug isn't a big deal. You roll back and fix it.
+**Undo has to be easy.** This was always true, but with AI it matters a lot more. If the agent breaks something, rolling back should take a minute: a revert, a redeploy, a restore from backup. If undoing a mistake is hard, you get pushed back down to Level 1, because now you really do need to read every line before it ships. But if undo is easy and you've reviewed the things that are hard to change, a runtime bug isn't a big deal. You roll back and fix it.
 
 **Test the real thing.** AI loves writing unit tests and mocks so it can claim it tested its work. That's not enough. You need to test in dev, then in test or staging, before anything reaches users, and those environments need to be faithful to production. A green test suite against a fake world doesn't tell you much about the real one.
 
 **Skim for the weird stuff.** Even when the code is correct, AI still does dumb things. It adds unnecessary complexity, duplicates code that already exists, and sometimes just does something strange. A good engineer can catch most of this by skimming. I'm not going to verify every branch of some gnarly script, but I'll look at the overall functions, where things land, and whether the big picture makes sense. If it doesn't, that's when I dig in.
+
+## Level 3: Don't Read the Code
+
+The other extreme is what most people call vibe coding. You describe what you want, the agent builds it, and you never look at the code. You only look at whether the app does the thing.
+
+I don't really like the name "vibe coding" anymore. At this point it's just agentic engineering, or really just software engineering. I think it's inevitable that AI will eventually write 100% of code and humans won't read any of it. This is where we're headed.
+
+But we're not there yet for most real projects. It works great for prototypes, throwaway scripts, and personal tools where a bug costs you nothing. For anything people depend on, you still need some idea of what's going on under the hood.
 
 ## The Real Risk: Losing Your Mental Model
 
@@ -62,4 +62,4 @@ This is why Level 2 focuses on data models. If you understand your data and how 
 
 ## Where This Is Going
 
-Level 1 is the end state. Eventually agents will write all the code and nobody will read it. But for now, most projects belong in Level 2: let the agent write, read what's hard to change, make undo easy, test the real thing, and keep the big picture in your head.
+Level 3 is the end state. Eventually agents will write all the code and nobody will read it. But for now, most projects belong in Level 2: let the agent write, read what's hard to change, make undo easy, test the real thing, and keep the big picture in your head.
