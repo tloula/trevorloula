@@ -6,6 +6,7 @@ import Card from "../../components/Card.astro";
 import ThreatMap from "../../components/cyber/ThreatMap.astro";
 import AgentReview from "../../components/heroes/AgentReview.astro";
 import ReviewLoop from "../../components/heroes/ReviewLoop.astro";
+import HeroCanvas from "../../components/heroes/HeroCanvas.astro";
 import Layout from "../../layouts/Layout.astro";
 
 import type { GetStaticPaths } from "astro";
@@ -81,6 +82,9 @@ const { Content, headings } = await render(post);
           {post.data.heroAnimation === "threat-map" && <ThreatMap />}
           {post.data.heroAnimation === "agent-review" && <AgentReview />}
           {post.data.heroAnimation === "review-loop" && <ReviewLoop />}
+          {post.data.heroAnimation && !["threat-map", "agent-review", "review-loop"].includes(post.data.heroAnimation) && (
+            <HeroCanvas name={post.data.heroAnimation} />
+          )}
         </div>
         <div class="header">
           <div>
