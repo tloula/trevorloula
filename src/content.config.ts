@@ -67,7 +67,10 @@ const posts = defineCollection({
     draft: z.boolean().optional().default(false),
     image: image(),
     /** Optional animated hero drawn over the static image (e.g. "threat-map"). */
-    heroAnimation: z.enum(["threat-map", "agent-review", "review-loop"]).optional(),
+    heroAnimation: z.enum([
+      "threat-map", "agent-review", "review-loop",
+      "friction-pipeline", "pr-ping-pong", "auto-merge", "signin-cascade", "backup-flow",
+    ]).optional(),
   })
 });
 

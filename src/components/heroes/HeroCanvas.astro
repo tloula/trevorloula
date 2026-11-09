@@ -1,0 +1,45 @@
+---
+/**
+ * Animated canvas hero drawn over a post's static hero image (which stays for no-JS
+ * and social previews). The drawing code for each hero lives in src/scripts/heroes/.
+ */
+import { heroIconUris } from '../../scripts/heroes/icons';
+
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+const icons = heroIconUris(name);
+---
+<canvas class="hero-canvas" width="1920" height="1080" aria-hidden="true" data-hero={name} data-icons={JSON.stringify(icons)}></canvas>
+
+<script>
+  import { startHero } from '../../scripts/heroes/runtime';
+
+  const heroes: Record<string, () => Promise<{ default: import('../../scripts/heroes/kit').HeroFactory }>> = {
+    'friction-pipeline': () => import('../../scripts/heroes/friction'),
+    'pr-ping-pong': () => import('../../scripts/heroes/pingpong'),
+    'auto-merge': () => import('../../scripts/heroes/automerge'),
+    'signin-cascade': () => import('../../scripts/heroes/signin'),
+    'backup-flow': () => import('../../scripts/heroes/backup'),
+  };
+
+  for (const cv of document.querySelectorAll<HTMLCanvasElement>('.hero-canvas')) {
+    const load = heroes[cv.dataset.hero ?? ''];
+    if (load) load().then((m) => startHero(cv, m.default, JSON.parse(cv.dataset.icons || '{}')));
+  }
+</script>
+
+<style>
+  .hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    z-index: 1;
+    display: block;
+  }
+</style>
