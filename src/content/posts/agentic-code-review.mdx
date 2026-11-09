@@ -1,0 +1,64 @@
+---
+title: "How My Agents Review Their Own Code"
+description: "Hill-climb it with sub-agents until there's nothing left worth fixing."
+image: "../assets/agentic-code-review.png"
+heroAnimation: review-loop
+createdAt: 11-08-2026
+draft: false
+tags:
+  - ai
+  - productivity
+---
+
+In [The Three Levels of Agentic Coding](/blog/agentic-coding-levels/), I said I rarely find bugs in what agents write anymore. That's true, but only after the code goes through my review gauntlet. Here's what that looks like.
+
+## Shift It Left
+
+I've looked at PRs with glaring functionality issues, where it was obvious nobody had tested anything. Either people aren't having AI review their code at all, or they're leaving it to an AI reviewer on the pull request. As I wrote in [AI PR Review Is Dumb](/blog/ai-pr-review/), I think AI review belongs to the implementer, before the PR ever opens.
+
+This should be simple: use sub-agents to review your code. A lot of people just don't.
+
+## My Review Skill
+
+I have a code review skill called `trevor-code-review`. The unique name keeps it from colliding with whatever generic code review skills are already in the harness or the repo I'm working in.
+
+I wrote it by hand. No AI. It's a list of the things I personally care about and want reviewers to look for, including:
+
+- **Security.** Anything remotely exploitable gets called out. Small issues can turn into big ones when chained together.
+- **Does it make sense?** Is this a standard thing to do, or some bespoke thing nobody will use?
+- **Tests that test the real thing.** Not tests written just to pass and check a box.
+- **Simplicity.** Agents love to over-complicate things. Fewer lines are better than more lines that do the same thing.
+- **High-level architecture.** Is this the best way to do it, or is there a cleaner pattern?
+- **Comments.** Short, present tense, and no references to how things used to work or to temporary details like "Phase 5."
+
+## Multiple Reviewers
+
+The skill spins up sub-agents, each with fresh context and a different focus. Right now it's seven: two look at everything, one only at security, one only at removing unnecessary machinery, one at medium-level architecture decisions, and two that only run [Ponytail](https://github.com/DietrichGebert/ponytail), a review focused on finding the smallest implementation that works.
+
+I pick specific models for each job, and I mix models from different providers so they catch different things. Which models, and how many sub-agents, change constantly, so I won't list them here.
+
+## Hill Climbing
+
+The key part is that it's a loop. If the review has any non-trivial findings, the agent fixes them and runs the review again, and keeps going until there are no non-trivial findings left, up to a limit I set. This is usually called hill climbing: make a change, measure, keep it if it's better, repeat until you hit the goal.
+
+The reviewers nit everything too, because I want the code to be as close to perfect as possible. The agent fixes those along the way, and after enough rounds, there's nothing left worth changing.
+
+## "But AI Always Finds Something"
+
+Some people say AI review never converges, that it'll always find something. I've been there, and I think it's mostly a model problem. Weaker models contradict themselves: run the review over and over and they'll tell you to change something, then tell you to change it back. Stronger models are much better at telling what actually matters from what's completely irrelevant.
+
+With a strong model and this skill, it does get to a point where it stops finding things. Or the only things it finds are so far-fetched that I take that as the answer: if that's the best it can come up with after several rounds, the code is good.
+
+## Don't Let It Add Complexity
+
+The other trap with endless review rounds is complexity creep. If you're not careful, every round adds more handling for more edge cases, and your PR ends up two, three, four times bigger than it should be.
+
+My skill pushes hard against this. A lot of the rules I wrote are strongly against unnecessary complexity, and this is one I care a lot about:
+
+> Do not recommend added synchronization, waiter tracking, conditional caching, queues, or race-handling machinery without a concrete, likely failure mode whose impact justifies the complexity.
+
+The reviewer has to prove that extra complexity is worth it. Harmless duplicate work or a little inefficiency is fine.
+
+With that in place, the loop fixes real bugs without bloating the PR. By the time it's done, there's basically nothing left to fix, everything works, and the code is still simple.
+
+That's all there is to it. Write down what you care about, have several agents review against it, and keep going until they come back clean.

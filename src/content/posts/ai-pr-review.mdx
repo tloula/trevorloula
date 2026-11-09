@@ -52,6 +52,8 @@ Yes, coming back clean is actually possible. A few things make it work:
 2. **Use a good model.** Weaker models flag things that will never happen and then confidently argue about them. Stronger models are much better at staying quiet when there's nothing to say.
 3. **Use more than one reviewer.** Run several sub-agents in parallel, each with a different focus (correctness, security, simplicity), and have them critique the diff cold. They catch different things, and none of them is biased toward code it wrote.
 
+I wrote up my exact setup in [How My Agents Review Their Own Code](/blog/agentic-code-review/).
+
 At this point, self-review with AI is table stakes. Not doing it is like not running your tests before asking someone to review your code.
 
 ## So Should There Be Any AI Review on the PR?
