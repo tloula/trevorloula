@@ -16,20 +16,20 @@ In [The Three Levels of Agentic Coding](/blog/agentic-coding-levels/), I said I 
 
 I've looked at PRs with glaring functionality issues, where the author had probably tested the PR in general, but it was obvious they never tested one specific part of it. Either people aren't having AI review their code at all, or they're leaving it to an AI reviewer on the pull request. As I wrote in [AI PR Review Is Dumb](/blog/ai-pr-review/), I think AI review belongs to the implementer, before the PR ever opens.
 
-This should be simple: use sub-agents to review your code. A lot of people just don't.
+There's no secret sauce here. Use sub-agents to review your own code. A lot of people just don't.
 
 ## My Review Skill
 
 I have a code review skill called `trevor-code-review`. The unique name keeps it from colliding with whatever generic code review skills are already in the harness or the repo I'm working in.
 
-I wrote it by hand. No AI. It's a list of the things I personally care about and want reviewers to look for, including:
+I wrote it by hand. No AI. It's a list of things I care about, plus things I see AI get wrong all the time. Whenever an agent keeps making the same mistake, it goes in the skill. Some of what's in there:
 
 - **Security.** Anything remotely exploitable gets called out. Small issues can turn into big ones when chained together.
 - **Does it make sense?** Is this a standard thing to do, or some bespoke thing nobody will use?
 - **Tests that test the real thing.** Not tests written just to pass and check a box.
-- **Simplicity.** Agents love to over-complicate things. Fewer lines are better than more lines that do the same thing.
+- **Simplicity.** This is the big one, because over-complicating things is currently AI's biggest problem. Fewer lines are better than more lines that do the same thing.
 - **High-level architecture.** Is this the best way to do it, or is there a cleaner pattern?
-- **Comments.** Short, present tense, and no references to how things used to work or to temporary details like "Phase 5."
+- **Comments.** Agents kept adding dumb comments, so now the skill strips them out. Comments should be short, present tense, and never reference how things used to work or temporary details like "Phase 5."
 
 ## Multiple Reviewers
 
