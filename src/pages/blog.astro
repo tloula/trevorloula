@@ -25,6 +25,7 @@ const tags = posts.flatMap((post) => post.data.tags.map((tag) => tag.id));
             <a
               class="blog-tag"
               href="/blog/"
+              rel="nofollow"
               data-tag={tag}
             >
               {tag}
